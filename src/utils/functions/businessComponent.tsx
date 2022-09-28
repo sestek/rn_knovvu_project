@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Zocial from 'react-native-vector-icons/Zocial';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 export default class BusinessComponent {
     constructor() {
@@ -17,6 +18,8 @@ export default class BusinessComponent {
 
     static getIconComponent(type?: CtIconEnum, name?: string, size: number = 24, color: string = 'black') {
         switch (type) {
+            case CtIconEnum.SimpleLineIcons:
+                return <SimpleLineIcons name={name || ''} size={size} color={color} />;
             case CtIconEnum.AntDesign:
                 return <AntDesign name={name || ''} size={size} color={color} />;
             case CtIconEnum.FontAwesome:
