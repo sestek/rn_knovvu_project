@@ -1,4 +1,4 @@
-package com.rn_knovuu_project;
+package com.rn_knovvu_project;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -18,7 +18,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "rn_knovuu_project";
+    return "rn_knovvu_project";
   }
 
   /**

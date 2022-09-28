@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface rn_knovuu_projectTests : XCTestCase
+@interface rn_knovvu_projectTests : XCTestCase
 
 @end
 
-@implementation rn_knovuu_projectTests
+@implementation rn_knovvu_projectTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {
