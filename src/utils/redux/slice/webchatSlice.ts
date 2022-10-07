@@ -33,13 +33,13 @@ const initialState: WebchatState = {
     project: "EN_BANKING_v1.0",
 
     headerColor: '#7f81ae',
-    headerText: 'Knovvu',
+    headerText: 'Knovvu Chat Client',
     bottomColor: '#7f81ae',
     bottomText: 'Input text..',
 
-    incomingText: '',
+    incomingText: 'Test User',
     incomingTextColor: 'black',
-    outgoingText: 'Knovvu',
+    outgoingText: 'Knovvu Assistant',
     outgoingTextColor: '#7f81ae',
     messageColor: '#FCFBF7',
     messageBoxColor: '#7f81ae',
@@ -73,13 +73,13 @@ export const asyncSetInitialState = createAsyncThunk(
             project: "EN_BANKING_v1.0",
 
             headerColor: '#7f81ae',
-            headerText: 'Knovvu',
+            headerText: 'Knovvu Chat Client',
             bottomColor: '#7f81ae',
             bottomText: 'Input text..',
 
-            incomingText: '',
+            incomingText: 'Test User',
             incomingTextColor: 'black',
-            outgoingText: 'Knovvu',
+            outgoingText: 'Knovvu Assistant',
             outgoingTextColor: '#7f81ae',
             messageColor: '#FCFBF7',
             messageBoxColor: '#7f81ae',
@@ -123,12 +123,12 @@ export const webchatSlice = createSlice({
             state.tenant = "BAC",
             state.project = "EN_BANKING_v1.0",
             state.headerColor = '#7f81ae';
-            state.headerText = 'Knovvu';
+            state.headerText = 'Knovvu Chat Client';
             state.bottomColor = '#7f81ae';
             state.bottomText = 'Input text..';
-            state.incomingText = '';
+            state.incomingText = 'Test User';
             state.incomingTextColor = 'black';
-            state.outgoingText = 'Knovvu';
+            state.outgoingText = 'Knovvu Assistant';
             state.outgoingTextColor = '#7f81ae';
             state.messageColor = '#FCFBF7';
             state.messageBoxColor = '#7f81ae';
