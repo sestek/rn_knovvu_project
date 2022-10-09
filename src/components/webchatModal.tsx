@@ -1,14 +1,22 @@
 import BusinessComponent from "@src/utils/functions/businessComponent";
-import { useAppSelector } from "@src/utils/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@src/utils/redux/hooks";
+import { setModalVisible } from "@src/utils/redux/slice/mainSlice";
 import { CtIconEnum } from "@src/utils/types";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { ChatModal, ChatModalRef } from "rn-sestek-webchat";
 
 
 const WebchatModal = () => {
     const modalRef = useRef<ChatModalRef>(null);
-
     const webchat = useAppSelector(state => state.webchat);
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        setTimeout(() => {
+            dispatch(setModalVisible(modalRef?.current?.startConversation));
+        }, 2000);
+    }, []);
 
     return (
         <ChatModal
@@ -19,7 +27,7 @@ const WebchatModal = () => {
                 sendConversationStart: true,
                 tenant: webchat.tenant,
                 projectName: webchat.project,
-                channel: 'Nda',
+                channel: 'NdaInfoBip',
                 clientId: "mobile-testing",
             }}
             customizeConfiguration={{
@@ -39,9 +47,10 @@ const WebchatModal = () => {
                 messageBoxColor: webchat.messageBoxColor,
                 //bodyColorOrImage: { type: 'image', value: 'https://i.pinimg.com/550x/4a/6f/59/4a6f59296f90c11d77744720ca10d1af.jpg' },
                 bodyColorOrImage: { type: 'color', value: '#7f81ae' },
-                firsIcon: { type: 'component', value: require('@src/assests/knovvu_32.png') },
-                firstColor: 'white',
-                firstSize: 70,
+                //firsIcon: { type: 'component', value: require('@src/assests/knovvu_32.png') },
+                //firstColor: 'white',
+                //firstSize: 0,
+                firstIconHide: true,
                 hideIcon: () => BusinessComponent.getIconComponent(CtIconEnum.Ionicons, 'close-circle-sharp', 28, 'white'),
                 closeIcon: () => BusinessComponent.getIconComponent(CtIconEnum.Ionicons, 'arrow-down-circle-sharp', 28, 'white'),
             }}

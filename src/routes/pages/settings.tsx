@@ -1,4 +1,4 @@
-import { Button, Card, Input, Text } from "@rneui/base";
+import { Button, ButtonGroup, Card, Input, Text } from "@rneui/base";
 import { KnovvuMainLogo2 } from "@src/assests";
 import ColorPickerModal from "@src/components/colorPickerModal";
 import { useAppDispatch, useAppSelector } from "@src/utils/redux/hooks";
@@ -81,6 +81,16 @@ const Settings = () => {
         );
     }
 
+    const selectedUrl = (getIndex: boolean, newUrl?: number) => {
+        const urlData = ['https://nd-test-webchat2.sestek.com/chathub', 'https://nd-test-webchat.sestek.com/chathub'];
+        if (getIndex) {
+            return urlData.findIndex(url => url === webchatCustomize.url);
+        }
+        else {
+            onChangeInput('url', urlData[newUrl || 0]);
+        }
+    }
+
     return (
         <View style={{ flex: 1, marginTop: 8 }}>
             <ScrollView >
@@ -90,11 +100,18 @@ const Settings = () => {
                     <Card.Divider />
                     <View style={{ padding: 8 }}>
                         <Text style={styles.text}>URL</Text>
-                        <Input
+                        {/*<Input
                             placeholder="URL"
                             rightIcon={{ type: 'font-awesome', name: 'link' }}
                             value={webchatCustomize.url}
                             onChangeText={value => onChangeInput('url', value)}
+                        />*/}
+                        <ButtonGroup
+                            buttons={['Knovvu', 'Nda']}
+                            selectedIndex={selectedUrl(true)}
+                            onPress={(value) => {
+                                selectedUrl(false, value);
+                            }}
                         />
                     </View>
                     <View style={{ padding: 8 }}>
@@ -263,7 +280,7 @@ const Settings = () => {
                     </View>
                 </Card>
             </ScrollView>
-            <View style={{ padding: Platform.OS === "ios" ? 20 : 8, paddingBottom: Platform.OS === "ios" ? 30 : 8, marginRight: Dimensions.get('screen').width / 6, flexDirection: 'row' }}>
+            <View style={{ padding: Platform.OS === "ios" ? 20 : 8, paddingBottom: Platform.OS === "ios" ? 30 : 8, flexDirection: 'row' }}>
                 <View style={{ flex: 2, paddingHorizontal: 2 }}>
                     <Button radius={10} onPress={saveChatState} color="#7f81ae">Save</Button>
                 </View>
