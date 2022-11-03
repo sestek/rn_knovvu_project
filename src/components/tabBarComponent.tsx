@@ -1,14 +1,11 @@
 import React from "react";
-import { Dimensions, Image, TouchableOpacity, View } from "react-native";
-import { DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
-import { Knovvu32, KnovvuMainLogo2 } from "@src/assests";
-import { Button, Text } from "@rneui/base";
+import { Dimensions, Image, TouchableOpacity, View ,StyleSheet} from "react-native";
+import { Knovvu32 } from "@src/assests";
+import {Text } from "@rneui/base";
 import { useAppSelector } from "@src/utils/redux/hooks";
-import BusinessComponent from "@src/utils/functions/businessComponent";
-import { CtIconEnum } from "@src/utils/types";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-function TabBarComponent({ state, descriptors, navigation }) {
+const TabBarComponent =({ state, descriptors, navigation }) =>{
 
     const color_100 = useAppSelector(state => state.theme.color_100);
     const color_200 = useAppSelector(state => state.theme.color_200);
@@ -19,7 +16,7 @@ function TabBarComponent({ state, descriptors, navigation }) {
     const dynamicWidth = Dimensions.get('screen').width * (1 / state.routes?.length);
 
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'center', borderTopWidth: 0.2, borderTopColor: color_300 }}>
+        <View style={styles(color_300).mainView}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const label =
@@ -76,10 +73,7 @@ function TabBarComponent({ state, descriptors, navigation }) {
                         return <Image
                             source={Knovvu32}
                             resizeMode="stretch"
-                            style={{
-                                width: 50,
-                                height: 30,
-                            }} />
+                            style={styles().image} />
                     }
                     return <Ionicons name={iconName || ''} size={26} color={focused ? color_200 : color_300} />;
                 }
@@ -92,10 +86,10 @@ function TabBarComponent({ state, descriptors, navigation }) {
                         testID={options.tabBarTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={{ flexDirection: 'column', alignItems: 'center', flexGrow: 1, width: dynamicWidth, padding: 6 }}
+                        style={styles(dynamicWidth).touchArea}
                     >
                         {getIconFunc(isFocused)}
-                        <Text style={{ color: isFocused ? color_200 : color_300, fontSize: 11 }}>
+                        <Text style={styles(isFocused,color_200,color_300).text}>
                             {label}
                         </Text>
                     </TouchableOpacity>
@@ -104,6 +98,31 @@ function TabBarComponent({ state, descriptors, navigation }) {
         </View>
     );
 }
+
+const styles =(prm?:any, prm2?:any, prm3?:any)=> StyleSheet.create({
+    text: {
+        color : prm ? prm2 : prm3,
+        fontSize:11
+    },
+    touchArea:{
+        flexDirection:'column',
+        alignItems: 'center', 
+        flexGrow: 1, 
+        width: prm, 
+        padding: 6 
+    },
+    image:{
+        width: Dimensions.get('screen').width * 0.11,
+        height: Dimensions.get('screen').width *0.11,
+    },
+    mainView:{
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        borderTopWidth: 0.2, 
+        borderTopColor: prm
+        
+    }
+})
 
 export default TabBarComponent;
 

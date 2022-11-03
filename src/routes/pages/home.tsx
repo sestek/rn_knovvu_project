@@ -69,10 +69,7 @@ const YoutubeIframeModal = ({ open, setOpen }) => {
 
 const Home = ({ navigation }) => {
 
-    const color_300 = useAppSelector(state => state.theme.color_300);
-    const color_400 = useAppSelector(state => state.theme.color_400);
-    const color_100 = useAppSelector(state => state.theme.color_100);
-    const color_200 = useAppSelector(state => state.theme.color_200);
+    const {color_100, color_200, color_300, color_400} = useAppSelector(state => state.theme);
 
     const [openYoutube, setOpenYoutube] = useState<boolean>(false);
     const triggerYoutube = () => setOpenYoutube(old => !old);
