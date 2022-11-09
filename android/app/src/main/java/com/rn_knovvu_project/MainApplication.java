@@ -1,4 +1,4 @@
-package com.rn_knovvu_project;
+package com.rn_knovuu_project;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,7 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import com.rn_knovvu_project.newarchitecture.MainApplicationReactNativeHost;
+import com.rn_knovuu_project.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.rn_knovvu_project.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.rn_knovuu_project.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);
