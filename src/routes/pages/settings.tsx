@@ -55,7 +55,6 @@ const Settings = () => {
     }
 
     const saveChatState = () => {
-
         dispatch(asyncSetCustomizeConfiguration(webchatCustomize));
         /*nnObject.keys(webchatCustomize).forEach(function (key, index) {
             dispatch(setCustomizeConfiguration({ key, value: (webchatCustomize as any)[key] }));

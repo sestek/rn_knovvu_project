@@ -16,7 +16,7 @@ const WebchatModal = () => {
         setTimeout(() => {
             dispatch(setModalVisible(modalRef?.current?.startConversation));
         }, 2000);
-    }, []);
+    }, [webchat.url]);
 
     return (
         <ChatModal
