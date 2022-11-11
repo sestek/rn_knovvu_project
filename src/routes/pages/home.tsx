@@ -78,7 +78,7 @@ const Home = ({ navigation }) => {
         <ScrollView>
             <View style={{ flex: 1, padding: 20, backgroundColor: 'white' }}>
                 <YoutubeIframeModal open={openYoutube} setOpen={triggerYoutube} />
-                <Lottie source={LottieVoice} autoPlay loop style={{ height: Dimensions.get('screen').height * 0.07, marginBottom: 20 }} />
+                <Lottie source={LottieVoice} speed={0.2} autoPlay loop style={{ height: Dimensions.get('screen').height * 0.07, marginBottom: 20 }} />
                 <Text h4 h4Style={{ ...styles.text, ...styles.textHome }}>Know Your Customers.</Text>
                 <Text h4 h4Style={{ ...styles.text, ...styles.textHome }}>Know Your Agents.</Text>
                 <Text h4 h4Style={{ ...styles.text, ...styles.textHome, fontWeight: '900' }}>and <SwiperText texts={['Emotions', 'Requests', 'Everything', 'Problems', 'Conversations']} /> in Between.</Text>
@@ -99,7 +99,7 @@ const Home = ({ navigation }) => {
                 </View>
             </View>
             <View style={[styles.mainContainer, { backgroundColor: 'white' }]}>
-                <Lottie source={LottieVoice} autoPlay loop style={{ height: Dimensions.get('screen').height * 0.07, marginBottom: 20 }} />
+                <Lottie source={LottieVoice} speed={0.2} autoPlay loop style={{ height: Dimensions.get('screen').height * 0.07, marginBottom: 20 }} />
                 <Text style={{ color: color_400 }} h4Style={styles.font500} h4>OUR CUSTOMERS</Text>
                 <Text h4 h4Style={{ ...styles.text, ...styles.textHome }}>Leading companies trust our conversational technologies</Text>
             </View>
@@ -107,7 +107,7 @@ const Home = ({ navigation }) => {
                 {customer_image.map(customer => <Image source={customer} style={styles.imageStyle} resizeMode="contain" />)}
             </View>
             <View style={[styles.mainContainer, { backgroundColor: color_100 }]}>
-                <Lottie source={LottieVoice} autoPlay loop style={{ height: Dimensions.get('screen').height * 0.05, marginBottom: 20 }} />
+                <Lottie source={LottieVoice} speed={0.2} autoPlay loop style={{ height: Dimensions.get('screen').height * 0.05, marginBottom: 20 }} />
                 <Text style={{ color: 'white' }} h4Style={styles.font500} h4>WHY KNOVVU ? {'\n'}</Text>
                 <Text h4 style={{ color: 'white' }} h4Style={{ ...styles.text, ...styles.textHome }}>Why global brands are</Text>
                 <Text h4 style={{ color: color_200 }} h4Style={{ ...styles.text, ...styles.textHome }}>choosing Knovvu</Text>
