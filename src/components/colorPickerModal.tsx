@@ -48,7 +48,7 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({ isVi
                     <Input
                         placeholder="Header Text"
                         leftIcon={{ type: 'font-awesome', name: 'hashtag', size: 16 }}
-                        value={colorText.replace("#", "")}
+                        value={colorText?.replace("#", "")}
                         onChangeText={changeText}
                     />
                     <Button color={"#7f81ae"} title={"SAVE"} onPress={() => { setIsVisible(false); saveColor(fromHsv(stateColor)); }} />
