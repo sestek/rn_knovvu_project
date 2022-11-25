@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.17.10",
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/slider": "^4.3.1",
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/drawer": "^6.4.3",
@@ -41,6 +41,7 @@
     "react-native-webview": "^11.23.0",
     "react-native-youtube-iframe": "^2.2.2",
     "react-redux": "^8.0.2",
+    "redux-mock-store": "^1.5.4",
     "rn-sestek-webchat": "^0.1.8"
   },
   "devDependencies": {

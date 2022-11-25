@@ -35,7 +35,7 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({ isVi
     }
 
     return (
-        <SafeAreaProvider>
+        // <SafeAreaProvider>
             <BottomSheet scrollViewProps={{ scrollEnabled: false }} modalProps={{}} isVisible={isVisible} onBackdropPress={() => setIsVisible(false)}>
                 <View style={{ flex: 1, padding: 45, backgroundColor: '#fff' }}>
                     <Text h4 h4Style={{ textAlign: 'center' }}>{headerText}</Text>
@@ -50,11 +50,12 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({ isVi
                         leftIcon={{ type: 'font-awesome', name: 'hashtag', size: 16 }}
                         value={colorText?.replace("#", "")}
                         onChangeText={changeText}
+                        testID={'adder-input'}
                     />
                     <Button color={"#7f81ae"} title={"SAVE"} onPress={() => { setIsVisible(false); saveColor(fromHsv(stateColor)); }} />
                 </View>
             </BottomSheet>
-        </SafeAreaProvider>
+        // </SafeAreaProvider>
     );
 };
 

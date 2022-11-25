@@ -54,8 +54,8 @@ const Settings = () => {
         setWebchatCustomize(newObj);
     }
 
-    const saveChatState = () => {
-        dispatch(asyncSetCustomizeConfiguration(webchatCustomize));
+    const saveChatState = async () => {
+       await dispatch(asyncSetCustomizeConfiguration(webchatCustomize));
         /*nnObject.keys(webchatCustomize).forEach(function (key, index) {
             dispatch(setCustomizeConfiguration({ key, value: (webchatCustomize as any)[key] }));
         });*/
@@ -67,6 +67,7 @@ const Settings = () => {
     }
 
     const resetChatState = () => {
+
         Alert.alert(
             "Warning",
             "If you do a reset, the settings will return to the settings when the application was first installed.",
@@ -75,7 +76,7 @@ const Settings = () => {
                     text: "Cancel",
                     style: "cancel"
                 },
-                { text: "OK", onPress: () => dispatch(asyncSetInitialState()) }
+                { text: "OK", onPress: () =>  dispatch(asyncSetInitialState()) }
             ]
         );
     }
@@ -120,6 +121,7 @@ const Settings = () => {
                             rightIcon={{ type: 'font-awesome', name: 'link' }}
                             value={webchatCustomize.tenant}
                             onChangeText={value => onChangeInput('tenant', value)}
+                            testID="tenant"
                         />
                     </View>
                     <View style={{ padding: 8 }}>
@@ -129,6 +131,7 @@ const Settings = () => {
                             rightIcon={{ type: 'font-awesome', name: 'link' }}
                             value={webchatCustomize.project}
                             onChangeText={value => onChangeInput('project', value)}
+                            testID="project"
                         />
                     </View>
                 </Card>
@@ -203,6 +206,7 @@ const Settings = () => {
                             leftIcon={{ type: 'font-awesome', name: 'circle', color: webchatCustomize.incomingTextColor }}
                             value={webchatCustomize.incomingTextColor}
                             onPressIn={() => setIncomingColorState(true)}
+                            testID="incomingtextColor"
                         />
                     </View>
                     <View style={{ padding: 8 }}>
@@ -281,10 +285,10 @@ const Settings = () => {
             </ScrollView>
             <View style={{ padding: Platform.OS === "ios" ? 20 : 8, paddingBottom: Platform.OS === "ios" ? 30 : 8, flexDirection: 'row' }}>
                 <View style={{ flex: 2, paddingHorizontal: 2 }}>
-                    <Button radius={10} onPress={saveChatState} color="#7f81ae">Save</Button>
+                    <Button radius={10} onPress={saveChatState} color="#7f81ae" testID="save">Save</Button>
                 </View>
                 <View style={{ flex: 2, marginLeft: 4 }}>
-                    <Button radius={10} onPress={resetChatState} type="solid" color={"warning"}>Reset</Button>
+                    <Button radius={10} onPress={resetChatState} type="solid" color={"warning"} testID="reset">Reset</Button>
                 </View>
             </View>
         </View>

@@ -44,7 +44,7 @@ const Navigator = () => {
             >
                 <Drawer.Screen name="Home" component={Home} />
                 <Drawer.Screen name="About" component={About} />
-                <Drawer.Screen name="Contact Us" component={ContactUs} />
+                {/* <Drawer.Screen name="Contact Us" component={ContactUs} /> */}
                 <Drawer.Screen name="Settings" component={Settings} />
                 <Drawer.Screen
                     name="Knovvu"
