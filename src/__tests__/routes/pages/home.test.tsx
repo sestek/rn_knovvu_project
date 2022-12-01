@@ -3,12 +3,10 @@ import {
   cleanup,
   render,
   fireEvent,
-  waitFor,
-  screen,
 } from '@testing-library/react-native';
-import Home from '../../../routes/pages/home';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
+import Home from '@src/routes/pages/home';
 
 describe('routes/Settings', () => {
   afterEach(() => {
@@ -30,18 +28,33 @@ describe('routes/Settings', () => {
     navigate: jest.fn(),
   };
 
-  test('settings default confirigation save test', async () => {
+  test('rendered for Home Page', async () => {
     store = mockStore(initialState);
-    const {getByText, getByTestId, queryByDisplayValue} = render(
+    const {getByText} = render(
       <Provider store={store}>
         <Home navigation={navi} />
       </Provider>,
     );
 
-    screen.debug(undefined,Infinity)
-
+    expect(getByText('Know Your Customers.'));
+    expect(getByText('Know Your Agents.'));
+    expect(getByText('Leading companies trust our conversational technologies'));
+    expect(getByText('We deliver.Period.'));
+    expect(getByText('With our 22 years of experience, we are proud of our project delivery rate of 100%.'));
    
   });
+  test('Youtube Button Click', async () => {
+    store = mockStore(initialState);
+    const { getByTestId} = render(
+      <Provider store={store}>
+        <Home navigation={navi} />
+      </Provider>,
+    );
 
+    const saveButton = getByTestId('youtube');
+    fireEvent.press(saveButton);
+    
+   
+  });
  
 });

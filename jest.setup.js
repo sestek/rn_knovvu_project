@@ -7,6 +7,25 @@
 // include this line for mocking react-native-gesture-handler
 import 'react-native-gesture-handler/jestSetup';
 
+
+import { Alert } from 'react-native'
+
+jest.mock('react-native', () => {
+    const RN = jest.requireActual('react-native')
+
+    return Object.setPrototypeOf(
+        {
+            Alert: {
+                ...RN.Alert,
+                alert: jest.fn(),
+            },
+        },
+        RN,
+    )
+})
+
+
+
 // include this section and the NativeAnimatedHelper section for mocking react-native-reanimated
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');

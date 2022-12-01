@@ -4,13 +4,12 @@ import {
   render,
   fireEvent,
   waitFor,
-  screen,
 } from '@testing-library/react-native';
 import Settings from '../../../routes/pages/settings';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
+import {Alert} from 'react-native';
 
-jest.useFakeTimers();
 describe('routes/Settings', () => {
   afterEach(() => {
     cleanup();
@@ -28,7 +27,7 @@ describe('routes/Settings', () => {
 
   test('rendered for Settings Page', async () => {
     store = mockStore(initialState);
-    const {getByText, getByTestId} = render(
+    const {getByText} = render(
       <Provider store={store}>
         <Settings />
       </Provider>,
@@ -40,86 +39,63 @@ describe('routes/Settings', () => {
 
   test('settings default confirigation save test', async () => {
     store = mockStore(initialState);
-    const {getByText, getByTestId, queryByDisplayValue} = render(
+    const {getByTestId} = render(
       <Provider store={store}>
         <Settings />
       </Provider>,
     );
 
-    const input = getByTestId('tenant');
+    const tenantButton = getByTestId('tenant');
     await waitFor(() => {
-      fireEvent.changeText(input, {target: {value: 'Test'}});
+      fireEvent.changeText(tenantButton, {target: {value: 'Test'}});
     });
 
     await waitFor(() => {
-      const input2 = getByTestId('project');
-
-      fireEvent.changeText(input2, {target: {value: 'Test PRJ'}});
+      const projectButton = getByTestId('project');
+      fireEvent.changeText(projectButton, {target: {value: 'Test PRJ'}});
     });
+
+    await waitFor(() => {
+      const saveButton = getByTestId('save');
+      fireEvent.press(saveButton);
+    });
+
+    expect(tenantButton.props.value.target.value).toBe('Test');
 
     await waitFor(
       () => {
-        const input3 = getByTestId('save');
+        const resetButton = getByTestId('reset');
 
-        fireEvent.press(input3);
+        fireEvent.press(resetButton);
       },
       {timeout: 6000},
     );
 
- 
-    // setTimeout(() => {
-   
-    // }, 2000);
-  
-
-    await waitFor(() => {
-      const input4 = getByTestId('reset');
-
-      fireEvent.press(input4);
-    });
-    await waitFor(() => {
-      const input4 = getByTestId('reset');
-
-      fireEvent.press(input4);
-    });
-    setTimeout(() => {
-      expect(screen.getByText('Warning'));
-      expect(
-        screen.getByText(
-          'If you do a reset, the settings will return to the settings when the application was first installed.',
-        ),
-      );
-
-
-      jest.runAllTimers();
-    }, 1500);
-
-
-
-    console.log(input.props.value.target.value);
- 
-  });
-
-  test('mock setTimeout test', () => {
-    store = mockStore(initialState);
-    const {getByText, getByTestId, queryByDisplayValue} = render(
-      <Provider store={store}>
-        <Settings  />
-      </Provider>,
-    );
-
     jest.useFakeTimers();
     setTimeout(() => {
-      const input3 = getByTestId('incomingtextColor');
-
-      fireEvent.press(input3);
-
-    screen.debug(undefined, Infinity)
-
-      console.log('TIME IS UP');
+      expect(Alert.alert).toHaveBeenCalled();
     }, 3000);
     jest.runAllTimers();
 
-
+   
   });
+
+
+  test('Change URL ', async () => {
+    store = mockStore(initialState);
+    const {getByText} = render(
+      <Provider store={store}>
+        <Settings />
+      </Provider>,
+    );
+
+    const ndaButton = getByText('Nda');
+    await waitFor(() => {
+      fireEvent.press(ndaButton);
+    });
+   
+  });
+
+
+ 
 });

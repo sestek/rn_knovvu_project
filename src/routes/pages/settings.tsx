@@ -66,7 +66,7 @@ const Settings = () => {
         });
     }
 
-    const resetChatState = () => {
+    const resetChatState =  () => {
 
         Alert.alert(
             "Warning",
@@ -76,7 +76,7 @@ const Settings = () => {
                     text: "Cancel",
                     style: "cancel"
                 },
-                { text: "OK", onPress: () =>  dispatch(asyncSetInitialState()) }
+                { text: "OK", onPress: () =>  dispatch(asyncSetInitialState())  }
             ]
         );
     }
@@ -94,12 +94,12 @@ const Settings = () => {
     return (
         <View style={{ flex: 1, marginTop: 8 }}>
             <ScrollView >
-                <Image source={KnovvuMainLogo2} style={{ width: Dimensions.get('window').width, height: 100 }} resizeMode="cover" />
-                <Card style={{ padding: 8 }}>
-                    <Card.Title>DEFAULT CONFIGURATION</Card.Title>
+                 <Image source={KnovvuMainLogo2} style={{ width: Dimensions.get('window').width, height: 100 }} resizeMode="cover" /> 
+                <Card style={styles.padding}>
+                     <Card.Title>DEFAULT CONFIGURATION</Card.Title>
                     <Card.Divider />
-                    <View style={{ padding: 8 }}>
-                        <Text style={styles.text}>URL</Text>
+                    <View style={styles.padding}>
+                       <Text style={styles.text}>URL</Text>
                         {/*<Input
                             placeholder="URL"
                             rightIcon={{ type: 'font-awesome', name: 'link' }}
@@ -112,9 +112,9 @@ const Settings = () => {
                             onPress={(value) => {
                                 selectedUrl(false, value);
                             }}
-                        />
+                        /> 
                     </View>
-                    <View style={{ padding: 8 }}>
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Tenant</Text>
                         <Input
                             placeholder="Tenant"
@@ -123,8 +123,8 @@ const Settings = () => {
                             onChangeText={value => onChangeInput('tenant', value)}
                             testID="tenant"
                         />
-                    </View>
-                    <View style={{ padding: 8 }}>
+                    </View> 
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Project</Text>
                         <Input
                             placeholder="Project"
@@ -133,12 +133,12 @@ const Settings = () => {
                             onChangeText={value => onChangeInput('project', value)}
                             testID="project"
                         />
-                    </View>
+                    </View> 
                 </Card>
-                <Card style={{ padding: 8 }}>
-                    <Card.Title>CUSTOMIZE CONFIGURATION</Card.Title>
-                    <Card.Divider />
-                    <View style={{ padding: 8 }}>
+                 <Card style={styles.padding}>
+                     <Card.Title>CUSTOMIZE CONFIGURATION</Card.Title>
+                    <Card.Divider /> 
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Header Color</Text>
                         <ColorPickerModal
                             color={webchatCustomize.headerColor}
@@ -154,8 +154,8 @@ const Settings = () => {
                             value={webchatCustomize.headerColor}
                             onPressIn={() => setHeaderColorState(true)}
                         />
-                    </View>
-                    <View style={{ padding: 8 }}>
+                    </View> 
+                    <View style={styles.padding}>
                         <Text style={styles.text}>Header Text</Text>
                         <Input
                             placeholder="Header Text"
@@ -163,8 +163,8 @@ const Settings = () => {
                             value={webchatCustomize.headerText}
                             onChangeText={value => onChangeCustomize('headerText', value)}
                         />
-                    </View>
-                    <View style={{ padding: 8 }}>
+                    </View> 
+                    <View style={styles.padding}>
                         <Text style={styles.text}>Bottom Color</Text>
                         <ColorPickerModal
                             color={webchatCustomize.bottomColor}
@@ -172,6 +172,7 @@ const Settings = () => {
                             isVisible={bottomColorState}
                             setIsVisible={setBottomColorState}
                             saveColor={(color: string) => onChangeCustomize('bottomColor', color)}
+                            
                         />
                         <Input
                             disabled
@@ -181,7 +182,7 @@ const Settings = () => {
                             onPressIn={() => setBottomColorState(true)}
                         />
                     </View>
-                    <View style={{ padding: 8 }}>
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Bottom Text</Text>
                         <Input
                             placeholder="Bottom Text"
@@ -189,9 +190,9 @@ const Settings = () => {
                             value={webchatCustomize.bottomText}
                             onChangeText={value => onChangeCustomize('bottomText', value)}
                         />
-                    </View>
+                    </View> 
 
-                    <View style={{ padding: 8 }}>
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Incoming Text Color</Text>
                         <ColorPickerModal
                             color={webchatCustomize.incomingTextColor}
@@ -208,8 +209,8 @@ const Settings = () => {
                             onPressIn={() => setIncomingColorState(true)}
                             testID="incomingtextColor"
                         />
-                    </View>
-                    <View style={{ padding: 8 }}>
+                    </View> 
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Incoming Text</Text>
                         <Input
                             placeholder="Incoming Text"
@@ -217,9 +218,9 @@ const Settings = () => {
                             value={webchatCustomize.incomingText}
                             onChangeText={value => onChangeCustomize('incomingText', value)}
                         />
-                    </View>
+                    </View> 
 
-                    <View style={{ padding: 8 }}>
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Outgoing Text Color</Text>
                         <ColorPickerModal
                             color={webchatCustomize.outgoingTextColor}
@@ -235,8 +236,8 @@ const Settings = () => {
                             value={webchatCustomize.outgoingTextColor}
                             onPressIn={() => setOutgoingColorState(true)}
                         />
-                    </View>
-                    <View style={{ padding: 8 }}>
+                    </View> 
+                    <View style={styles.padding}>
                         <Text style={styles.text}>Outgoing Text</Text>
                         <Input
                             placeholder="Outgoing Text"
@@ -244,9 +245,9 @@ const Settings = () => {
                             value={webchatCustomize.outgoingText}
                             onChangeText={value => onChangeCustomize('outgoingText', value)}
                         />
-                    </View>
+                    </View> 
 
-                    <View style={{ padding: 8 }}>
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Message Color</Text>
                         <ColorPickerModal
                             color={webchatCustomize.messageColor}
@@ -262,9 +263,9 @@ const Settings = () => {
                             disabled
                             onPressIn={() => setMessageColorState(true)}
                         />
-                    </View>
+                    </View> 
 
-                    <View style={{ padding: 8 }}>
+                     <View style={styles.padding}>
                         <Text style={styles.text}>Message Box Color</Text>
                         <ColorPickerModal
                             color={webchatCustomize.messageBoxColor}
@@ -280,8 +281,8 @@ const Settings = () => {
                             disabled
                             onPressIn={() => setMessageBoxColorState(true)}
                         />
-                    </View>
-                </Card>
+                    </View> 
+                </Card> 
             </ScrollView>
             <View style={{ padding: Platform.OS === "ios" ? 20 : 8, paddingBottom: Platform.OS === "ios" ? 30 : 8, flexDirection: 'row' }}>
                 <View style={{ flex: 2, paddingHorizontal: 2 }}>
@@ -290,7 +291,7 @@ const Settings = () => {
                 <View style={{ flex: 2, marginLeft: 4 }}>
                     <Button radius={10} onPress={resetChatState} type="solid" color={"warning"} testID="reset">Reset</Button>
                 </View>
-            </View>
+            </View> 
         </View>
 
     );
@@ -302,6 +303,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         color: 'gray',
+    },
+    padding:{
+        padding: 8
     }
 })
 
