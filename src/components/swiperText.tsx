@@ -19,7 +19,6 @@ const SwiperText: React.FC<SwiperProps> =({texts}) => {
     const [textInterval, setTextInterval] = useState<null | number>(null);
 
     useEffect(() => {
-        console.log(textInterval)
         if (textInterval) {
             clearInterval(textInterval);
             setTextInterval(null);

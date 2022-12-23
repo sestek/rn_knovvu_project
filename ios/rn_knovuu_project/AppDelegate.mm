@@ -5,7 +5,7 @@
 #import <React/RCTRootView.h>
 
 // IMPORTANT:  Paste import ABOVE the DEBUG macro
-#import <TSBackgroundFetch/TSBackgroundFetch.h>
+// #import <TSBackgroundFetch/TSBackgroundFetch.h>
 
 #import <React/RCTAppSetupUtils.h>
 
@@ -62,7 +62,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   [self.window makeKeyAndVisible];
   
   // [REQUIRED] Register BackgroundFetch
-  [[TSBackgroundFetch sharedInstance] didFinishLaunching];
+  // [[TSBackgroundFetch sharedInstance] didFinishLaunching];
   
   return YES;
 }

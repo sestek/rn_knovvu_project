@@ -4,11 +4,15 @@ import { setModalVisible } from "@src/utils/redux/slice/mainSlice";
 import { CtIconEnum } from "@src/utils/types";
 import React, { useEffect, useRef } from "react";
 import { ChatModal, ChatModalRef } from "rn-sestek-webchat";
-
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import RNFetchBlob from 'react-native-fetch-blob';
+import RNSlider from '@react-native-community/slider';
 
 const WebchatModal = () => {
     const modalRef = useRef<ChatModalRef>(null);
     const webchat = useAppSelector(state => state.webchat);
+    const color_200 = useAppSelector(state => state.theme.color_200);
+    const color_300 = useAppSelector(state => state.theme.color_300);
 
     const dispatch = useAppDispatch();
 
@@ -21,7 +25,7 @@ const WebchatModal = () => {
     return (
         <ChatModal
             url={webchat.url}
-            modules={{ AudioRecorderPlayer: undefined, RNFS: undefined }}
+            modules={{ AudioRecorderPlayer: AudioRecorderPlayer, RNFS: RNFetchBlob, RNSlider: RNSlider }}
             ref={modalRef}
             defaultConfiguration={{
                 sendConversationStart: true,
@@ -53,6 +57,10 @@ const WebchatModal = () => {
                 firstIconHide: true,
                 hideIcon: () => BusinessComponent.getIconComponent(CtIconEnum.Ionicons, 'close-circle-sharp', 28, 'white'),
                 closeIcon: () => BusinessComponent.getIconComponent(CtIconEnum.Ionicons, 'arrow-down-circle-sharp', 28, 'white'),
+                leftMessageBoxColor: color_200,
+                sliderMaximumTrackTintColor: 'gray',
+                sliderThumbTintColor: color_300,
+                sliderMinimumTrackTintColor: color_300,
             }}
         />
     )

@@ -11,7 +11,8 @@ import BackgroundGeolocation, { Subscription } from "react-native-background-geo
 export default function App() {
 
   React.useEffect(() => {
-    /// 1.  Subscribe to events.
+    /*
+    ///* 1.  Subscribe to events.
     const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
       console.log('[onLocation]', location);
     })
@@ -33,7 +34,7 @@ export default function App() {
       console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
     });
 
-    BackgroundGeolocation.start();
+    //BackgroundGeolocation.start();*/
   }, []);
 
   return (
