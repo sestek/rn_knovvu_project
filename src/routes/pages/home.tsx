@@ -26,7 +26,7 @@ const Home = ({ navigation }) => {
     const {color_100, color_200, color_300, color_400} = useAppSelector(state => state.theme);
 
     const [openYoutube, setOpenYoutube] = useState<boolean>(false);
-    const triggerYoutube = () => {console.log("mal mı amk");setOpenYoutube(old => !old)};
+    const triggerYoutube = () => setOpenYoutube(old => !old);
 
     return (
         <ScrollView>
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
         position: 'absolute', 
         bottom: 0, 
         zIndex: -1, 
-        backgroundColor: 'red', 
         marginTop: 400
     }
 })

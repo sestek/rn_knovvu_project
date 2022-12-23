@@ -107,12 +107,13 @@ const Settings = () => {
                             onChangeText={value => onChangeInput('url', value)}
                         />*/}
                         <ButtonGroup
-                            buttons={['Knovvu', 'Nda']}
+                            buttons={['Knovvu','Knovvu Unstable', 'Nda', 'Nda Test']}
                             selectedIndex={selectedUrl(true)}
                             onPress={(value) => {
                                 selectedUrl(false, value);
                             }}
                         /> 
+                      
                     </View>
                      <View style={styles.padding}>
                         <Text style={styles.text}>Tenant</Text>

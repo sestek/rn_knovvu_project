@@ -22,7 +22,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
     Dimensions.get('screen').width * (1 / state.routes?.length);
 
   return (
-    <View style={styles(color_300).mainView}>
+    <View style={styles(color_100).mainView}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
 
@@ -77,7 +77,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
             <Ionicons
               name={iconName || ''}
               size={26}
-              color={focused ? color_200 : color_300}
+              color={focused ? color_100 : color_200}
             />
           );
         };
@@ -91,7 +91,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
             style={styles(dynamicWidth).touchArea}
             key={route.name}>
             {getIconFunc(isFocused)}
-            <Text style={styles(isFocused, color_200, color_300).text}>
+            <Text style={styles(isFocused, color_100, color_200).text}>
               {label}
             </Text>
           </TouchableOpacity>
@@ -113,6 +113,7 @@ const styles = (prm?: any, prm2?: any, prm3?: any) =>
       flexGrow: 1,
       width: prm,
       padding: 6,
+      backgroundColor:"white"
     },
     image: {
       width: Dimensions.get('screen').width * 0.11,

@@ -74,11 +74,9 @@ const ContactUs = ({ navigation }) => {
     }
 
     const sendContactData = async () => {
-        console.log(checkErrorData())
+        // console.log(checkErrorData())
         if (!checkErrorData()) {
-            console.log("içinde")
             var data = await Knovvu.postContactEmail(contactData);
-            console.log(data)
             if (data?.statusCode === 200) {
                 setErrorContactData(initializeData);
                 setContactData(initializeData);
