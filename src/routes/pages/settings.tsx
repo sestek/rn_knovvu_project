@@ -82,7 +82,7 @@ const Settings = () => {
     }
 
     const selectedUrl = (getIndex: boolean, newUrl?: number) => {
-        const urlData = ['https://nd-test-webchat2.sestek.com/chathub', 'https://nd-test-webchat.sestek.com/chathub'];
+        const urlData = ['https://stable.web.cai.demo.sestek.com/webchat/chathub','https://nd-test-webchat2.sestek.com/chathub', 'https://nd-test-webchat.sestek.com/chathub'];
         if (getIndex) {
             return urlData.findIndex(url => url === webchatCustomize.url);
         }

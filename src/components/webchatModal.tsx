@@ -6,7 +6,8 @@ import React, { useEffect, useRef } from "react";
 import { ChatModal, ChatModalRef } from "rn-sestek-webchat";
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'react-native-fetch-blob';
-import RNSlider from '@react-native-community/slider';
+import Slider from '@react-native-community/slider';
+import { WebView } from 'react-native-webview';
 
 const WebchatModal = () => {
     const modalRef = useRef<ChatModalRef>(null);
@@ -25,7 +26,7 @@ const WebchatModal = () => {
     return (
         <ChatModal
             url={webchat.url}
-            modules={{ AudioRecorderPlayer: AudioRecorderPlayer, RNFS: RNFetchBlob, RNSlider: RNSlider }}
+            modules={{ AudioRecorderPlayer: AudioRecorderPlayer, RNFS: RNFetchBlob, RNSlider: Slider, RNWebView: WebView }}
             ref={modalRef}
             defaultConfiguration={{
                 sendConversationStart: true,
