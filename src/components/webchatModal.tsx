@@ -6,7 +6,7 @@ import React, { useEffect, useRef } from "react";
 import { ChatModal, ChatModalRef } from "rn-sestek-webchat";
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'react-native-fetch-blob';
-import Slider from '@react-native-community/slider';
+import Slider from '@miblanchard/react-native-slider';
 import { WebView } from 'react-native-webview';
 
 const WebchatModal = () => {
