@@ -6,8 +6,9 @@ import React, { useEffect, useRef } from "react";
 import { ChatModal, ChatModalRef } from "rn-sestek-webchat";
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'react-native-fetch-blob';
-import Slider from '@miblanchard/react-native-slider';
+import { Slider } from '@miblanchard/react-native-slider';
 import { WebView } from 'react-native-webview';
+import { PermissionsManager } from "@src/utils/functions/permissionsManager";
 
 const WebchatModal = () => {
     const modalRef = useRef<ChatModalRef>(null);
@@ -22,6 +23,20 @@ const WebchatModal = () => {
             dispatch(setModalVisible(modalRef?.current?.startConversation));
         }, 2000);
     }, [webchat.url]);
+
+    const audioClickFunc = () => {
+        return new Promise<void>((resolve, reject) => {
+            PermissionsManager.checkMicrophone().then(res => {
+                if (res) {
+                    resolve();
+                }
+                else {
+                    reject();
+                }
+            }).catch(() => reject());
+
+        })
+    }
 
     return (
         <ChatModal
@@ -62,6 +77,7 @@ const WebchatModal = () => {
                 sliderMaximumTrackTintColor: 'gray',
                 sliderThumbTintColor: color_300,
                 sliderMinimumTrackTintColor: color_300,
+                beforeAudioClick: audioClickFunc
             }}
         />
     )
