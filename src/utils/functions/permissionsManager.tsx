@@ -1,15 +1,26 @@
 import { request, check, Permission, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { showMessage } from "react-native-flash-message";
 
 export class PermissionsManager {
 
-    static addMessage(message: string, description: string, backgroundColor: string = "#7f81ae") {
+    private static addMessage(message: string, description: string, backgroundColor: string = "#7f81ae") {
         showMessage({
             backgroundColor,
             description,
             message
         });
+    }
+
+    private static checkAlert() {
+        Alert.alert('Warning', 'Do you want to go to settings to enable microphone access?', [
+            {
+                text: "Cancel",
+                style: "cancel"
+            },
+            { text: "OK", onPress: () => openSettings() }
+
+        ]);
     }
 
     static async checkMicrophone(): Promise<boolean> {
@@ -34,7 +45,7 @@ export class PermissionsManager {
                             break;
                         case RESULTS.BLOCKED:
                         case RESULTS.LIMITED:
-                            openSettings();
+                            this.checkAlert();
                             resolve(false);
                             break;
                         case RESULTS.GRANTED:
@@ -61,7 +72,7 @@ export class PermissionsManager {
                         resolve(true);
                         break;
                     case RESULTS.BLOCKED:
-                        openSettings();
+                        this.checkAlert();
                         resolve(false);
                         break;
                 }
@@ -106,7 +117,7 @@ export class PermissionsManager {
                         resolve(res);
                         break;
                     case RESULTS.BLOCKED:
-                        openSettings();
+                        this.checkAlert();
                         resolve(false);
                         break;
                 }
