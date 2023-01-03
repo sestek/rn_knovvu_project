@@ -68,9 +68,9 @@ export const asyncSetInitialState = createAsyncThunk(
     "webchat/asyncSetInitialState",
     async () => {
         var data = {
-            url: "https://nd-test-webchat2.sestek.com/chathub",
-            tenant: "BAC",
-            project: "EN_BANKING_v1.0",
+            url: "https://nd-test-webchat.sestek.com/chathub",
+            tenant: "Default",
+            project: "SestekChatbotDemo",
 
             headerColor: '#7f81ae',
             headerText: 'Knovvu Chat Client',
@@ -119,10 +119,10 @@ export const webchatSlice = createSlice({
             state.project = action.payload;
         },
         setInitialState: (state) => {
-            state.url = "https://nd-test-webchat2.sestek.com/chathub";
-            state.tenant = "BAC",
-                state.project = "EN_BANKING_v1.0",
-                state.headerColor = '#7f81ae';
+            state.url = "https://nd-test-webchat.sestek.com/chathub";
+            state.tenant = "Default",
+            state.project = "SestekChatbotDemo",
+            state.headerColor = '#7f81ae';
             state.headerText = 'Knovvu Chat Client';
             state.bottomColor = '#7f81ae';
             state.bottomText = 'Input text..';

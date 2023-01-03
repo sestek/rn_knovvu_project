@@ -7,6 +7,9 @@ install! 'cocoapods', :deterministic_uuids => false
 target 'rn_knovuu_project' do
   config = use_native_modules!
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone"
   # Flags change depending on the env values.
   flags = get_default_flags()
 
