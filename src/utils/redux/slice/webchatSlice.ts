@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WebchatManager } from '@src/utils/functions/webchatManages';
 
 export interface WebchatState {
@@ -28,9 +27,9 @@ interface SetKeyValue {
 }
 
 const initialState: WebchatState = {
-    url: "https://nd-test-webchat2.sestek.com/chathub",
-    tenant: "BAC",
-    project: "EN_BANKING_v1.0",
+    url: "https://eu.va.knovvu.com/webchat/chathub",
+    tenant: "Demo",
+    project: "TR_BANKACILIK_DEMO_v1.0",
 
     headerColor: '#7f81ae',
     headerText: 'Knovvu Chat Client',
@@ -68,9 +67,9 @@ export const asyncSetInitialState = createAsyncThunk(
     "webchat/asyncSetInitialState",
     async () => {
         var data = {
-            url: "https://nd-test-webchat.sestek.com/chathub",
-            tenant: "Default",
-            project: "SestekChatbotDemo",
+            url: "https://eu.va.knovvu.com/webchat/chathub",
+            tenant: "Demo",
+            project: "TR_BANKACILIK_DEMO_v1.0",
 
             headerColor: '#7f81ae',
             headerText: 'Knovvu Chat Client',
@@ -119,9 +118,9 @@ export const webchatSlice = createSlice({
             state.project = action.payload;
         },
         setInitialState: (state) => {
-            state.url = "https://nd-test-webchat.sestek.com/chathub";
-            state.tenant = "Default",
-            state.project = "SestekChatbotDemo",
+            state.url = "https://eu.va.knovvu.com/webchat/chathub";
+            state.tenant = "Demo",
+            state.project = "TR_BANKACILIK_DEMO_v1.0",
             state.headerColor = '#7f81ae';
             state.headerText = 'Knovvu Chat Client';
             state.bottomColor = '#7f81ae';

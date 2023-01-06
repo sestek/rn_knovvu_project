@@ -7,14 +7,14 @@ import {
   ListItem,
   Text,
 } from '@rneui/base';
-import {KnovvuMainLogo2} from '@src/assests';
+import { KnovvuMainLogo2 } from '@src/assests';
 import ColorPickerModal from '@src/components/colorPickerModal';
-import {useAppDispatch, useAppSelector} from '@src/utils/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@src/utils/redux/hooks';
 import {
   asyncSetCustomizeConfiguration,
   asyncSetInitialState,
 } from '@src/utils/redux/slice/webchatSlice';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -24,7 +24,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 import base64 from 'react-native-base64';
 
 interface WebchatType {
@@ -43,14 +43,6 @@ interface WebchatType {
   messageBoxColor: string;
 }
 
-const projectData: any = [
-    {key: 'TR_BANKACILIK_DEMO_v1.0' , value:'DEMO 1'},
-    {key: 'EN_BANKING_DEMO_v1.1' , value:'DEMO 2'},
-    {key: 'AR_BANKING_DEMO_v1.0' , value:'DEMO 3'},
-    {key: 'TR_ETICARET_DEMO_v1.0' , value:'DEMO 4'},
-    {key: 'EN_PERSONAL_SHOPPER' , value:'DEMO 5'},
-  ];
-
 const Settings = () => {
   /* 
         PROJECT NAME SELECTED SIDE #######
@@ -58,6 +50,21 @@ const Settings = () => {
   const [isProjectSelected, setIsProjectSelected] = useState<boolean>(false);
   const triggerProjectSelected = () => setIsProjectSelected(old => !old);
   const color_100 = useAppSelector(state => state.theme.color_100);
+
+  const [demoProjectList, setDemoProjectList]: any = useState([
+    { key: 'DEMO_1', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_BANKACILIK_DEMO_v1.0' } },
+    { key: 'DEMO_2', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_BANKING_DEMO_v1.1' } },
+    { key: 'DEMO_3', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'AR_BANKING_DEMO_v1.0' } },
+    { key: 'DEMO_4', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_ETICARET_DEMO_v1.0' } },
+    { key: 'DEMO_5', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_PERSONAL_SHOPPER' } },
+    { key: 'DEMO_6', value: { url: 'https://nd-test-webchat.sestek.com/chathub', tenant: 'Tayfun', project: 'GocIdaresi_TR' } }
+  ]);
+
+  const addDemoProjectList = (demoProject: any) => {
+    if (demoProject) {
+      setDemoProjectList((prev: any) => [...prev, demoProject]);
+    }
+  }
 
   const webchat = useAppSelector(state => state.webchat);
   useEffect(() => {
@@ -72,7 +79,7 @@ const Settings = () => {
   const [messageColorState, setMessageColorState] = useState<boolean>(false);
   const [messageBoxColorState, setMessageBoxColorState] =
     useState<boolean>(false);
-    const [base64State, setBase64State] = useState<string>("");
+  const [base64State, setBase64State] = useState<string>("");
 
 
   const dispatch = useAppDispatch();
@@ -94,11 +101,7 @@ const Settings = () => {
   };
 
   const saveChatState = async () => {
-    console.log('webchatCustomize', webchatCustomize);
     await dispatch(asyncSetCustomizeConfiguration(webchatCustomize));
-    /*nnObject.keys(webchatCustomize).forEach(function (key, index) {
-            dispatch(setCustomizeConfiguration({ key, value: (webchatCustomize as any)[key] }));
-        });*/
     showMessage({
       backgroundColor: '#7f81ae',
       description: 'Your changes have been made.',
@@ -115,7 +118,7 @@ const Settings = () => {
           text: 'Cancel',
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => dispatch(asyncSetInitialState())},
+        { text: 'OK', onPress: () => dispatch(asyncSetInitialState()) },
       ],
     );
   };
@@ -134,25 +137,49 @@ const Settings = () => {
   };
 
   const freeTextSave = async () => {
-    let freeText = base64.decode(base64State);
+    try {
+      const freeTextStr = base64.decode(base64State);
+      const freeText = freeTextStr.split('|');
+      if (Array.isArray(freeText) && freeText.length === 3) {
+        await saveUrlTenantProject(freeText[0], freeText[1], freeText[2]);
+        addDemoProjectList({ key: freeText[2], value: { url: freeText[0], tenant: freeText[1], project: freeText[2] } });
+        setBase64State("");
+      }
+      else {
+        throw new Error('The data you entered is not correct.');
+      }
+    }
+    catch (err: any) {
+      if (err?.message) {
+        showMessage({
+          backgroundColor: '#7f81ae',
+          description: err.message,
+          message: 'Error',
+        });
+      }
 
-    freeText = freeText.split('|');
-    if (Array.isArray(freeText) && freeText.length === 3) {
-      const degisken = Object.assign({}, webchat);
-      degisken.url = freeText[0];
-      degisken.tenant = freeText[1];
-      degisken.project = freeText[2];
-      await dispatch(asyncSetCustomizeConfiguration(degisken));
-      setBase64State("")
     }
   };
 
+  const saveUrlTenantProject = async (url: string, tenant: string, project: string) => {
+    const degisken = Object.assign({}, webchat);
+    degisken.url = url;
+    degisken.tenant = tenant;
+    degisken.project = project;
+    await dispatch(asyncSetCustomizeConfiguration(degisken));
+    showMessage({
+      backgroundColor: '#7f81ae',
+      description: 'Your changes have been made.',
+      message: 'Success',
+    });
+  }
+
   return (
-    <View style={{flex: 1, marginTop: 8}}>
+    <View style={{ flex: 1, marginTop: 8 }}>
       <ScrollView>
         <Image
           source={KnovvuMainLogo2}
-          style={{width: Dimensions.get('window').width, height: 100}}
+          style={{ width: Dimensions.get('window').width, height: 100 }}
           resizeMode="cover"
         />
         <Card style={styles.padding}>
@@ -198,37 +225,37 @@ const Settings = () => {
           <View style={styles.padding}>
             <Button
               title={
-                <View style={{flexDirection: 'column'}}>
+                <View style={{ flexDirection: 'column' }}>
                   <Text
-                    style={{fontWeight: 'bold', fontSize: 18, color: 'white'}}>
-                    {webchatCustomize.project}
+                    style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>
+                    {demoProjectList.find(x => x?.value?.project === webchatCustomize.project)?.key || webchatCustomize.project}
                   </Text>
-                  <Text style={{fontStyle: 'italic', fontSize: 12}}>
+                  <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
                     Please click to switch between projects.
                   </Text>
                 </View>
               }
               onPress={triggerProjectSelected}
-              buttonStyle={{backgroundColor: color_100}}
+              buttonStyle={{ backgroundColor: color_100 }}
             />
-             <BottomSheet
+            <BottomSheet
               isVisible={isProjectSelected}
               modalProps={{}}
-              scrollViewProps={{scrollEnabled: false}}
+              scrollViewProps={{ scrollEnabled: false }}
               onBackdropPress={triggerProjectSelected}>
-              {projectData.map((project:any, i:any) => (
+              {demoProjectList.map((demo: any, i: any) => (
                 <ListItem
                   key={i}
-                  onPress={() => {
-                    onChangeInput('project', project.key);
+                  onPress={async () => {
+                    await saveUrlTenantProject(demo.value.url, demo.value.tenant, demo.value.project);
                     triggerProjectSelected();
                   }}>
-                  <ListItem.Content style={{alignItems: 'center'}}>
+                  <ListItem.Content style={{ alignItems: 'center' }}>
                     <ListItem.Title
                       style={{
-                        marginBottom: projectData.length - 1 === i ? 20 : 0,
+                        marginBottom: demoProjectList.length - 1 === i ? 20 : 0,
                       }}>
-                      {project.value}
+                      {demo.key}
                     </ListItem.Title>
                   </ListItem.Content>
                 </ListItem>
@@ -266,7 +293,7 @@ const Settings = () => {
             <Text style={styles.text}>Header Text</Text>
             <Input
               placeholder="Header Text"
-              rightIcon={{type: 'font-awesome', name: 'link'}}
+              rightIcon={{ type: 'font-awesome', name: 'link' }}
               value={webchatCustomize.headerText}
               onChangeText={value => onChangeCustomize('headerText', value)}
             />
@@ -298,7 +325,7 @@ const Settings = () => {
             <Text style={styles.text}>Bottom Text</Text>
             <Input
               placeholder="Bottom Text"
-              rightIcon={{type: 'font-awesome', name: 'link'}}
+              rightIcon={{ type: 'font-awesome', name: 'link' }}
               value={webchatCustomize.bottomText}
               onChangeText={value => onChangeCustomize('bottomText', value)}
             />
@@ -332,7 +359,7 @@ const Settings = () => {
             <Text style={styles.text}>Incoming Text</Text>
             <Input
               placeholder="Incoming Text"
-              rightIcon={{type: 'font-awesome', name: 'link'}}
+              rightIcon={{ type: 'font-awesome', name: 'link' }}
               value={webchatCustomize.incomingText}
               onChangeText={value => onChangeCustomize('incomingText', value)}
             />
@@ -365,7 +392,7 @@ const Settings = () => {
             <Text style={styles.text}>Outgoing Text</Text>
             <Input
               placeholder="Outgoing Text"
-              rightIcon={{type: 'font-awesome', name: 'link'}}
+              rightIcon={{ type: 'font-awesome', name: 'link' }}
               value={webchatCustomize.outgoingText}
               onChangeText={value => onChangeCustomize('outgoingText', value)}
             />
@@ -426,7 +453,7 @@ const Settings = () => {
           <View style={styles.padding}>
             <Input
               placeholder="FREE TEXT"
-              rightIcon={{type: 'font-awesome', name: 'link'}}
+              rightIcon={{ type: 'font-awesome', name: 'link' }}
               value={base64State}
               onChangeText={value => setBase64State(value)}
             />
@@ -434,7 +461,7 @@ const Settings = () => {
               onPress={freeTextSave}
               color={color_100}
             >
-              Save
+              Free Text Save
             </Button>
           </View>
         </Card>
@@ -445,16 +472,16 @@ const Settings = () => {
           paddingBottom: Platform.OS === 'ios' ? 30 : 8,
           flexDirection: 'row',
         }}>
-        <View style={{flex: 2, paddingHorizontal: 2}}>
+        <View style={{ flex: 2, paddingHorizontal: 2 }}>
           <Button
             radius={10}
             onPress={saveChatState}
             color="#7f81ae"
             testID="save">
-            Free Text Save
+            Save
           </Button>
         </View>
-        <View style={{flex: 2, marginLeft: 4}}>
+        <View style={{ flex: 2, marginLeft: 4 }}>
           <Button
             radius={10}
             onPress={resetChatState}
