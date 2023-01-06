@@ -61,7 +61,7 @@ const Settings = () => {
   ]);
 
   const addDemoProjectList = (demoProject: any) => {
-    if (demoProject) {
+    if (demoProject && !demoProjectList.find((x:any )=> x.key === demoProject.key)) {
       setDemoProjectList((prev: any) => [...prev, demoProject]);
     }
   }
