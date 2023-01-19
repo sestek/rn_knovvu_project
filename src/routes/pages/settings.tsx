@@ -19,9 +19,11 @@ import {
   Alert,
   Dimensions,
   Image,
+  KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
@@ -57,11 +59,12 @@ const Settings = () => {
     { key: 'DEMO_3', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'AR_BANKING_DEMO_v1.0' } },
     { key: 'DEMO_4', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_ETICARET_DEMO_v1.0' } },
     { key: 'DEMO_5', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_PERSONAL_SHOPPER' } },
-    { key: 'DEMO_6', value: { url: 'https://nd-test-webchat.sestek.com/chathub', tenant: 'Tayfun', project: 'GocIdaresi_TR' } }
+    { key: 'DEMO_6', value: { url: 'https://nd-test-webchat.sestek.com/chathub', tenant: 'Tayfun', project: 'GocIdaresi_TR' } },
+    { key: 'DEMO_7', value: { url: 'https://unstable.web.cai.demo.sestek.com/webchat/chathub', tenant: 'Default', project: 'TR_BANKACILIK' } }
   ]);
 
   const addDemoProjectList = (demoProject: any) => {
-    if (demoProject && !demoProjectList.find((x:any )=> x.key === demoProject.key)) {
+    if (demoProject && !demoProjectList.find((x: any) => x.key === demoProject.key)) {
       setDemoProjectList((prev: any) => [...prev, demoProject]);
     }
   }
@@ -176,16 +179,17 @@ const Settings = () => {
 
   return (
     <View style={{ flex: 1, marginTop: 8 }}>
-      <ScrollView>
-        <Image
-          source={KnovvuMainLogo2}
-          style={{ width: Dimensions.get('window').width, height: 100 }}
-          resizeMode="cover"
-        />
-        <Card style={styles.padding}>
-          <Card.Title>DEFAULT CONFIGURATION</Card.Title>
-          <Card.Divider />
-          {/*<View style={styles.padding}>
+      <KeyboardAvoidingView keyboardVerticalOffset={120} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView>
+          <Image
+            source={KnovvuMainLogo2}
+            style={{ width: Dimensions.get('window').width, height: 100 }}
+            resizeMode="cover"
+          />
+          <Card style={styles.padding}>
+            <Card.Title>DEFAULT CONFIGURATION</Card.Title>
+            <Card.Divider />
+            {/*<View style={styles.padding}>
                         <Text style={styles.text}>URL</Text>
                         {/*<Input
                             placeholder="URL"
@@ -222,250 +226,241 @@ const Settings = () => {
                             testID="project"
                         />
                     </View>*/}
-          <View style={styles.padding}>
-            <Button
-              title={
-                <View style={{ flexDirection: 'column' }}>
-                  <Text
-                    style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>
-                    {demoProjectList.find(x => x?.value?.project === webchatCustomize.project)?.key || webchatCustomize.project}
-                  </Text>
-                  <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
-                    Please click to switch between projects.
-                  </Text>
-                </View>
-              }
-              onPress={triggerProjectSelected}
-              buttonStyle={{ backgroundColor: color_100 }}
-            />
-            <BottomSheet
-              isVisible={isProjectSelected}
-              modalProps={{}}
-              scrollViewProps={{ scrollEnabled: false }}
-              onBackdropPress={triggerProjectSelected}>
-              {demoProjectList.map((demo: any, i: any) => (
-                <ListItem
-                  key={i}
-                  onPress={async () => {
-                    await saveUrlTenantProject(demo.value.url, demo.value.tenant, demo.value.project);
-                    triggerProjectSelected();
-                  }}>
-                  <ListItem.Content style={{ alignItems: 'center' }}>
-                    <ListItem.Title
-                      style={{
-                        marginBottom: demoProjectList.length - 1 === i ? 20 : 0,
-                      }}>
-                      {demo.key}
-                    </ListItem.Title>
-                  </ListItem.Content>
-                </ListItem>
-              ))}
-            </BottomSheet>
-          </View>
-        </Card>
-        <Card style={styles.padding}>
-          <Card.Title>CUSTOMIZE CONFIGURATION</Card.Title>
-          <Card.Divider />
-          <View style={styles.padding}>
-            <Text style={styles.text}>Header Color</Text>
-            <ColorPickerModal
-              color={webchatCustomize.headerColor}
-              headerText="Header Color"
-              isVisible={headerColorState}
-              setIsVisible={setHeaderColorState}
-              saveColor={(color: string) =>
-                onChangeCustomize('headerColor', color)
-              }
-            />
-            <Input
-              disabled
-              placeholder="Header Color"
-              leftIcon={{
-                type: 'font-awesome',
-                name: 'circle',
-                color: webchatCustomize.headerColor,
-              }}
-              value={webchatCustomize.headerColor}
-              onPressIn={() => setHeaderColorState(true)}
-            />
-          </View>
-          <View style={styles.padding}>
-            <Text style={styles.text}>Header Text</Text>
-            <Input
-              placeholder="Header Text"
-              rightIcon={{ type: 'font-awesome', name: 'link' }}
-              value={webchatCustomize.headerText}
-              onChangeText={value => onChangeCustomize('headerText', value)}
-            />
-          </View>
-          <View style={styles.padding}>
-            <Text style={styles.text}>Bottom Color</Text>
-            <ColorPickerModal
-              color={webchatCustomize.bottomColor}
-              headerText="Bottom Color"
-              isVisible={bottomColorState}
-              setIsVisible={setBottomColorState}
-              saveColor={(color: string) =>
-                onChangeCustomize('bottomColor', color)
-              }
-            />
-            <Input
-              disabled
-              placeholder="Bottom Color"
-              leftIcon={{
-                type: 'font-awesome',
-                name: 'circle',
-                color: webchatCustomize.bottomColor,
-              }}
-              value={webchatCustomize.bottomColor}
-              onPressIn={() => setBottomColorState(true)}
-            />
-          </View>
-          <View style={styles.padding}>
-            <Text style={styles.text}>Bottom Text</Text>
-            <Input
-              placeholder="Bottom Text"
-              rightIcon={{ type: 'font-awesome', name: 'link' }}
-              value={webchatCustomize.bottomText}
-              onChangeText={value => onChangeCustomize('bottomText', value)}
-            />
-          </View>
+            <View style={styles.padding}>
+              <Button
+                title={
+                  <View style={{ flexDirection: 'column' }}>
+                    <Text
+                      style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>
+                      {demoProjectList.find(x => x?.value?.project === webchatCustomize.project)?.key || webchatCustomize.project}
+                    </Text>
+                    <Text style={{ fontStyle: 'italic', fontSize: 12 }}>
+                      Please click to switch between projects.
+                    </Text>
+                  </View>
+                }
+                onPress={triggerProjectSelected}
+                buttonStyle={{ backgroundColor: color_100 }}
+              />
+              <BottomSheet
+                isVisible={isProjectSelected}
+                modalProps={{}}
+                scrollViewProps={{ scrollEnabled: false }}
+                onBackdropPress={triggerProjectSelected}>
+                {demoProjectList.map((demo: any, i: any) => (
+                  <ListItem
+                    key={i}
+                    onPress={async () => {
+                      await saveUrlTenantProject(demo.value.url, demo.value.tenant, demo.value.project);
+                      triggerProjectSelected();
+                    }}>
+                    <ListItem.Content style={{ alignItems: 'center' }}>
+                      <ListItem.Title
+                        style={{
+                          marginBottom: demoProjectList.length - 1 === i ? 20 : 0,
+                        }}>
+                        {demo.key}
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                ))}
+              </BottomSheet>
+            </View>
+          </Card>
+          <Card style={styles.padding}>
+            <Card.Title>CUSTOMIZE CONFIGURATION</Card.Title>
+            <Card.Divider />
+            <TouchableOpacity style={styles.padding} onPressIn={() => setHeaderColorState(true)}>
+              <Text style={styles.text}>Header Color</Text>
+              <ColorPickerModal
+                color={webchatCustomize.headerColor}
+                headerText="Header Color"
+                isVisible={headerColorState}
+                setIsVisible={setHeaderColorState}
+                saveColor={(color: string) =>
+                  onChangeCustomize('headerColor', color)
+                }
+              />
+              <Input
+                disabled
+                placeholder="Header Color"
+                leftIcon={{
+                  type: 'font-awesome',
+                  name: 'circle',
+                  color: webchatCustomize.headerColor,
+                }}
+                value={webchatCustomize.headerColor}
+              />
+            </TouchableOpacity>
+            <View style={styles.padding}>
+              <Text style={styles.text}>Header Text</Text>
+              <Input
+                placeholder="Header Text"
+                rightIcon={{ type: 'font-awesome', name: 'link' }}
+                value={webchatCustomize.headerText}
+                onChangeText={value => onChangeCustomize('headerText', value)}
+              />
+            </View>
+            <TouchableOpacity style={styles.padding} onPressIn={() => setBottomColorState(true)}>
+              <Text style={styles.text}>Bottom Color</Text>
+              <ColorPickerModal
+                color={webchatCustomize.bottomColor}
+                headerText="Bottom Color"
+                isVisible={bottomColorState}
+                setIsVisible={setBottomColorState}
+                saveColor={(color: string) =>
+                  onChangeCustomize('bottomColor', color)
+                }
+              />
+              <Input
+                disabled
+                placeholder="Bottom Color"
+                leftIcon={{
+                  type: 'font-awesome',
+                  name: 'circle',
+                  color: webchatCustomize.bottomColor,
+                }}
+                value={webchatCustomize.bottomColor}
+              />
+            </TouchableOpacity>
+            <View style={styles.padding}>
+              <Text style={styles.text}>Bottom Text</Text>
+              <Input
+                placeholder="Bottom Text"
+                rightIcon={{ type: 'font-awesome', name: 'link' }}
+                value={webchatCustomize.bottomText}
+                onChangeText={value => onChangeCustomize('bottomText', value)}
+              />
+            </View>
+            <TouchableOpacity style={styles.padding} onPressIn={() => setIncomingColorState(true)}>
+              <Text style={styles.text}>Incoming Text Color</Text>
+              <ColorPickerModal
+                color={webchatCustomize.incomingTextColor}
+                headerText="Incoming Text Color"
+                isVisible={incomingColorState}
+                setIsVisible={setIncomingColorState}
+                saveColor={(color: string) =>
+                  onChangeCustomize('incomingTextColor', color)
+                }
+              />
+              <Input
+                disabled
+                placeholder="Incoming Text Color"
+                leftIcon={{
+                  type: 'font-awesome',
+                  name: 'circle',
+                  color: webchatCustomize.incomingTextColor,
+                }}
+                value={webchatCustomize.incomingTextColor}
+                testID="incomingtextColor"
+              />
+            </TouchableOpacity>
+            <View style={styles.padding}>
+              <Text style={styles.text}>Incoming Text</Text>
+              <Input
+                placeholder="Incoming Text"
+                rightIcon={{ type: 'font-awesome', name: 'link' }}
+                value={webchatCustomize.incomingText}
+                onChangeText={value => onChangeCustomize('incomingText', value)}
+              />
+            </View>
+            <TouchableOpacity style={styles.padding} onPressIn={() => setOutgoingColorState(true)}>
+              <Text style={styles.text}>Outgoing Text Color</Text>
+              <ColorPickerModal
+                color={webchatCustomize.outgoingTextColor}
+                headerText="Outgoing Text Color"
+                isVisible={outgoingColorState}
+                setIsVisible={setOutgoingColorState}
+                saveColor={(color: string) =>
+                  onChangeCustomize('outgoingTextColor', color)
+                }
+              />
+              <Input
+                disabled
+                placeholder="Outgoing Text Color"
+                leftIcon={{
+                  type: 'font-awesome',
+                  name: 'circle',
+                  color: webchatCustomize.outgoingTextColor,
+                }}
+                value={webchatCustomize.outgoingTextColor}
+              />
+            </TouchableOpacity>
+            <View style={styles.padding}>
+              <Text style={styles.text}>Outgoing Text</Text>
+              <Input
+                placeholder="Outgoing Text"
+                rightIcon={{ type: 'font-awesome', name: 'link' }}
+                value={webchatCustomize.outgoingText}
+                onChangeText={value => onChangeCustomize('outgoingText', value)}
+              />
+            </View>
+            <TouchableOpacity style={styles.padding} onPressIn={() => setMessageColorState(true)}>
+              <Text style={styles.text}>Message Color</Text>
+              <ColorPickerModal
+                color={webchatCustomize.messageColor}
+                headerText="Message Color"
+                isVisible={messageColorState}
+                setIsVisible={setMessageColorState}
+                saveColor={(color: string) =>
+                  onChangeCustomize('messageColor', color)
+                }
+              />
+              <Input
+                placeholder="Message Color"
+                leftIcon={{
+                  type: 'font-awesome',
+                  name: 'circle',
+                  color: webchatCustomize.messageColor,
+                }}
+                value={webchatCustomize.messageColor}
+                disabled
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.padding} onPressIn={() => setMessageBoxColorState(true)}>
+              <Text style={styles.text}>Message Box Color</Text>
+              <ColorPickerModal
+                color={webchatCustomize.messageBoxColor}
+                headerText="Message Box Color"
+                isVisible={messageBoxColorState}
+                setIsVisible={setMessageBoxColorState}
+                saveColor={(color: string) =>
+                  onChangeCustomize('messageBoxColor', color)
+                }
+              />
+              <Input
+                placeholder="Message Box Color"
+                leftIcon={{
+                  type: 'font-awesome',
+                  name: 'circle',
+                  color: webchatCustomize.messageBoxColor,
+                }}
+                value={webchatCustomize.messageBoxColor}
+                disabled
+              />
+            </TouchableOpacity>
+          </Card>
+          <Card style={styles.padding}>
+            <Card.Title>FREE TEXT CONFIGURATION</Card.Title>
+            <Card.Divider />
 
-          <View style={styles.padding}>
-            <Text style={styles.text}>Incoming Text Color</Text>
-            <ColorPickerModal
-              color={webchatCustomize.incomingTextColor}
-              headerText="Incoming Text Color"
-              isVisible={incomingColorState}
-              setIsVisible={setIncomingColorState}
-              saveColor={(color: string) =>
-                onChangeCustomize('incomingTextColor', color)
-              }
-            />
-            <Input
-              disabled
-              placeholder="Incoming Text Color"
-              leftIcon={{
-                type: 'font-awesome',
-                name: 'circle',
-                color: webchatCustomize.incomingTextColor,
-              }}
-              value={webchatCustomize.incomingTextColor}
-              onPressIn={() => setIncomingColorState(true)}
-              testID="incomingtextColor"
-            />
-          </View>
-          <View style={styles.padding}>
-            <Text style={styles.text}>Incoming Text</Text>
-            <Input
-              placeholder="Incoming Text"
-              rightIcon={{ type: 'font-awesome', name: 'link' }}
-              value={webchatCustomize.incomingText}
-              onChangeText={value => onChangeCustomize('incomingText', value)}
-            />
-          </View>
-
-          <View style={styles.padding}>
-            <Text style={styles.text}>Outgoing Text Color</Text>
-            <ColorPickerModal
-              color={webchatCustomize.outgoingTextColor}
-              headerText="Outgoing Text Color"
-              isVisible={outgoingColorState}
-              setIsVisible={setOutgoingColorState}
-              saveColor={(color: string) =>
-                onChangeCustomize('outgoingTextColor', color)
-              }
-            />
-            <Input
-              disabled
-              placeholder="Outgoing Text Color"
-              leftIcon={{
-                type: 'font-awesome',
-                name: 'circle',
-                color: webchatCustomize.outgoingTextColor,
-              }}
-              value={webchatCustomize.outgoingTextColor}
-              onPressIn={() => setOutgoingColorState(true)}
-            />
-          </View>
-          <View style={styles.padding}>
-            <Text style={styles.text}>Outgoing Text</Text>
-            <Input
-              placeholder="Outgoing Text"
-              rightIcon={{ type: 'font-awesome', name: 'link' }}
-              value={webchatCustomize.outgoingText}
-              onChangeText={value => onChangeCustomize('outgoingText', value)}
-            />
-          </View>
-
-          <View style={styles.padding}>
-            <Text style={styles.text}>Message Color</Text>
-            <ColorPickerModal
-              color={webchatCustomize.messageColor}
-              headerText="Message Color"
-              isVisible={messageColorState}
-              setIsVisible={setMessageColorState}
-              saveColor={(color: string) =>
-                onChangeCustomize('messageColor', color)
-              }
-            />
-            <Input
-              placeholder="Message Color"
-              leftIcon={{
-                type: 'font-awesome',
-                name: 'circle',
-                color: webchatCustomize.messageColor,
-              }}
-              value={webchatCustomize.messageColor}
-              disabled
-              onPressIn={() => setMessageColorState(true)}
-            />
-          </View>
-
-          <View style={styles.padding}>
-            <Text style={styles.text}>Message Box Color</Text>
-            <ColorPickerModal
-              color={webchatCustomize.messageBoxColor}
-              headerText="Message Box Color"
-              isVisible={messageBoxColorState}
-              setIsVisible={setMessageBoxColorState}
-              saveColor={(color: string) =>
-                onChangeCustomize('messageBoxColor', color)
-              }
-            />
-            <Input
-              placeholder="Message Box Color"
-              leftIcon={{
-                type: 'font-awesome',
-                name: 'circle',
-                color: webchatCustomize.messageBoxColor,
-              }}
-              value={webchatCustomize.messageBoxColor}
-              disabled
-              onPressIn={() => setMessageBoxColorState(true)}
-            />
-          </View>
-        </Card>
-        <Card style={styles.padding}>
-          <Card.Title>FREE TEXT CONFIGURATION</Card.Title>
-          <Card.Divider />
-
-          <View style={styles.padding}>
-            <Input
-              placeholder="FREE TEXT"
-              rightIcon={{ type: 'font-awesome', name: 'link' }}
-              value={base64State}
-              onChangeText={value => setBase64State(value)}
-            />
-            <Button
-              onPress={freeTextSave}
-              color={color_100}
-            >
-              Free Text Save
-            </Button>
-          </View>
-        </Card>
-      </ScrollView>
+            <View style={styles.padding}>
+              <Input
+                placeholder="FREE TEXT"
+                rightIcon={{ type: 'font-awesome', name: 'link' }}
+                value={base64State}
+                onChangeText={value => setBase64State(value)}
+              />
+              <Button
+                onPress={freeTextSave}
+                color={color_100}
+              >
+                Free Text Save
+              </Button>
+            </View>
+          </Card>
+        </ScrollView>
+      </KeyboardAvoidingView>
       <View
         style={{
           padding: Platform.OS === 'ios' ? 20 : 8,

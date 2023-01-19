@@ -1,37 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
   TouchableOpacity,
   View,
   StyleSheet,
+  Keyboard,
+  Platform,
 } from 'react-native';
-import {Knovvu32} from '@src/assests';
-import {Text} from '@rneui/base';
-import {useAppSelector} from '@src/utils/redux/hooks';
+import { Knovvu32 } from '@src/assests';
+import { Text } from '@rneui/base';
+import { useAppSelector } from '@src/utils/redux/hooks';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const TabBarComponent = ({state, descriptors, navigation}) => {
+const TabBarComponent = ({ state, descriptors, navigation }) => {
   const color_100 = useAppSelector(state => state.theme.color_100);
   const color_200 = useAppSelector(state => state.theme.color_200);
   const color_300 = useAppSelector(state => state.theme.color_300);
 
   const modalVisible = useAppSelector(state => state.main.modalVisible);
 
+  const [visible, setVisible] = useState<boolean>(true);
+
+  useEffect(() => {
+    let keyboardEventListeners: { remove: () => any; }[];
+    if (Platform.OS === 'android') {
+      keyboardEventListeners = [
+        Keyboard.addListener('keyboardDidShow', () => setVisible(false)),
+        Keyboard.addListener('keyboardDidHide', () => setVisible(true)),
+      ];
+    }
+    return () => {
+      if (Platform.OS === 'android') {
+        keyboardEventListeners &&
+          keyboardEventListeners.forEach((eventListener: { remove: () => any; }) => eventListener.remove());
+      }
+    };
+  }, []);
+
   const dynamicWidth =
     Dimensions.get('screen').width * (1 / state.routes?.length);
 
-  return (
-    <View style={styles(color_100).mainView}>
+  const RenderTabBarComp = () => {
+    return <View style={styles(color_100).mainView}>
       {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
+        const { options } = descriptors[route.key];
 
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
@@ -48,7 +68,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
           });
 
           if (!isFocused && !event?.defaultPrevented) {
-            navigation.navigate({name: route.name, merge: true});
+            navigation.navigate({ name: route.name, merge: true });
           }
         };
         const getIconFunc = (focused: boolean) => {
@@ -84,7 +104,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
         return (
           <TouchableOpacity
             accessibilityRole="button"
-            accessibilityState={isFocused ? {selected: true} : {}}
+            accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={route.name}
             onPress={onPress}
@@ -98,6 +118,18 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
         );
       })}
     </View>
+  }
+
+  const render = () => {
+    if (Platform.OS === 'ios') {
+      return <RenderTabBarComp />;
+    }
+    if (!visible) return null;
+    return <RenderTabBarComp />;
+  }
+
+  return (
+    render()
   );
 };
 
@@ -113,7 +145,7 @@ const styles = (prm?: any, prm2?: any, prm3?: any) =>
       flexGrow: 1,
       width: prm,
       padding: 6,
-      backgroundColor:"white"
+      backgroundColor: "white"
     },
     image: {
       width: Dimensions.get('screen').width * 0.11,

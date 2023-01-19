@@ -14,3 +14,6 @@
 }
 
 -keep class com.google.android.gms.common.** {*;}
+
+-keep class com.swmansion.reanimated.** { *; }
+-keep class com.facebook.react.turbomodule.** { *; }

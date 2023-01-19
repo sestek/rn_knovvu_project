@@ -21,7 +21,7 @@ const WebchatModal = () => {
     useEffect(() => {
         setTimeout(() => {
             dispatch(setModalVisible(modalRef?.current?.startConversation));
-        }, 2000);
+        }, 200);
     }, [webchat.url]);
 
     const audioClickFunc = () => {
