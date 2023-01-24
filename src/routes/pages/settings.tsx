@@ -1,7 +1,6 @@
 import {
   BottomSheet,
   Button,
-  ButtonGroup,
   Card,
   Input,
   ListItem,
@@ -54,13 +53,13 @@ const Settings = () => {
   const color_100 = useAppSelector(state => state.theme.color_100);
 
   const [demoProjectList, setDemoProjectList]: any = useState([
-    { key: 'DEMO_1', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_BANKACILIK_DEMO_v1.0' } },
-    { key: 'DEMO_2', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_BANKING_DEMO_v1.1' } },
-    { key: 'DEMO_3', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'AR_BANKING_DEMO_v1.0' } },
-    { key: 'DEMO_4', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_ETICARET_DEMO_v1.0' } },
-    { key: 'DEMO_5', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_PERSONAL_SHOPPER' } },
-    { key: 'DEMO_6', value: { url: 'https://nd-test-webchat.sestek.com/chathub', tenant: 'Tayfun', project: 'GocIdaresi_TR' } },
-    { key: 'DEMO_7', value: { url: 'https://unstable.web.cai.demo.sestek.com/webchat/chathub', tenant: 'Default', project: 'TR_BANKACILIK' } }
+    { key: 'DEMO_1_TR', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_BANKACILIK_DEMO_v1.0' } },
+    { key: 'DEMO_2_EN', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_BANKING_DEMO_v1.1' } },
+    { key: 'DEMO_3_AR', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'AR_BANKING_DEMO_v1.0' } },
+    { key: 'DEMO_4_TR', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_ETICARET_DEMO_v1.0' } },
+    { key: 'DEMO_5_EN', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_PERSONAL_SHOPPER' } },
+    { key: 'DEMO_6_TR', value: { url: 'https://nd-test-webchat.sestek.com/chathub', tenant: 'Tayfun', project: 'GocIdaresi_TR' } },
+    //{ key: 'DEMO_7', value: { url: 'https://unstable.web.cai.demo.sestek.com/webchat/chathub', tenant: 'Default', project: 'TR_BANKACILIK' } }
   ]);
 
   const addDemoProjectList = (demoProject: any) => {
@@ -179,8 +178,8 @@ const Settings = () => {
 
   return (
     <View style={{ flex: 1, marginTop: 8 }}>
-      <KeyboardAvoidingView keyboardVerticalOffset={120} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView>
+      <KeyboardAvoidingView keyboardVerticalOffset={Platform.OS === 'android' ? 120 : 50} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView style={{ marginBottom: 60 }}>
           <Image
             source={KnovvuMainLogo2}
             style={{ width: Dimensions.get('window').width, height: 100 }}
@@ -463,8 +462,10 @@ const Settings = () => {
       </KeyboardAvoidingView>
       <View
         style={{
-          padding: Platform.OS === 'ios' ? 20 : 8,
-          paddingBottom: Platform.OS === 'ios' ? 30 : 8,
+          backgroundColor: 'white',
+          position: 'absolute',
+          bottom: 0,
+          padding: 8,
           flexDirection: 'row',
         }}>
         <View style={{ flex: 2, paddingHorizontal: 2 }}>
