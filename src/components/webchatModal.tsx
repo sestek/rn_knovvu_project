@@ -38,6 +38,8 @@ const WebchatModal = () => {
         })
     }
 
+    console.log(webchat.customActionData)
+
     return (
         <ChatModal
             url={webchat.url}
@@ -49,6 +51,7 @@ const WebchatModal = () => {
                 projectName: webchat.project,
                 channel: 'NdaInfoBip',
                 clientId: "mobile-testing",
+                customActionData: webchat.customActionData,
             }}
             customizeConfiguration={{
                 headerColor: webchat.headerColor,

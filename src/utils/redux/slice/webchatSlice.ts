@@ -6,6 +6,7 @@ export interface WebchatState {
     url: string,
     tenant: string,
     project: string,
+    customActionData: any,
 
     headerColor: string,
     headerText: string,
@@ -30,6 +31,7 @@ const initialState: WebchatState = {
     url: "https://eu.va.knovvu.com/webchat/chathub",
     tenant: "Demo",
     project: "TR_BANKACILIK_DEMO_v1.0",
+    customActionData: "",
 
     headerColor: '#7f81ae',
     headerText: 'Knovvu Chat Client',
@@ -70,6 +72,7 @@ export const asyncSetInitialState = createAsyncThunk(
             url: "https://eu.va.knovvu.com/webchat/chathub",
             tenant: "Demo",
             project: "TR_BANKACILIK_DEMO_v1.0",
+            customActionData: "",
 
             headerColor: '#7f81ae',
             headerText: 'Knovvu Chat Client',
@@ -92,6 +95,7 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
     state.url = data.url;
     state.tenant = data.tenant;
     state.project = data.project;
+    state.customActionData = data.customActionData;
     state.headerColor = data.headerColor;
     state.headerText = data.headerText;
     state.bottomColor = data.bottomColor;
@@ -119,8 +123,9 @@ export const webchatSlice = createSlice({
         },
         setInitialState: (state) => {
             state.url = "https://eu.va.knovvu.com/webchat/chathub";
-            state.tenant = "Demo",
-            state.project = "TR_BANKACILIK_DEMO_v1.0",
+            state.tenant = "Demo";
+            state.project = "TR_BANKACILIK_DEMO_v1.0";
+            state.customActionData = "";
             state.headerColor = '#7f81ae';
             state.headerText = 'Knovvu Chat Client';
             state.bottomColor = '#7f81ae';

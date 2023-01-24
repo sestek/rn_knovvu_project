@@ -1,4 +1,5 @@
 import {
+  Badge,
   BottomSheet,
   Button,
   Card,
@@ -33,6 +34,7 @@ interface WebchatType {
   url: string;
   tenant: string;
   project: string;
+  customActionData: any;
   headerColor: string;
   headerText: string;
   bottomColor: string;
@@ -266,6 +268,15 @@ const Settings = () => {
                 ))}
               </BottomSheet>
             </View>
+            <View style={styles.padding}>
+              <Text style={styles.text}>Customer ID</Text>
+              <Input
+                placeholder="Customer ID"
+                rightIcon={{ type: 'font-awesome', name: 'link' }}
+                value={webchatCustomize.customActionData}
+                onChangeText={value => onChangeCustomize('customActionData', value)}
+              />
+            </View>
           </Card>
           <Card style={styles.padding}>
             <Card.Title>CUSTOMIZE CONFIGURATION</Card.Title>
@@ -281,17 +292,12 @@ const Settings = () => {
                   onChangeCustomize('headerColor', color)
                 }
               />
-              <Pressable onPress={() => setHeaderColorState(true)}>
-              <Input
-                disabled
-                placeholder="Header Color"
-                leftIcon={{
-                  type: 'font-awesome',
-                  name: 'circle',
-                  color: webchatCustomize.headerColor,
-                }}
-                value={webchatCustomize.headerColor}
-              />
+              <Pressable style={{ display: 'flex' }} onPress={() => setHeaderColorState(true)}>
+                <Text h4 h4Style={{ color: webchatCustomize.headerColor, fontSize: 22 }}>
+                  <Badge containerStyle={{ paddingLeft: 8, paddingTop: 8 }} badgeStyle={{ height: 24, width: 24, backgroundColor: webchatCustomize.headerColor }}></Badge>
+                  &nbsp;&nbsp;
+                  {webchatCustomize.headerColor}
+                </Text>
               </Pressable>
             </View>
             <View style={styles.padding}>
@@ -315,16 +321,11 @@ const Settings = () => {
                 }
               />
               <Pressable onPress={() => setBottomColorState(true)}>
-              <Input
-                disabled
-                placeholder="Bottom Color"
-                leftIcon={{
-                  type: 'font-awesome',
-                  name: 'circle',
-                  color: webchatCustomize.bottomColor,
-                }}
-                value={webchatCustomize.bottomColor}
-              />
+                <Text h4 h4Style={{ color: webchatCustomize.bottomColor, fontSize: 22 }}>
+                  <Badge containerStyle={{ paddingLeft: 8, paddingTop: 8 }} badgeStyle={{ height: 24, width: 24, backgroundColor: webchatCustomize.bottomColor }}></Badge>
+                  &nbsp;&nbsp;
+                  {webchatCustomize.bottomColor}
+                </Text>
               </Pressable>
             </View>
             <View style={styles.padding}>
@@ -347,18 +348,12 @@ const Settings = () => {
                   onChangeCustomize('incomingTextColor', color)
                 }
               />
-              <Pressable  onPress={() => setIncomingColorState(true)}>
-              <Input
-                disabled
-                placeholder="Incoming Text Color"
-                leftIcon={{
-                  type: 'font-awesome',
-                  name: 'circle',
-                  color: webchatCustomize.incomingTextColor,
-                }}
-                value={webchatCustomize.incomingTextColor}
-                testID="incomingtextColor"
-              />
+              <Pressable onPress={() => setIncomingColorState(true)}>
+                <Text h4 h4Style={{ color: webchatCustomize.incomingTextColor, fontSize: 22 }}>
+                  <Badge containerStyle={{ paddingLeft: 8, paddingTop: 8 }} badgeStyle={{ height: 24, width: 24, backgroundColor: webchatCustomize.incomingTextColor }}></Badge>
+                  &nbsp;&nbsp;
+                  {webchatCustomize.incomingTextColor}
+                </Text>
               </Pressable>
             </View>
             <View style={styles.padding}>
@@ -382,16 +377,11 @@ const Settings = () => {
                 }
               />
               <Pressable onPress={() => setOutgoingColorState(true)}>
-              <Input
-                disabled
-                placeholder="Outgoing Text Color"
-                leftIcon={{
-                  type: 'font-awesome',
-                  name: 'circle',
-                  color: webchatCustomize.outgoingTextColor,
-                }}
-                value={webchatCustomize.outgoingTextColor}
-              />
+                <Text h4 h4Style={{ color: webchatCustomize.outgoingTextColor, fontSize: 22 }}>
+                  <Badge containerStyle={{ paddingLeft: 8, paddingTop: 8 }} badgeStyle={{ height: 24, width: 24, backgroundColor: webchatCustomize.outgoingTextColor }}></Badge>
+                  &nbsp;&nbsp;
+                  {webchatCustomize.outgoingTextColor}
+                </Text>
               </Pressable>
             </View>
             <View style={styles.padding}>
@@ -415,16 +405,11 @@ const Settings = () => {
                 }
               />
               <Pressable onPress={() => setMessageColorState(true)}>
-              <Input
-                placeholder="Message Color"
-                leftIcon={{
-                  type: 'font-awesome',
-                  name: 'circle',
-                  color: webchatCustomize.messageColor,
-                }}
-                value={webchatCustomize.messageColor}
-                disabled
-              />
+                <Text h4 h4Style={{ color: webchatCustomize.messageColor, fontSize: 22 }}>
+                  <Badge containerStyle={{ paddingLeft: 8, paddingTop: 8 }} badgeStyle={{ height: 24, width: 24, backgroundColor: webchatCustomize.messageColor }}></Badge>
+                  &nbsp;&nbsp;
+                  {webchatCustomize.messageColor}
+                </Text>
               </Pressable>
             </View>
             <View style={styles.padding} >
@@ -439,16 +424,11 @@ const Settings = () => {
                 }
               />
               <Pressable onPress={() => setMessageBoxColorState(true)}>
-              <Input
-                placeholder="Message Box Color"
-                leftIcon={{
-                  type: 'font-awesome',
-                  name: 'circle',
-                  color: webchatCustomize.messageBoxColor,
-                }}
-                value={webchatCustomize.messageBoxColor}
-                disabled
-              />
+                <Text h4 h4Style={{ color: webchatCustomize.messageBoxColor, fontSize: 22 }}>
+                  <Badge containerStyle={{ paddingLeft: 8, paddingTop: 8 }} badgeStyle={{ height: 24, width: 24, backgroundColor: webchatCustomize.messageBoxColor }}></Badge>
+                  &nbsp;&nbsp;
+                  {webchatCustomize.messageBoxColor}
+                </Text>
               </Pressable>
             </View>
           </Card>
