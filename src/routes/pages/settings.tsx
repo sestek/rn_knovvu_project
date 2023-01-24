@@ -20,6 +20,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -269,7 +270,7 @@ const Settings = () => {
           <Card style={styles.padding}>
             <Card.Title>CUSTOMIZE CONFIGURATION</Card.Title>
             <Card.Divider />
-            <TouchableOpacity style={styles.padding} onPressIn={() => setHeaderColorState(true)}>
+            <View style={styles.padding} >
               <Text style={styles.text}>Header Color</Text>
               <ColorPickerModal
                 color={webchatCustomize.headerColor}
@@ -280,6 +281,7 @@ const Settings = () => {
                   onChangeCustomize('headerColor', color)
                 }
               />
+              <Pressable onPress={() => setHeaderColorState(true)}>
               <Input
                 disabled
                 placeholder="Header Color"
@@ -290,7 +292,8 @@ const Settings = () => {
                 }}
                 value={webchatCustomize.headerColor}
               />
-            </TouchableOpacity>
+              </Pressable>
+            </View>
             <View style={styles.padding}>
               <Text style={styles.text}>Header Text</Text>
               <Input
@@ -300,7 +303,7 @@ const Settings = () => {
                 onChangeText={value => onChangeCustomize('headerText', value)}
               />
             </View>
-            <TouchableOpacity style={styles.padding} onPressIn={() => setBottomColorState(true)}>
+            <View style={styles.padding} >
               <Text style={styles.text}>Bottom Color</Text>
               <ColorPickerModal
                 color={webchatCustomize.bottomColor}
@@ -311,6 +314,7 @@ const Settings = () => {
                   onChangeCustomize('bottomColor', color)
                 }
               />
+              <Pressable onPress={() => setBottomColorState(true)}>
               <Input
                 disabled
                 placeholder="Bottom Color"
@@ -321,7 +325,8 @@ const Settings = () => {
                 }}
                 value={webchatCustomize.bottomColor}
               />
-            </TouchableOpacity>
+              </Pressable>
+            </View>
             <View style={styles.padding}>
               <Text style={styles.text}>Bottom Text</Text>
               <Input
@@ -331,7 +336,7 @@ const Settings = () => {
                 onChangeText={value => onChangeCustomize('bottomText', value)}
               />
             </View>
-            <TouchableOpacity style={styles.padding} onPressIn={() => setIncomingColorState(true)}>
+            <View style={styles.padding}>
               <Text style={styles.text}>Incoming Text Color</Text>
               <ColorPickerModal
                 color={webchatCustomize.incomingTextColor}
@@ -342,6 +347,7 @@ const Settings = () => {
                   onChangeCustomize('incomingTextColor', color)
                 }
               />
+              <Pressable  onPress={() => setIncomingColorState(true)}>
               <Input
                 disabled
                 placeholder="Incoming Text Color"
@@ -353,7 +359,8 @@ const Settings = () => {
                 value={webchatCustomize.incomingTextColor}
                 testID="incomingtextColor"
               />
-            </TouchableOpacity>
+              </Pressable>
+            </View>
             <View style={styles.padding}>
               <Text style={styles.text}>Incoming Text</Text>
               <Input
@@ -363,7 +370,7 @@ const Settings = () => {
                 onChangeText={value => onChangeCustomize('incomingText', value)}
               />
             </View>
-            <TouchableOpacity style={styles.padding} onPressIn={() => setOutgoingColorState(true)}>
+            <View style={styles.padding} >
               <Text style={styles.text}>Outgoing Text Color</Text>
               <ColorPickerModal
                 color={webchatCustomize.outgoingTextColor}
@@ -374,6 +381,7 @@ const Settings = () => {
                   onChangeCustomize('outgoingTextColor', color)
                 }
               />
+              <Pressable onPress={() => setOutgoingColorState(true)}>
               <Input
                 disabled
                 placeholder="Outgoing Text Color"
@@ -384,7 +392,8 @@ const Settings = () => {
                 }}
                 value={webchatCustomize.outgoingTextColor}
               />
-            </TouchableOpacity>
+              </Pressable>
+            </View>
             <View style={styles.padding}>
               <Text style={styles.text}>Outgoing Text</Text>
               <Input
@@ -394,7 +403,7 @@ const Settings = () => {
                 onChangeText={value => onChangeCustomize('outgoingText', value)}
               />
             </View>
-            <TouchableOpacity style={styles.padding} onPressIn={() => setMessageColorState(true)}>
+            <View style={styles.padding} >
               <Text style={styles.text}>Message Color</Text>
               <ColorPickerModal
                 color={webchatCustomize.messageColor}
@@ -405,6 +414,7 @@ const Settings = () => {
                   onChangeCustomize('messageColor', color)
                 }
               />
+              <Pressable onPress={() => setMessageColorState(true)}>
               <Input
                 placeholder="Message Color"
                 leftIcon={{
@@ -415,8 +425,9 @@ const Settings = () => {
                 value={webchatCustomize.messageColor}
                 disabled
               />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.padding} onPressIn={() => setMessageBoxColorState(true)}>
+              </Pressable>
+            </View>
+            <View style={styles.padding} >
               <Text style={styles.text}>Message Box Color</Text>
               <ColorPickerModal
                 color={webchatCustomize.messageBoxColor}
@@ -427,6 +438,7 @@ const Settings = () => {
                   onChangeCustomize('messageBoxColor', color)
                 }
               />
+              <Pressable onPress={() => setMessageBoxColorState(true)}>
               <Input
                 placeholder="Message Box Color"
                 leftIcon={{
@@ -437,7 +449,8 @@ const Settings = () => {
                 value={webchatCustomize.messageBoxColor}
                 disabled
               />
-            </TouchableOpacity>
+              </Pressable>
+            </View>
           </Card>
           <Card style={styles.padding}>
             <Card.Title>FREE TEXT CONFIGURATION</Card.Title>
