@@ -2,13 +2,15 @@ import BusinessComponent from "@src/utils/functions/businessComponent";
 import { useAppDispatch, useAppSelector } from "@src/utils/redux/hooks";
 import { setModalVisible } from "@src/utils/redux/slice/mainSlice";
 import { CtIconEnum } from "@src/utils/types";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ChatModal, ChatModalRef } from "rn-sestek-webchat";
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Slider } from '@miblanchard/react-native-slider';
 import { WebView } from 'react-native-webview';
 import { PermissionsManager } from "@src/utils/functions/permissionsManager";
+import { WebchatManager } from "@src/utils/functions/webchatManages";
+import { Knovvu32 } from '@src/assests';
 
 const WebchatModal = () => {
     const modalRef = useRef<ChatModalRef>(null);
@@ -17,6 +19,13 @@ const WebchatModal = () => {
     const color_300 = useAppSelector(state => state.theme.color_300);
 
     const dispatch = useAppDispatch();
+
+    const [clientId, setClientId] = useState<string | undefined>();
+    useEffect(() => {
+        WebchatManager.getUniqueGuid().then((guid: string) => {
+            setClientId(guid);
+        })
+    }, []);
 
     useEffect(() => {
         setTimeout(() => {
@@ -38,7 +47,7 @@ const WebchatModal = () => {
         })
     }
 
-    console.log(webchat.customActionData)
+    console.log(clientId)
 
     return (
         <ChatModal
@@ -50,7 +59,7 @@ const WebchatModal = () => {
                 tenant: webchat.tenant,
                 projectName: webchat.project,
                 channel: 'NdaInfoBip',
-                clientId: "mobile-testing",
+                clientId: clientId,
                 customActionData: webchat.customActionData,
             }}
             customizeConfiguration={{
@@ -63,7 +72,7 @@ const WebchatModal = () => {
                 incomingIcon: { type: 'uri', value: 'https://upload.wikimedia.org/wikipedia/commons/7/70/User_icon_BLACK-01.png' },
                 incomingText: webchat.incomingText,
                 incomingTextColor: webchat.incomingTextColor,
-                //outgoingIcon: { type: 'component', value: require('./images/knovvu_logo.png') },
+                outgoingIcon: { type: 'component', value: Knovvu32 },
                 outgoingText: webchat.outgoingText,
                 outgoingTextColor: webchat.outgoingTextColor,
                 messageColor: webchat.messageColor,

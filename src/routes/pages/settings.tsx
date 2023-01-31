@@ -57,7 +57,7 @@ const Settings = () => {
 
   const [demoProjectList, setDemoProjectList]: any = useState([
     { key: 'DEMO_1_TR', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_BANKACILIK_DEMO_v1.0' } },
-    { key: 'DEMO_2_EN', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_BANKING_DEMO_v1.1' } },
+    { key: 'DEMO_2_EN', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_BANKING_DEMO_v1.4' } },
     { key: 'DEMO_3_AR', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'AR_BANKING_DEMO_v1.0' } },
     { key: 'DEMO_4_TR', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'TR_ETICARET_DEMO_v1.0' } },
     { key: 'DEMO_5_EN', value: { url: 'https://eu.va.knovvu.com/webchat/chathub', tenant: 'Demo', project: 'EN_PERSONAL_SHOPPER' } },

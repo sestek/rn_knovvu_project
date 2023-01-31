@@ -40,7 +40,7 @@ const initialState: WebchatState = {
 
     incomingText: 'Test User',
     incomingTextColor: 'black',
-    outgoingText: 'Knovvu Assistant',
+    outgoingText: 'Knovvu Virtual Agent',
     outgoingTextColor: '#7f81ae',
     messageColor: '#FCFBF7',
     messageBoxColor: '#7f81ae',
@@ -81,7 +81,7 @@ export const asyncSetInitialState = createAsyncThunk(
 
             incomingText: 'Test User',
             incomingTextColor: 'black',
-            outgoingText: 'Knovvu Assistant',
+            outgoingText: 'Knovvu Virtual Agent',
             outgoingTextColor: '#7f81ae',
             messageColor: '#FCFBF7',
             messageBoxColor: '#7f81ae',
@@ -132,7 +132,7 @@ export const webchatSlice = createSlice({
             state.bottomText = 'Input text..';
             state.incomingText = 'Test User';
             state.incomingTextColor = 'black';
-            state.outgoingText = 'Knovvu Assistant';
+            state.outgoingText = 'Knovvu Virtual Agent';
             state.outgoingTextColor = '#7f81ae';
             state.messageColor = '#FCFBF7';
             state.messageBoxColor = '#7f81ae';

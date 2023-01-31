@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BottomSheet, Button, Input, Text } from '@rneui/themed';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ColorPicker, fromHsv, toHsv } from 'react-native-color-picker';
 import { HsvColor } from 'react-native-color-picker/dist/typeHelpers';
@@ -36,25 +36,25 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({ isVi
 
     return (
         // <SafeAreaProvider>
-            <BottomSheet scrollViewProps={{ scrollEnabled: false }} modalProps={{}} isVisible={isVisible} onBackdropPress={() => setIsVisible(false)}>
-                <View style={{ flex: 1, padding: 45, backgroundColor: '#fff' }}>
-                    <Text h4 h4Style={{ textAlign: 'center' }}>{headerText}</Text>
-                    <ColorPicker
-                        oldColor={color}
-                        color={stateColor}
-                        onColorChange={color => setStateColor(color)}
-                        style={{ width: Dimensions.get('window').width - 80, height: 400 }}
-                    />
-                    <Input
-                        placeholder="Header Text"
-                        leftIcon={{ type: 'font-awesome', name: 'hashtag', size: 16 }}
-                        value={colorText?.replace("#", "")}
-                        onChangeText={changeText}
-                        testID={'adder-input'}
-                    />
-                    <Button color={"#7f81ae"} title={"SAVE"} onPress={() => { setIsVisible(false); saveColor(fromHsv(stateColor)); }} />
-                </View>
-            </BottomSheet>
+        <BottomSheet scrollViewProps={{ scrollEnabled: false }} modalProps={{}} isVisible={isVisible} onBackdropPress={() => setIsVisible(false)}>
+            <View style={{ flex: 1, padding: 45, backgroundColor: '#fff' }}>
+                <Text h4 h4Style={{ textAlign: 'center' }}>{headerText}</Text>
+                <ColorPicker
+                    oldColor={color}
+                    color={stateColor}
+                    onColorChange={color => setStateColor(color)}
+                    style={{ width: Dimensions.get('window').width - 80, height: 400 }}
+                />
+                <Input
+                    placeholder="Header Text"
+                    leftIcon={{ type: 'font-awesome', name: 'hashtag', size: 16 }}
+                    value={colorText?.replace("#", "")}
+                    onChangeText={changeText}
+                    testID={'adder-input'}
+                />
+                <Button color={"#7f81ae"} title={"SAVE"} onPress={() => { setIsVisible(false); saveColor(fromHsv(stateColor)); }} />
+            </View>
+        </BottomSheet>
         // </SafeAreaProvider>
     );
 };
