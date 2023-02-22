@@ -58,7 +58,7 @@ const WebchatModal = () => {
                 sendConversationStart: true,
                 tenant: webchat.tenant,
                 projectName: webchat.project,
-                channel: 'NdaInfoBip',
+                channel: 'Mobil',
                 clientId: clientId,
                 customActionData: webchat.customActionData,
             }}

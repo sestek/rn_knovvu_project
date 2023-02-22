@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BottomSheet, Button, Input, Text } from '@rneui/themed';
 import { Dimensions, Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ColorPicker, fromHsv, toHsv } from 'react-native-color-picker';
+import { TriangleColorPicker, fromHsv, toHsv } from 'react-native-color-picker';
 import { HsvColor } from 'react-native-color-picker/dist/typeHelpers';
 
 type ColorPickerModalProps = {
@@ -39,10 +39,10 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({ isVi
         <BottomSheet scrollViewProps={{ scrollEnabled: false }} modalProps={{}} isVisible={isVisible} onBackdropPress={() => setIsVisible(false)}>
             <View style={{ flex: 1, padding: 45, backgroundColor: '#fff' }}>
                 <Text h4 h4Style={{ textAlign: 'center' }}>{headerText}</Text>
-                <ColorPicker
+                <TriangleColorPicker
                     oldColor={color}
                     color={stateColor}
-                    onColorChange={color => setStateColor(color)}
+                    onColorChange={color => {setStateColor(color)}}
                     style={{ width: Dimensions.get('window').width - 80, height: 400 }}
                 />
                 <Input
