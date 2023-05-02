@@ -25,3 +25,5 @@ dependencies {
     implementation 'com.facebook.react:react-native:+'
     //{RNFetchBlob_PRE_0.28_DEPDENDENCY}
 }
+
+***Recomended XCode version 14.1
