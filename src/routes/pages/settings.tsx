@@ -40,7 +40,7 @@ const Settings = () => {
     // { key: "DEMO_4_TR", value: { url: "https://eu.va.knovvu.com/webchat/chathub", tenant: "Demo", project: "TR_ETICARET_DEMO_v1.0" } },
     // { key: "DEMO_5_EN", value: { url: "https://eu.va.knovvu.com/webchat/chathub", tenant: "Demo", project: "EN_PERSONAL_SHOPPER" } },
     // { key: "DEMO_6_TR", value: { url: "https://nd-test-webchat.sestek.com/chathub", tenant: "Tayfun", project: "GocIdaresi_TR" } },
-    // { key: 'DEMO_7', value: { url: 'https://unstable.web.cai.demo.sestek.com/webchat/chathub', tenant: 'Default', project: 'TR_BANKACILIK' } }
+     // { key: 'DEMO_7', value: { url: 'https://igavassistwebchat.igairport.aero:6443/chathub', tenant: 'Default', project: 'TR_BANKACILIK' } }
   ]);
 
   useEffect(() => {
