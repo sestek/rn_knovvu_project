@@ -8,7 +8,7 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import { Knovvu32 } from '@src/assests';
+import { Knovvu32,ChatGpt } from '@src/assests';
 import { Text } from '@rneui/base';
 import { useAppSelector } from '@src/utils/redux/hooks';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -84,6 +84,14 @@ const TabBarComponent = ({ state, descriptors, navigation }) => {
               : 'ios-information-circle-outline';
           } else if (route.name === 'Contact Us') {
             iconName = focused ? 'ios-mail-sharp' : 'ios-mail-outline';
+          } else if (route.name === 'ChatGpt') {
+            return (
+              <Image
+                source={ChatGpt}
+                resizeMode="stretch"
+                style={styles().image}
+              />
+            );
           } else if (route.name === 'Knovvu') {
             return (
               <Image

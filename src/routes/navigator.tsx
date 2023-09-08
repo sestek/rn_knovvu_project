@@ -12,6 +12,7 @@ import ContactUs from './pages/contactus';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Dimensions, Image, StatusBar } from 'react-native';
+import ChatGpt from './pages/chatGpt';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,7 +41,7 @@ const Navigator = () => {
         <Tab.Navigator
           tabBar={props => <TabBarComponent {...props} />}
           screenOptions={({ route }) => ({
-            title: route.name === 'Knovvu' ? '' : route.name,
+            title: route.name === 'Knovvu' ||  route.name === 'ChatGpt' ? '' : route.name,
             headerRight: () => (
               <Image
                 source={Knovvu32}
@@ -56,6 +57,7 @@ const Navigator = () => {
           <Drawer.Screen name="About" component={About} />
           {/* <Drawer.Screen name="Contact Us" component={ContactUs} /> */}
           <Drawer.Screen name="Settings" component={Settings} />
+          <Drawer.Screen name="ChatGpt" component={ChatGpt} />
           <Drawer.Screen name="Knovvu" component={KnovvuCmp} />
         </Tab.Navigator>
       </NavigationContainer>
