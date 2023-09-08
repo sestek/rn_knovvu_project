@@ -4,7 +4,7 @@
     "companyName": "sestek",
     "email": "rabia.vural@sestek.com",
     "phoneNumber": "5415835332ssss",
-    "message": "tayfun deneme"
+    "message": "sestek"
 }
 
 {
