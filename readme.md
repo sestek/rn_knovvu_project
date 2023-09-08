@@ -2,7 +2,7 @@
     "name": "test",
     "surname": "test",
     "companyName": "sestek",
-    "email": "tayfun.akgun@sestek.com",
+    "email": "rabia.vural@sestek.com",
     "phoneNumber": "5415835332ssss",
     "message": "tayfun deneme"
 }
