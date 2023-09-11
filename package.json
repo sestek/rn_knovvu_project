@@ -24,6 +24,7 @@
     "i18next": "^21.9.0",
     "lottie-ios": "^3.4.0",
     "lottie-react-native": "^5.1.4",
+    "qs": "^6.11.2",
     "react": "18.0.0",
     "react-i18next": "^11.18.3",
     "react-native": "0.69.1",

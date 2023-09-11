@@ -1,16 +1,28 @@
 import WebchatModal from '@src/components/webchatModal';
 import Navigator from '@src/routes/navigator';
-import { store } from '@src/utils/redux/store';
+import {store} from '@src/utils/redux/store';
 import * as React from 'react';
 import FlashMessage from 'react-native-flash-message';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider } from 'react-redux';
-import BackgroundGeolocation, { Subscription } from "react-native-background-geolocation";
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Provider} from 'react-redux';
+import BackgroundGeolocation, {
+  Subscription,
+} from 'react-native-background-geolocation';
+import useRequest from '@src/hooks/apiHook';
 
 export default function App() {
+  const {createPostFormUrlEncoded} = useRequest();
 
   React.useEffect(() => {
+    createPostFormUrlEncoded(
+      'https://nesibe-yilmaz-tokyo.backend-identity.test.core.devops.sestek.com.tr/connect/token',
+      {
+        client_id: 'Wagtail_Test',
+        client_secret: '1q2w3E*',
+        grant_type: 'client_credentials',
+      },
+    );
     /*
     ///* 1.  Subscribe to events.
     const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
@@ -38,9 +50,9 @@ export default function App() {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{flex: 1}}>
       <FlashMessage position="top" />
-      <SafeAreaProvider >
+      <SafeAreaProvider>
         <Provider store={store}>
           <WebchatModal />
           <Navigator />
