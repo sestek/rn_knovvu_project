@@ -33,6 +33,7 @@ import {showMessage} from 'react-native-flash-message';
 import base64 from 'react-native-base64';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface WebchatType {
   url: string;
@@ -96,65 +97,31 @@ const Settings = () => {
   }, [webchat]);
 
   useEffect(() => {
-     const apiUrl = 'https://api-gateway.sestek.com/wtIdentity'
-    const requestData = {
-      client_id: 'Wagtail_Test',
-      client_secret: '1q2w3E*',
-      grant_type: 'client_credentials',
+    const getToken = async () => {
+      const token = await AsyncStorage.getItem('token');
+      console.log('b:', token);
     };
-    const encode2 = (str) =>
-    encodeURIComponent(str)
-        .replace(/\!/g, '%21')
-        .replace(/\~/g, '%7E')
-        .replace(/\*/g, '%2A')
-        .replace(/\'/g, '%27')
-        .replace(/\(/g, '%28')
-        .replace(/\)/g, '%29');
-    const toFormUrlEncoded = data =>
-      Object.entries(data)
-        .map(
-          ([key, value]) =>
-            `${encode2(key)}=${encode2(value)}`,
-        )
-        .join('&');
-
-    const formData = toFormUrlEncoded(requestData);
-    console.log(formData)
-
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData,
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('API yanıtı:', data);
-      })
-      .catch(error => {
-        console.error('API isteği sırasında hata oluştu:', error);
-      });
-
-    
+    getToken();
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket('wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt');
+    const socket = new WebSocket(
+      'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
+    );
 
     socket.onopen = () => {
       console.log('WebSocket bağlantısı başarıyla açıldı.');
     };
 
-    socket.onmessage = (e) => {
+    socket.onmessage = e => {
       console.log('WebSocket mesajı alındı:', e.data);
     };
 
-    socket.onclose = (e) => {
+    socket.onclose = e => {
       console.log('WebSocket bağlantısı kapatıldı:', e.reason);
     };
 
-    socket.onerror = (e) => {
+    socket.onerror = e => {
       console.error('WebSocket hatası:', e.message);
     };
 

@@ -1,78 +1,43 @@
 import {useState, useEffect} from 'react';
-AsyncStorage;
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import qs from 'qs';
 
 const useRequest = () => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [loading, setloading] = useState(true);
 
-  const fetchData = (baseUrl: string) => {
-    axios
-      .get(baseUrl)
-      .then(res => {
-        setResponse(res.data);
+  const getRequestToken = async (url: string, dataBody: any) => {
+    const encode2 = str =>
+      encodeURIComponent(str)
+        .replace(/\!/g, '%21')
+        .replace(/\~/g, '%7E')
+        .replace(/\*/g, '%2A')
+        .replace(/\'/g, '%27')
+        .replace(/\(/g, '%28')
+        .replace(/\)/g, '%29');
+    const toFormUrlEncoded = data =>
+      Object.entries(data)
+        .map(([key, value]) => `${encode2(key)}=${encode2(value)}`)
+        .join('&');
+
+    const formData = toFormUrlEncoded(dataBody);
+    console.log(formData);
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(data => {
+        AsyncStorage.setItem('token', data.access_token)
+        console.log('API yanıtı:', data.access_token);
       })
-      .catch(err => {
-        setError(err);
-      })
-      .finally(() => {
-        setloading(false);
+      .catch(error => {
+        console.error('API isteği sırasında hata oluştu:', error);
       });
-  };
-
-  const createPostAxios = async (baseUrl: string, data: any) => {
-    try {
-      const response = await axios.post(baseUrl, data);
-      return 200;
-    } catch (err) {
-      return 400;
-    }
-  };
-
-  const createPostFormUrlEncoded = async (baseUrl: string, data: any) => {
-    // try {
-    //   console.log(baseUrl, data);
-    //   const response: any = await axios.post(baseUrl, data, {
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //     },
-    //   });
-
-    //   console.log('response : ', response);
-    //   await AsyncStorage.setItem('token', response.data);
-    //   console.log('Yeni gönderi oluşturuldu:', response.data);
-    // } catch (error) {
-    //   console.error('Gönderi oluşturulurken hata oluştu:', error);
-    // }
-    console.log('istek : ', baseUrl, '-', data);
-
-    axios
-      .post(
-        'https://nesibe-yilmaz-tokyo.backend-identity.test.core.devops.sestek.com.tr/connect/token',
-        qs.stringify(data),
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          // httpsAgent: new https.Agent({
-          //   rejectUnauthorized: false, // SSL sertifikası doğrulamasını devre dışı bırakma (opsiyonel)
-          //   // cert: certPath, // Sertifika yolu (varsayılan olarak yok sayabilirsiniz)
-          // }),
-        },
-      )
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(err => console.log('api Erorr: ', err.response));
-  };
-
-  const getAdvice = () => {
-    axios.get('http://api.adviceslip.com/advice/' + 5).then(response => {
-      console.log(response.data);
-    });
   };
 
   //   useEffect(() => {
@@ -84,9 +49,7 @@ const useRequest = () => {
     response,
     error,
     loading,
-    createPostAxios,
-    createPostFormUrlEncoded,
-    getAdvice,
+    getRequestToken,
   };
 };
 
