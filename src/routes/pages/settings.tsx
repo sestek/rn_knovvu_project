@@ -34,6 +34,7 @@ import base64 from 'react-native-base64';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 interface WebchatType {
   url: string;
@@ -99,35 +100,9 @@ const Settings = () => {
   useEffect(() => {
     const getToken = async () => {
       const token = await AsyncStorage.getItem('token');
-      console.log('b:', token);
+      //console.log('b:', token);
     };
     getToken();
-  }, []);
-
-  useEffect(() => {
-    const socket = new WebSocket(
-      'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
-    );
-
-    socket.onopen = () => {
-      console.log('WebSocket bağlantısı başarıyla açıldı.');
-    };
-
-    socket.onmessage = e => {
-      console.log('WebSocket mesajı alındı:', e.data);
-    };
-
-    socket.onclose = e => {
-      console.log('WebSocket bağlantısı kapatıldı:', e.reason);
-    };
-
-    socket.onerror = e => {
-      console.error('WebSocket hatası:', e.message);
-    };
-
-    return () => {
-      socket.close();
-    };
   }, []);
 
   useEffect(() => {
