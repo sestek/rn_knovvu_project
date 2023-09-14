@@ -86,23 +86,28 @@ const ChatGpt = ({navigation}) => {
             </Text>
           </Card>
         </View>
-        <View style={{marginBottom:10}}>
+        <View>
           <Card containerStyle={{borderRadius: 8}}>
             <Text>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Cupiditate, quod consectetur voluptatem praesentium asperiores
-              tenetur dolorum beatae quae nobis molestiae fugiat sequi officiis
-              nostrum tempora reprehenderit assumenda ipsum. Officiis laboriosam
-              repudiandae laudantium perferendis voluptatem eos, maiores aliquam
-              ipsum neque deleniti odit alias impedit possimus perspiciatis fuga
-              doloremque natus. Excepturi, cupiditate?
+              Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,
+              sint quo. Facere, alias possimus.
             </Text>
           </Card>
         </View>
       </ScrollView>
-
+      {true && (
+        <View style={{}}>
+          <Card containerStyle={{borderRadius: 8}}>
+            <Text>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum,
+              animi aperiam? Tenetur explicabo, nulla maxime autem error a rem
+              nemo.
+            </Text>
+          </Card>
+        </View>
+      )}
       <View style={styles.recorder}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => handleClick()}>
           <Image source={Mic} resizeMode="stretch" style={styles.mic} />
         </TouchableOpacity>
       </View>
