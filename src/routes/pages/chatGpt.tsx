@@ -40,19 +40,24 @@ const ChatGpt = ({navigation}) => {
     //webSocketStart();
 
     try {
+      let dirsFOLDER = RNFetchBlob.fs.dirs;
+      let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
+      RNFetchBlob.fs
+        .mkdir(folderPath)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+
       const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
-      console.log('dirs :', dirs);
       const path = Platform.select({
-        ios: 'sestek_bot/' + createUUID() + '.wav',
+        ios: 'sestek_bot/' + createUUID() + '.m4a',
         android: `${dirs}/${createUUID()}.wav`,
       });
-      console.log('path : ', path);
 
-      await recorder.startRecorder();
+      await recorder.startRecorder(path);
       recorder.addRecordBackListener((e: any) => {
         console.log('record : ', e.currentPosition);
         console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
-        return;
+        //return;
       });
     } catch (error) {
       console.log(error);
@@ -65,20 +70,20 @@ const ChatGpt = ({navigation}) => {
 
   const handleSend = async () => {
     const result = await recorder.stopRecorder();
-    try {
-      recorder.removeRecordBackListener();
-      const dirFile = result.split('/');
-      const data =
-        RNFetchBlob.fs.dirs.CacheDir + '/' + dirFile[dirFile.length - 1];
-      const SendData = {
-        url: result,
-        data: await RNFetchBlob.fs.readFile(data, 'base64'),
-      };
-      socket.send(SendData.data);
-      console.log(SendData.data);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   recorder.removeRecordBackListener();
+    //   const dirFile = result.split('/');
+    //   const data =
+    //     RNFetchBlob.fs.dirs.CacheDir + '/' + dirFile[dirFile.length - 1];
+    //   const SendData = {
+    //     url: result,
+    //     data: await RNFetchBlob.fs.readFile(data, 'base64'),
+    //   };
+    //   socket.send(SendData.data);
+    //   console.log(SendData.data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     //return {url: result, data: await RNFetchBlob.fs.readFile(data, 'base64')};
   };
 
