@@ -4,6 +4,7 @@ import KnovvuBackground from './knovvu_background.png';
 import KnovvuBanner from './knovvu_banner.png';
 import ChatGpt from './chatGpt.png';
 import Mic from './mic.png';
+import StopMic from './stop.png';
 
 import C_Vodafone from './customer/vodafone.png';
 import C_Avaya from './customer/avaya.png';
@@ -17,6 +18,7 @@ import C_TurkTelekom from './customer/turktelekom.png';
 import C_VakıfBank from './customer/vakifbank.png';
 
 import LottieVoice from './voice.json';
+import LottieRecord from './lottie/recorder.json';
 
 export {
   KnovvuBanner,
@@ -24,6 +26,7 @@ export {
   Knovvu32,
   KnovvuBackground,
   LottieVoice,
+  LottieRecord,
   C_Vodafone,
   C_Avaya,
   C_Five9,
@@ -36,4 +39,5 @@ export {
   C_VakıfBank,
   ChatGpt,
   Mic,
+  StopMic,
 };

@@ -9,67 +9,102 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  PermissionsAndroid,
 } from 'react-native';
-import {Mic} from '@src/assests';
+import {LottieRecord, Mic, StopMic} from '@src/assests';
 // import Recorder from '@src/service/Recorder';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'react-native-fetch-blob';
 import createUUID from '@src/utils/functions/createUUID';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Lottie from 'lottie-react-native';
+import MessageBoxBody from '@src/components/chatgpt/MessageBoxBody';
 
 const ChatGpt = ({navigation}) => {
   const recorder = new AudioRecorderPlayer();
-  const [audioData, setAudioData] = useState(null);
+  const [recordStatus, setRecordStatus] = useState(false);
   const requestToken = async () => {
     const token = await AsyncStorage.getItem('token');
     console.log('tokenımız :', token);
     return token;
   };
-  const socket = new WebSocket(
-    'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
-    {
-      headers: {
-        ['Authorization']: `Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjIwNDhENDI5NjI0QzAzRDQ3NzIyNEQyOEQ5REFDMEY3IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2OTQxNzE2MTEsImV4cCI6MTcyNTcwNzYxMSwiaXNzIjoiL2NvcmUtYmFja2VuZC1hdXRoIiwiYXVkIjoiV2FndGFpbCIsImNsaWVudF9pZCI6IldhZ3RhaWxfVGVzdCIsImlhdCI6MTY5NDE3MTYxMSwic2NvcGUiOlsiV2FndGFpbCJdfQ.rxQj4xbm7r9tFsFD-RlVxyOZKRViERryuo9biGwsLRLCdTZhoOEJuqhoS-dHoWxGsm1Tw5rwV0p9mLnDBewxm7vWsolK9N-F2y1xSxpyDG6azLuR-rGD2wlfkRTvR-T5exI3OQ4G8AQM86k3Wrw5pk2XLKc8zh-1ju1TFtblTLTX68sDChKrSZWbHvxcnilrR0Y_gINtRlSjfX1dSibMcQ-hIctQqIVHokwbTj1EfYsdsVBMn61XCXnNPN_QyNvW2o01yxILeCKgQYyetTXImUlnk-KsC_e33vU2eAXa5xjPoZ_5xjtnLE1_m0yFmZPN_2-NOdI8qXif1XTan5SHGA`,
-      },
-    },
-  );
+  // const socket = new WebSocket(
+  //   'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
+  //   {
+  //     headers: {
+  //       ['Authorization']: `Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjIwNDhENDI5NjI0QzAzRDQ3NzIyNEQyOEQ5REFDMEY3IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2OTQxNzE2MTEsImV4cCI6MTcyNTcwNzYxMSwiaXNzIjoiL2NvcmUtYmFja2VuZC1hdXRoIiwiYXVkIjoiV2FndGFpbCIsImNsaWVudF9pZCI6IldhZ3RhaWxfVGVzdCIsImlhdCI6MTY5NDE3MTYxMSwic2NvcGUiOlsiV2FndGFpbCJdfQ.rxQj4xbm7r9tFsFD-RlVxyOZKRViERryuo9biGwsLRLCdTZhoOEJuqhoS-dHoWxGsm1Tw5rwV0p9mLnDBewxm7vWsolK9N-F2y1xSxpyDG6azLuR-rGD2wlfkRTvR-T5exI3OQ4G8AQM86k3Wrw5pk2XLKc8zh-1ju1TFtblTLTX68sDChKrSZWbHvxcnilrR0Y_gINtRlSjfX1dSibMcQ-hIctQqIVHokwbTj1EfYsdsVBMn61XCXnNPN_QyNvW2o01yxILeCKgQYyetTXImUlnk-KsC_e33vU2eAXa5xjPoZ_5xjtnLE1_m0yFmZPN_2-NOdI8qXif1XTan5SHGA`,
+  //     },
+  //   },
+  // );
 
-  console.log(socket);
+  // console.log(socket);
+
+  const permission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const grants = await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        ]);
+
+        console.log('write external stroage', grants);
+
+        if (
+          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          grants['android.permission.READ_EXTERNAL_STORAGE'] ===
+            PermissionsAndroid.RESULTS.GRANTED &&
+          grants['android.permission.RECORD_AUDIO'] ===
+            PermissionsAndroid.RESULTS.GRANTED
+        ) {
+          console.log('Permissions granted');
+        } else {
+          console.log('All required permissions not granted');
+          return;
+        }
+      } catch (err) {
+        console.warn(err);
+        return;
+      }
+    }
+  };
 
   const handleRecord = async () => {
-    //webSocketStart();
+    setRecordStatus(true);
+    // permission();
+    // try {
+    //   let dirsFOLDER = RNFetchBlob.fs.dirs;
+    //   let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
+    //   RNFetchBlob.fs
+    //     .mkdir(folderPath)
+    //     .then(res => console.log(res))
+    //     .catch(err => console.log(err));
 
-    try {
-      let dirsFOLDER = RNFetchBlob.fs.dirs;
-      let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
-      RNFetchBlob.fs
-        .mkdir(folderPath)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+    //   const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
+    //   const path = Platform.select({
+    //     ios: 'sestek_bot/' + createUUID() + '.m4a',
+    //     android: `${dirs}/${createUUID()}.wav`,
+    //   });
 
-      const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
-      const path = Platform.select({
-        ios: 'sestek_bot/' + createUUID() + '.m4a',
-        android: `${dirs}/${createUUID()}.wav`,
-      });
-
-      await recorder.startRecorder(path);
-      recorder.addRecordBackListener((e: any) => {
-        console.log('record : ', e.currentPosition);
-        console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
-        //return;
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    // recorder.onStartRecord();
+    //   await recorder.startRecorder(path);
+    //   recorder.addRecordBackListener((e: any) => {
+    //     console.log('record : ', e.currentPosition);
+    //     console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
+    //     //return;
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
     // setInterval(() => {
 
     // }, 500);
   };
 
   const handleSend = async () => {
-    const result = await recorder.stopRecorder();
+    setRecordStatus(false);
+
+    //const result = await recorder.stopRecorder();
     // try {
     //   recorder.removeRecordBackListener();
     //   const dirFile = result.split('/');
@@ -87,112 +122,89 @@ const ChatGpt = ({navigation}) => {
     //return {url: result, data: await RNFetchBlob.fs.readFile(data, 'base64')};
   };
 
-  useEffect(() => {
-    try {
-      socket.onopen = (event: any) => {
-        //socket.send(JSON.stringify(apiCall));
-        console.log('Web Socket open', event);
-        socket.send(
-          JSON.stringify({
-            'message-name': 'start',
-            audio: {
-              'sample-rate': '8000',
-              'channel-count': '1',
-            },
-            ca: {
-              user_properties: {},
-            },
-            settings: {
-              channel_tags: null,
-            },
-            tenant_id: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
-          }),
-        );
-      };
-      socket.onmessage = e => {
-        console.log('WebSocket mesajı alındı:', e.data);
-      };
-      socket.onclose = e => {
-        console.log('WebSocket bağlantısı kapatıldı:', e.reason);
-      };
-      socket.onerror = e => {
-        console.error('WebSocket hatası:', e.message);
-      };
-    } catch (error) {
-      console.log(error);
-    }
-    return () => {
-      socket.close();
-    };
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     socket.onopen = (event: any) => {
+  //       //socket.send(JSON.stringify(apiCall));
+  //       console.log('Web Socket open', event);
+  //       socket.send(
+  //         JSON.stringify({
+  //           'message-name': 'start',
+  //           audio: {
+  //             'sample-rate': '8000',
+  //             'channel-count': '1',
+  //           },
+  //           ca: {
+  //             user_properties: {},
+  //           },
+  //           settings: {
+  //             channel_tags: null,
+  //           },
+  //           tenant_id: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
+  //         }),
+  //       );
+  //     };
+  //     socket.onmessage = e => {
+  //       console.log('WebSocket mesajı alındı:', e.data);
+  //     };
+  //     socket.onclose = e => {
+  //       console.log('WebSocket bağlantısı kapatıldı:', e.reason);
+  //     };
+  //     socket.onerror = e => {
+  //       console.error('WebSocket hatası:', e.message);
+  //     };
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   return () => {
+  //     socket.close();
+  //   };
+  // }, []);
 
-  const webSocketStart = async () => {
-    // const apiCall = {
-    //   event: 'bts:subscribe',
-    //   data: {channel: 'order_book_btcusd'},
-    // };
-  };
+  const [fakeMessages, setFakeMessages] = useState([
+    {
+      key: 1,
+      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
+      position: 'left',
+      type: 'message',
+    },
+    {
+      key: 2,
+      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
+      position: 'right',
+      type: 'message',
+    },
+    {
+      key: 3,
+      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
+      position: 'left',
+      type: 'message',
+    },
+    {
+      key: 4,
+      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
+      position: 'right',
+      type: 'message',
+    },
+    {
+      key: 5,
+      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
+      position: 'right',
+      type: 'message',
+    },
+    {
+      key: 6,
+      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
+      position: 'left',
+      type: 'message',
+    },
+  ]);
 
   useEffect(() => {}, []);
   return (
     <View style={styles.main}>
       <ScrollView style={styles.scroll}>
-        <View>
-          <Card containerStyle={{borderRadius: 8}}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
-              exercitationem repellendus officiis! Quod, reprehenderit!
-            </Text>
-          </Card>
-        </View>
-        <View>
-          <Card containerStyle={{borderRadius: 8}}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              sint quo. Facere, alias possimus.
-            </Text>
-          </Card>
-        </View>
-        <View>
-          <Card containerStyle={{borderRadius: 8}}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              sint quo. Facere, alias possimus.
-            </Text>
-          </Card>
-        </View>
-        <View>
-          <Card containerStyle={{borderRadius: 8}}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              sint quo. Facere, alias possimus.
-            </Text>
-          </Card>
-        </View>
-        <View>
-          <Card containerStyle={{borderRadius: 8}}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              sint quo. Facere, alias possimus.
-            </Text>
-          </Card>
-        </View>
-        <View>
-          <Card containerStyle={{borderRadius: 8}}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              sint quo. Facere, alias possimus.
-            </Text>
-          </Card>
-        </View>
-        <View>
-          <Card containerStyle={{borderRadius: 8}}>
-            <Text>
-              Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              sint quo. Facere, alias possimus.
-            </Text>
-          </Card>
-        </View>
+        <MessageBoxBody messages={fakeMessages} />
       </ScrollView>
       {true && (
         <View style={{}}>
@@ -205,16 +217,48 @@ const ChatGpt = ({navigation}) => {
           </Card>
         </View>
       )}
-      <View style={styles.recorder}>
-        <TouchableOpacity onPress={() => handleRecord()}>
-          <Image source={Mic} resizeMode="stretch" style={styles.mic} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.recorder}>
-        <TouchableOpacity onPress={() => handleSend()}>
-          <Text>Getir</Text>
-        </TouchableOpacity>
-      </View>
+      {recordStatus ? (
+        <View
+          style={{
+            display: 'flex',
+            height: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative',
+          }}>
+          <Lottie
+            source={LottieRecord}
+            speed={0.1}
+            autoPlay
+            loop
+            style={{
+              // width: Dimensions.get('screen').width,
+              height: 300,
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+              zIndex: 5,
+            }}
+          />
+          <TouchableOpacity
+            style={{zIndex: 10, position: 'absolute', bottom: 20}}
+            onPress={() => handleSend()}>
+            <Image
+              source={StopMic}
+              resizeMode="stretch"
+              style={{
+                ...styles.Stop,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.recorder}>
+          <TouchableOpacity onPress={() => handleRecord()}>
+            <Image source={Mic} resizeMode="stretch" style={styles.Mic} />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -226,16 +270,20 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     flexDirection: 'column',
-    // backgroundColor: 'red',
-    position: 'relative',
   },
   recorder: {
     alignItems: 'center',
     padding: 8,
+    height: 100,
+    justifyContent: 'center',
   },
-  mic: {
+  Mic: {
     width: Dimensions.get('screen').width * 0.11,
     height: Dimensions.get('screen').width * 0.11,
+  },
+  Stop: {
+    width: Dimensions.get('screen').width * 0.16,
+    height: Dimensions.get('screen').width * 0.16,
   },
 });
 
