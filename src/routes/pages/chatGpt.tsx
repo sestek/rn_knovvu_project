@@ -10,8 +10,10 @@ import {
   TouchableOpacity,
   Platform,
   PermissionsAndroid,
+  Modal,
+  SafeAreaView,
 } from 'react-native';
-import {LottieRecord, Mic, StopMic} from '@src/assests';
+import {Close, LottieRecord, Mic, StopMic} from '@src/assests';
 // import Recorder from '@src/service/Recorder';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'react-native-fetch-blob';
@@ -19,6 +21,7 @@ import createUUID from '@src/utils/functions/createUUID';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Lottie from 'lottie-react-native';
 import MessageBoxBody from '@src/components/chatgpt/MessageBoxBody';
+import useModalCloseStore from '../../zustandStore/store';
 
 const ChatGpt = ({navigation}) => {
   const recorder = new AudioRecorderPlayer();
@@ -200,66 +203,104 @@ const ChatGpt = ({navigation}) => {
     },
   ]);
 
-  useEffect(() => {}, []);
+  const {isModalOpen, setIsModalOpen} = useModalCloseStore();
+
+  const closeModalButton = () => {
+    setRecordStatus(false);
+    setIsModalOpen(false);
+    navigation.navigate('Home');
+  };
+
   return (
-    <View style={styles.main}>
-      <ScrollView style={styles.scroll}>
-        <MessageBoxBody messages={fakeMessages} />
-      </ScrollView>
+    <Modal
+      animationType="slide"
+      //transparent={true}
+      visible={isModalOpen}
+      // onRequestClose={() => {
+      //   Alert.alert('Modal has been closed.');
+      //   setModalVisible(!modalVisible);
+      // }}
+    >
+      <SafeAreaView style={styles.SafeArea}>
+        <View style={styles.upBar}>
+          <Text style={styles.title}>VoiceGPT</Text>
+          <TouchableOpacity onPress={closeModalButton}>
+            <Image
+              source={Close}
+              resizeMode="stretch"
+              style={{
+                ...styles.Close,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+        <ScrollView style={styles.scroll}>
+          <MessageBoxBody messages={fakeMessages} />
+        </ScrollView>
+      </SafeAreaView>
+
       {true && (
-        <View style={{}}>
-          <Card containerStyle={{borderRadius: 8}}>
+        <View
+          style={{
+            flexDirection: 'column',
+            alignItems: 'center',
+            backgroundColor: '#BEBED5',
+            height: Dimensions.get('screen').width * 0.6,
+          }}>
+          {recordStatus ? (
+            // kayıt var
+            <View
+              style={{
+                display: 'flex',
+                height: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'red',
+              }}>
+              <Lottie
+                source={LottieRecord}
+                speed={0.1}
+                autoPlay
+                loop
+                style={{
+                  // width: Dimensions.get('screen').width,
+                  height: 300,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'relative',
+                  zIndex: 5,
+                }}
+              />
+              <TouchableOpacity
+                style={{zIndex: 10, position: 'absolute', bottom: 20}}
+                onPress={() => handleSend()}>
+                <Image
+                  source={StopMic}
+                  resizeMode="stretch"
+                  style={{
+                    ...styles.Mic,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            // Bu kısım kayıt olmayan
+            <View style={styles.recorder}>
+              <TouchableOpacity onPress={() => handleRecord()}>
+                <Image source={Mic} resizeMode="stretch" style={styles.Mic} />
+              </TouchableOpacity>
+            </View>
+          )}
+          <View style={{backgroundColor: 'blue', marginTop: 10}}>
             <Text>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum,
               animi aperiam? Tenetur explicabo, nulla maxime autem error a rem
               nemo.
             </Text>
-          </Card>
+          </View>
         </View>
       )}
-      {recordStatus ? (
-        <View
-          style={{
-            display: 'flex',
-            height: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
-          }}>
-          <Lottie
-            source={LottieRecord}
-            speed={0.1}
-            autoPlay
-            loop
-            style={{
-              // width: Dimensions.get('screen').width,
-              height: 300,
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-              zIndex: 5,
-            }}
-          />
-          <TouchableOpacity
-            style={{zIndex: 10, position: 'absolute', bottom: 20}}
-            onPress={() => handleSend()}>
-            <Image
-              source={StopMic}
-              resizeMode="stretch"
-              style={{
-                ...styles.Stop,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View style={styles.recorder}>
-          <TouchableOpacity onPress={() => handleRecord()}>
-            <Image source={Mic} resizeMode="stretch" style={styles.Mic} />
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
+    </Modal>
   );
 };
 
@@ -267,23 +308,39 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
+  SafeArea: {
+    flex: 1,
+    backgroundColor: '#E9EDF0',
+  },
   scroll: {
     flex: 1,
     flexDirection: 'column',
   },
   recorder: {
     alignItems: 'center',
-    padding: 8,
-    height: 100,
+    // padding: 8,
+    paddingTop: 10,
     justifyContent: 'center',
   },
   Mic: {
-    width: Dimensions.get('screen').width * 0.11,
-    height: Dimensions.get('screen').width * 0.11,
+    width: Dimensions.get('screen').width * 0.2,
+    height: Dimensions.get('screen').width * 0.2,
   },
-  Stop: {
-    width: Dimensions.get('screen').width * 0.16,
-    height: Dimensions.get('screen').width * 0.16,
+  Close: {
+    width: Dimensions.get('screen').width * 0.05,
+    height: Dimensions.get('screen').width * 0.05,
+  },
+  title: {
+    color: '#373F48',
+    fontWeight: '500',
+    fontSize: 32,
+    lineHeight: 39,
+  },
+  upBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    alignItems: 'center',
   },
 });
 

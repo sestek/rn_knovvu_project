@@ -5,6 +5,7 @@ import KnovvuBanner from './knovvu_banner.png';
 import ChatGpt from './chatGpt.png';
 import Mic from './mic.png';
 import StopMic from './stop.png';
+import Close from './close.png';
 
 import C_Vodafone from './customer/vodafone.png';
 import C_Avaya from './customer/avaya.png';
@@ -40,4 +41,5 @@ export {
   ChatGpt,
   Mic,
   StopMic,
+  Close,
 };
