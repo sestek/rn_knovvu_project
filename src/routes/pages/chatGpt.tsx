@@ -26,6 +26,9 @@ import useModalCloseStore from '../../zustandStore/store';
 const ChatGpt = ({navigation}) => {
   const recorder = new AudioRecorderPlayer();
   const [recordStatus, setRecordStatus] = useState(false);
+  const [pancMessage, setPancMessage] = useState(
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+  );
   const requestToken = async () => {
     const token = await AsyncStorage.getItem('token');
     console.log('tokenımız :', token);
@@ -74,54 +77,73 @@ const ChatGpt = ({navigation}) => {
   };
 
   const handleRecord = async () => {
+    console.log('Kayıt Başladı');
+    permission();
     setRecordStatus(true);
-    // permission();
-    // try {
-    //   let dirsFOLDER = RNFetchBlob.fs.dirs;
-    //   let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
-    //   RNFetchBlob.fs
-    //     .mkdir(folderPath)
-    //     .then(res => console.log(res))
-    //     .catch(err => console.log(err));
+    try {
+      let dirsFOLDER = RNFetchBlob.fs.dirs;
+      let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
+      RNFetchBlob.fs
+        .mkdir(folderPath)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
 
-    //   const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
-    //   const path = Platform.select({
-    //     ios: 'sestek_bot/' + createUUID() + '.m4a',
-    //     android: `${dirs}/${createUUID()}.wav`,
-    //   });
-
-    //   await recorder.startRecorder(path);
-    //   recorder.addRecordBackListener((e: any) => {
-    //     console.log('record : ', e.currentPosition);
-    //     console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
-    //     //return;
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
+      const path = Platform.select({
+        ios: 'sestek_bot/' + createUUID() + '.m4a',
+        android: `${dirs}/${createUUID()}.wav`,
+      });
+      console.log(dirs);
+      console.log(path);
+      await recorder.startRecorder(path);
+      recorder.addRecordBackListener((e: any) => {
+        console.log('record : ', e.currentPosition);
+        console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
+        //return;
+      });
+    } catch (error) {
+      console.log(error);
+    }
     // setInterval(() => {
 
     // }, 500);
   };
 
   const handleSend = async () => {
+    console.log('ses gönderiliyor');
+    const result = await recorder.stopRecorder();
+    recorder.removeRecordBackListener();
+    console.log('removed back listener');
     setRecordStatus(false);
-
-    //const result = await recorder.stopRecorder();
-    // try {
-    //   recorder.removeRecordBackListener();
-    //   const dirFile = result.split('/');
-    //   const data =
-    //     RNFetchBlob.fs.dirs.CacheDir + '/' + dirFile[dirFile.length - 1];
-    //   const SendData = {
-    //     url: result,
-    //     data: await RNFetchBlob.fs.readFile(data, 'base64'),
-    //   };
-    //   socket.send(SendData.data);
-    //   console.log(SendData.data);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      // const dirFile = result.split('/');
+      // const data =
+      //   RNFetchBlob.fs.dirs.CacheDir +
+      //   '/sestek_bot' +
+      //   dirFile[dirFile.length - 1];
+      // const SendData = {
+      //   url: result,
+      //   data: await RNFetchBlob.fs.readFile(data, 'base64'),
+      // };
+      // //socket.send(SendData.data);
+      // fetch('https://e1f7-176-88-223-122.ngrok.io/base64-aac-to-wav', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'text/plain',
+      //   },
+      //   body: SendData.data,
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log('API yanıtı:', data.access_token);
+      //   })
+      //   .catch(error => {
+      //     console.error('API isteği sırasında hata oluştu:', error);
+      //   });
+      // console.log(SendData.data);
+    } catch (error) {
+      console.log(error);
+    }
     //return {url: result, data: await RNFetchBlob.fs.readFile(data, 'base64')};
   };
 
@@ -167,38 +189,34 @@ const ChatGpt = ({navigation}) => {
   const [fakeMessages, setFakeMessages] = useState([
     {
       key: 1,
-      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
-      position: 'left',
+      value: `Hello
+      I want to know bla
+      bla bla?`,
+      position: 'right',
       type: 'message',
     },
     {
       key: 2,
-      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
-      position: 'right',
+      value: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.`,
+      position: 'left',
       type: 'message',
     },
     {
       key: 3,
-      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
-      position: 'left',
+      value: `The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using it.`,
+      position: 'right',
       type: 'message',
     },
     {
       key: 4,
-      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
-      position: 'right',
+      value: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.`,
+      position: 'left',
       type: 'message',
     },
     {
       key: 5,
-      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
+      value: `The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using it.`,
       position: 'right',
-      type: 'message',
-    },
-    {
-      key: 6,
-      value: `Tayfunnn ipsum dolor sit amet consectetur adipisicing elit. Quos,sint quo. Facere, alias possimus.`,
-      position: 'left',
       type: 'message',
     },
   ]);
@@ -239,67 +257,72 @@ const ChatGpt = ({navigation}) => {
         </ScrollView>
       </SafeAreaView>
 
-      {true && (
-        <View
-          style={{
-            flexDirection: 'column',
-            alignItems: 'center',
-            backgroundColor: '#BEBED5',
-            height: Dimensions.get('screen').width * 0.6,
-          }}>
-          {recordStatus ? (
-            // kayıt var
-            <View
+      <View
+        style={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#BEBED5',
+          height: pancMessage
+            ? Dimensions.get('screen').width * 0.6
+            : Dimensions.get('screen').width * 0.4,
+        }}>
+        {recordStatus ? (
+          // kayıt var
+          <View
+            style={{
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+            }}>
+            <Lottie
+              source={LottieRecord}
+              speed={0.1}
+              autoPlay
+              loop
               style={{
-                display: 'flex',
-                height: 100,
+                // width: Dimensions.get('screen').width,
+                height: 300,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'red',
-              }}>
-              <Lottie
-                source={LottieRecord}
-                speed={0.1}
-                autoPlay
-                loop
+                position: 'relative',
+                zIndex: 5,
+              }}
+            />
+            <TouchableOpacity
+              style={{zIndex: 10, position: 'absolute'}}
+              onPress={() => handleSend()}>
+              <Image
+                source={StopMic}
+                resizeMode="stretch"
                 style={{
-                  // width: Dimensions.get('screen').width,
-                  height: 300,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  position: 'relative',
-                  zIndex: 5,
+                  ...styles.Mic,
                 }}
               />
-              <TouchableOpacity
-                style={{zIndex: 10, position: 'absolute', bottom: 20}}
-                onPress={() => handleSend()}>
-                <Image
-                  source={StopMic}
-                  resizeMode="stretch"
-                  style={{
-                    ...styles.Mic,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          ) : (
-            // Bu kısım kayıt olmayan
-            <View style={styles.recorder}>
-              <TouchableOpacity onPress={() => handleRecord()}>
-                <Image source={Mic} resizeMode="stretch" style={styles.Mic} />
-              </TouchableOpacity>
-            </View>
-          )}
-          <View style={{backgroundColor: 'blue', marginTop: 10}}>
-            <Text>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum,
-              animi aperiam? Tenetur explicabo, nulla maxime autem error a rem
-              nemo.
-            </Text>
+            </TouchableOpacity>
           </View>
-        </View>
-      )}
+        ) : (
+          // Bu kısım kayıt olmayan
+          <View style={styles.recorder}>
+            <TouchableOpacity onPress={() => handleRecord()}>
+              <Image source={Mic} resizeMode="stretch" style={styles.Mic} />
+            </TouchableOpacity>
+          </View>
+        )}
+        {pancMessage && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'flex-start',
+              alignContent: 'center',
+              padding: 10,
+            }}>
+            <Text style={styles.pancMessage}>{pancMessage}</Text>
+          </View>
+        )}
+      </View>
     </Modal>
   );
 };
@@ -318,8 +341,7 @@ const styles = StyleSheet.create({
   },
   recorder: {
     alignItems: 'center',
-    // padding: 8,
-    paddingTop: 10,
+    flex: 1,
     justifyContent: 'center',
   },
   Mic: {
@@ -341,6 +363,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 15,
     alignItems: 'center',
+  },
+  pancMessage: {
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 17,
+    textAlign: 'center',
+    color: '#181C2A',
   },
 });
 

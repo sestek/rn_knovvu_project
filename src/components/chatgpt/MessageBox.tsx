@@ -12,10 +12,21 @@ interface MessageItem {
 }
 
 const MessageBox: React.FC<MessageItem> = ({value, position, type}) => {
-  const renderItemMessage = () => {
+  const renderItemCode = () => {
     return (
       <View style={styles.messageContainerContent}>
         <Markdown styles={styles.rceMboxText}>{value}</Markdown>
+      </View>
+    );
+  };
+  const renderItemMessage = () => {
+    return (
+      <View style={{...styles.messageContainerContent}}>
+        <Text style={styles.itemText(position)}>{value}</Text>
+        {/* <View
+          style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+          <Text style={styles.itemText(position)}>{value}</Text>
+        </View> */}
       </View>
     );
   };
@@ -29,27 +40,24 @@ const MessageBox: React.FC<MessageItem> = ({value, position, type}) => {
 
 const styles = StyleSheet.create({
   messageContainer: (position: any) => ({
-    width: Dimensions.get('window').width / 1.3,
+    width: Dimensions.get('window').width / 1.45,
     alignSelf: position === 'left' ? 'flex-start' : 'flex-end',
   }),
   messageContainerContent: {
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-
-    elevation: 8,
-    backgroundColor: 'white',
     margin: 10,
     padding: 10,
   },
   rceMboxText: {
-    fontSize: 13.6,
+    fontSize: 16.6,
   },
+  itemText: (position: any) => ({
+    fontSize: 16,
+    fontWeight: position === 'left' ? '400' : '500',
+    lineHeight: 19.5,
+    color: position === 'left' ? '#373F48' : '#EC008C',
+    textAlign: position === 'left' ? 'left' : 'right',
+  }),
 });
 
 export default MessageBox;
