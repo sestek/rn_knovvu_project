@@ -1,5 +1,6 @@
-import {Button, Card, Text} from '@rneui/base';
-import {useAppSelector} from '@src/utils/redux/hooks';
+// < ----------------  import ------------- >
+
+import {Text} from '@rneui/base';
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -8,174 +9,28 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
-  Platform,
-  PermissionsAndroid,
   Modal,
   SafeAreaView,
 } from 'react-native';
 import {Close, LottieRecord, Mic, StopMic} from '@src/assests';
-// import Recorder from '@src/service/Recorder';
-import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-import RNFetchBlob from 'react-native-fetch-blob';
-import createUUID from '@src/utils/functions/createUUID';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Lottie from 'lottie-react-native';
 import MessageBoxBody from '@src/components/chatgpt/MessageBoxBody';
 import useModalCloseStore from '../../zustandStore/store';
-import {decode, encode} from 'base-64';
-// import {decode, encode} from 'base64-js';
-import {Buffer} from 'buffer';
+import Recorder from '@src/service/Recorder';
+import CustomWebSocket from '@src/service/CustomWebsocket';
+import Uint8ArrayFromBase64 from '@src/utils/functions/unit8ArrayFunc';
+import PermissionCheck from '@src/utils/functions/permission';
 
-const recorder = new AudioRecorderPlayer();
+// < ------------------------  finish ---------------------- >
+
+// < ----------------  create socket and audio ------------- >
+const recorder = new Recorder();
+const socket = new CustomWebSocket();
+// < ------------------------  finish ---------------------- >
 
 const ChatGpt = ({navigation}) => {
-  const [recordStatus, setRecordStatus] = useState(false);
-  const [pancMessage, setPancMessage] = useState(
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  );
-  const requestToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    console.log('tokenımız :', token);
-    return token;
-  };
-  const socket = new WebSocket(
-    'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
-  );
-  socket.onopen = (event: any) => {
-    console.log('Web Socket open', event);
-    socket.send(
-      JSON.stringify({
-        'message-name': 'start',
-        audio: {
-          'sample-rate': '8000',
-          'channel-count': '1',
-        },
-        ca: {
-          user_properties: {},
-        },
-        settings: {
-          channel_tags: null,
-        },
-        tenant_id: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
-      }),
-    );
-  };
-  socket.onmessage = e => {
-    console.log('Mesaj:', e.data);
-  };
-  socket.onclose = e => {
-    console.log('WebSocket bağlantısı kapatıldı:', e.reason);
-  };
-  socket.onerror = e => {
-    console.error('WebSocket hatası:', e.message);
-  };
-
-  const permission = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const grants = await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        ]);
-
-        console.log('write external stroage', grants);
-
-        if (
-          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
-            PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.READ_EXTERNAL_STORAGE'] ===
-            PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.RECORD_AUDIO'] ===
-            PermissionsAndroid.RESULTS.GRANTED
-        ) {
-          console.log('Permissions granted');
-        } else {
-          console.log('All required permissions not granted');
-          return;
-        }
-      } catch (err) {
-        console.warn(err);
-        return;
-      }
-    }
-  };
-
-  const Uint8ArrayFromBase64 = async (value: any) => {
-    const binaryString = decode(value);
-    //console.log('rif:', binaryString);
-    const uint8Array = new Uint8Array(binaryString.length);
-
-    for (let i = 0; i < binaryString.length; i++) {
-      uint8Array[i] = binaryString.charCodeAt(i);
-    }
-
-    return uint8Array;
-  };
-
-  const handleSend = async () => {
-    try {
-      await recorder.stopRecorder();
-      recorder.removeRecordBackListener();
-      setRecordStatus(false);
-      const soundPath = Platform.select({
-        ios: RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot/sound.m4a',
-        android: RNFetchBlob.fs.dirs.CacheDir + `/sound.mp3`,
-      });
-
-      if (soundPath) {
-        console.log('sound path : ', soundPath);
-        const audioToBase64 = await RNFetchBlob.fs.readFile(
-          soundPath,
-          'base64',
-        );
-        let myBase64 = '';
-        fetch('https://api-gateway.sestek.com/base64-aac-to-wav', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain',
-          },
-          body: audioToBase64,
-        })
-          .then(response => response.text())
-          .then(data => {
-            myBase64 = data;
-          })
-          .catch(error => {
-            console.error('API isteği sırasında hata oluştu:', error);
-          });
-        
-        const convertedAudio = await Uint8ArrayFromBase64(myBase64);
-        //console.log(convertedAudio.toString());
-        console.log('gönderiliyor !');
-        socket.send(
-          JSON.stringify({
-            'message-name': 'start',
-            audio: {
-              'sample-rate': '8000',
-              'channel-count': '1',
-            },
-            ca: {
-              user_properties: {},
-            },
-            settings: {
-              channel_tags: null,
-            },
-            tenant_id: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
-          }),
-        );
-        socket.send(convertedAudio);
-      }
-
-      // ----------------------
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
- 
- 
-
+  // < ----------------  MessageList and panc Message ------------- >
   const [fakeMessages, setFakeMessages] = useState([
     {
       key: 1,
@@ -210,31 +65,94 @@ const ChatGpt = ({navigation}) => {
       type: 'message',
     },
   ]);
+  const [pancMessage, setPancMessage] = useState('');
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Socket Operation ---------------------- >
+
+  socket.websocket.onmessage = e => {
+    console.log('Mesaj:', e.data);
+  };
+  socket.websocket.onclose = e => {
+    console.log('socket bağlantısı kapatıldı:', e.reason);
+  };
+  socket.websocket.onerror = e => {
+    console.error('socket hatası:', e.message);
+  };
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Token  ---------------------- >
+
+  const requestToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    console.log('tokenımız :', token);
+    return token;
+  };
+
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Modal Control  ---------------------- >
 
   const {isModalOpen, setIsModalOpen} = useModalCloseStore();
-
   const closeModalButton = () => {
     setRecordStatus(false);
     setIsModalOpen(false);
     navigation.navigate('Home');
   };
-  const sendAudioToSocket = async () => {
-    // console.log("socket",socket)
+
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------ State Base  ---------------------- >
+
+  const [recordStatus, setRecordStatus] = useState(false);
+
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Stop Record Button ---------------------- >
+
+  const handleSend = async () => {
     try {
-      await recorder.stopRecorder();
-      recorder.removeRecordBackListener();
+      await recorder.onStopRecord();
+      // o an ki gönderilecek
       setRecordStatus(false);
-  
-      const soundPath = Platform.select({
-        ios: RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot/sound.m4a',
-        android: RNFetchBlob.fs.dirs.CacheDir + '/sound.mp3',
-      });
-  
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Start Record Button ---------------------- >
+
+  const handleRecord = async () => {
+    console.log('Kayıt Başladı');
+    PermissionCheck();
+    setRecordStatus(true);
+    await recorder.onStartRecord();
+    try {
+      setTimeout(() => {
+        sendAudioToSocket();
+      }, 4000);
+      // setInterval(() => {
+
+      // }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Socket send Audio ---------------------- >
+
+  const sendAudioToSocket = async () => {
+    try {
+      const soundPath = await recorder.onStopRecord();
+
       if (soundPath) {
         console.log('sound path:', soundPath);
-        const audioToBase64 = await RNFetchBlob.fs.readFile(soundPath, 'base64');
-  
-        // Base64 sesi dönüştür
+        const audioToBase64 = await recorder.recordToBase64(soundPath);
+
         let myBase64 = '';
         await fetch('https://api-gateway.sestek.com/base64-aac-to-wav', {
           method: 'POST',
@@ -250,64 +168,20 @@ const ChatGpt = ({navigation}) => {
           .catch(error => {
             console.error('API isteği sırasında hata oluştu:', error);
           });
-  
-        // Base64'ü Uint8Array'a dönüştür
         const convertedAudio = await Uint8ArrayFromBase64(myBase64);
-        // console.log("myBase64",myBase64)
         console.log('Gönderiliyor...');
-        socket.send(convertedAudio);
+        socket.websocket.send(convertedAudio);
+        //await recorder.onStartRecord();
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const handleRecord = async () => {
-    console.log('Kayıt Başladı');
-    permission();
-    setRecordStatus(true);
-  
-    try {
-      let dirsFOLDER = RNFetchBlob.fs.dirs;
-      let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
-      RNFetchBlob.fs
-        .mkdir(folderPath)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-  
-      const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
-      const path = Platform.select({
-        ios: 'sestek_bot/' + 'sound' + '.m4a',
-        android: `${dirs}/sound.mp3`,
-      });
-  
-      console.log(dirs);
-      console.log(path);
-      await recorder.startRecorder(path);
-  
-      recorder.addRecordBackListener((e: any) => {
-        console.log('record : ', e.currentPosition);
-        console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
-      });
-  
-      // Ses kaydı bittiğinde otomatik olarak sokete gönder
-      setTimeout(() => {
-        sendAudioToSocket();
-      }, 5000); // Örneğin 5 saniye sonra gönderilebilir, bu süreyi ayarlayabilirsiniz.
-    } catch (error) {
-      console.log(error);
-    }
-  };
-    
+
+  // < ------------------------  finish ---------------------- >
+
   return (
-    <Modal
-      animationType="slide"
-      //transparent={true}
-      visible={isModalOpen}
-      // onRequestClose={() => {
-      //   Alert.alert('Modal has been closed.');
-      //   setModalVisible(!modalVisible);
-      // }}
-    >
+    <Modal animationType="slide" visible={isModalOpen}>
       <SafeAreaView style={styles.SafeArea}>
         <View style={styles.upBar}>
           <Text style={styles.title}>VoiceGPT</Text>
@@ -396,6 +270,8 @@ const ChatGpt = ({navigation}) => {
   );
 };
 
+// < ------------------------  Style---------------------- >
+
 const styles = StyleSheet.create({
   main: {
     flex: 1,
@@ -441,5 +317,7 @@ const styles = StyleSheet.create({
     color: '#181C2A',
   },
 });
+
+// < ------------------------  finish ---------------------- >
 
 export default ChatGpt;

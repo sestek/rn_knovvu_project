@@ -10,85 +10,49 @@ class Recorder {
   currentDurationSec: number = 0;
   playTime: string = '';
   duration: string = '';
+  recorderBase: AudioRecorderPlayer;
 
-  constructor() {}
-
-  listening = async () => {
-    const recorder = new AudioRecorderPlayer();
-    const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot_audio';
-    const path = Platform.select({
-      ios: 'sestek_bot_audio/' + createUUID() + '.wav',
-      android: `${dirs}/${createUUID()}.wav`,
-    });
-    await recorder.startRecorder(path).then(result => {
-      if (result) {
-        console.log(result);
-      }
-    });
-    // AudioRecorderPlayer.addRecordBackListener((e: any) => {
-    //   this.recordSecs = e.currentPosition;
-    //   this.recordTime = AudioRecorderPlayer.mmssss(
-    //     Math.floor(e.currentPosition),
-    //   );
-    //   return;
-    // });
-  };
+  constructor() {
+    this.recorderBase = new AudioRecorderPlayer();
+    let dirsFOLDER = RNFetchBlob.fs.dirs;
+    let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
+    RNFetchBlob.fs
+      .mkdir(folderPath)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
 
   onStartRecord = async () => {
-    const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot_audio';
+    const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
     const path = Platform.select({
-      ios: 'sestek_bot_audio/' + createUUID() + '.wav',
-      android: `${dirs}/${createUUID()}.wav`,
+      ios: 'sestek_bot/' + 'sound' + '.m4a',
+      android: `${dirs}/sound.mp3`,
     });
-    await AudioRecorderPlayer.startRecorder(path);
-    AudioRecorderPlayer.addRecordBackListener((e: any) => {
-      this.recordSecs = e.currentPosition;
-      this.recordTime = AudioRecorderPlayer.mmssss(
-        Math.floor(e.currentPosition),
+    console.log(path);
+    await this.recorderBase.startRecorder(path);
+    this.recorderBase.addRecordBackListener((e: any) => {
+      console.log('record : ', e.currentPosition);
+      console.log(
+        'ms : ',
+        this.recorderBase.mmssss(Math.floor(e.currentPosition)),
       );
-      return;
     });
-  };
-
-  saveLocalFileAudio = (data: string) => {
-    const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot_audio';
-    const path = `${dirs}/${createUUID()}.wav`;
-    RNFetchBlob.fs.createFile(path, data, 'base64').then((res: any) => {});
-    return path;
   };
 
   onStopRecord = async () => {
-    const result = await AudioRecorderPlayer.stopRecorder();
-    AudioRecorderPlayer.removeRecordBackListener();
-    this.recordSecs = 0;
-    const dirFile = result.split('/');
-    const data =
-      RNFetchBlob.fs.dirs.CacheDir +
-      '/sestek_bot_audio' +
-      '/' +
-      dirFile[dirFile.length - 1];
-    return {url: result, data: await RNFetchBlob.fs.readFile(data, 'base64')};
-  };
-
-  onStartPlay = async (urlData?: string) => {
-    const msg = await AudioRecorderPlayer.startPlayer(urlData);
-    AudioRecorderPlayer.addPlayBackListener((e: any) => {
-      this.currentPositionSec = e.currentPosition;
-      this.currentDurationSec = e.duration;
-      this.playTime = AudioRecorderPlayer.mmssss(Math.floor(e.currentPosition));
-      this.duration = AudioRecorderPlayer.mmssss(Math.floor(e.duration));
-      return;
+    await this.recorderBase.stopRecorder();
+    this.recorderBase.removeRecordBackListener();
+    const soundPath = Platform.select({
+      ios: RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot/sound.m4a',
+      android: RNFetchBlob.fs.dirs.CacheDir + `/sound.mp3`,
     });
+    console.log('stop');
+    return soundPath;
   };
 
-  onPausePlay = async () => {
-    await AudioRecorderPlayer.pausePlayer();
-  };
-
-  onStopPlay = async () => {
-    console.log('onStopPlay');
-    AudioRecorderPlayer.stopPlayer();
-    AudioRecorderPlayer.removePlayBackListener();
+  recordToBase64 = async (soundPath: any) => {
+    const audioToBase64 = await RNFetchBlob.fs.readFile(soundPath, 'base64');
+    return audioToBase64;
   };
 }
 
