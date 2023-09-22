@@ -38,21 +38,37 @@ const ChatGpt = ({navigation}) => {
     console.log('tokenımız :', token);
     return token;
   };
-  // const socket = new WebSocket(
-  //   'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
-  //   {
-  //     headers: {
-  //       ['Authorization']: `Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjIwNDhENDI5NjI0QzAzRDQ3NzIyNEQyOEQ5REFDMEY3IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2OTQxNzE2MTEsImV4cCI6MTcyNTcwNzYxMSwiaXNzIjoiL2NvcmUtYmFja2VuZC1hdXRoIiwiYXVkIjoiV2FndGFpbCIsImNsaWVudF9pZCI6IldhZ3RhaWxfVGVzdCIsImlhdCI6MTY5NDE3MTYxMSwic2NvcGUiOlsiV2FndGFpbCJdfQ.rxQj4xbm7r9tFsFD-RlVxyOZKRViERryuo9biGwsLRLCdTZhoOEJuqhoS-dHoWxGsm1Tw5rwV0p9mLnDBewxm7vWsolK9N-F2y1xSxpyDG6azLuR-rGD2wlfkRTvR-T5exI3OQ4G8AQM86k3Wrw5pk2XLKc8zh-1ju1TFtblTLTX68sDChKrSZWbHvxcnilrR0Y_gINtRlSjfX1dSibMcQ-hIctQqIVHokwbTj1EfYsdsVBMn61XCXnNPN_QyNvW2o01yxILeCKgQYyetTXImUlnk-KsC_e33vU2eAXa5xjPoZ_5xjtnLE1_m0yFmZPN_2-NOdI8qXif1XTan5SHGA`,
-  //       ['tenant']: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
-  //     },
-  //   },
-  // );
-
   const socket = new WebSocket(
     'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
   );
-
-  //const socket = new WebSocket('wss://ws.bitstamp.net');
+  socket.onopen = (event: any) => {
+    console.log('Web Socket open', event);
+    socket.send(
+      JSON.stringify({
+        'message-name': 'start',
+        audio: {
+          'sample-rate': '8000',
+          'channel-count': '1',
+        },
+        ca: {
+          user_properties: {},
+        },
+        settings: {
+          channel_tags: null,
+        },
+        tenant_id: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
+      }),
+    );
+  };
+  socket.onmessage = e => {
+    console.log('Mesaj:', e.data);
+  };
+  socket.onclose = e => {
+    console.log('WebSocket bağlantısı kapatıldı:', e.reason);
+  };
+  socket.onerror = e => {
+    console.error('WebSocket hatası:', e.message);
+  };
 
   const permission = async () => {
     if (Platform.OS === 'android') {
@@ -85,72 +101,6 @@ const ChatGpt = ({navigation}) => {
     }
   };
 
-  const handleRecord = async () => {
-    console.log('Kayıt Başladı');
-    permission();
-    setRecordStatus(true);
-    try {
-      let dirsFOLDER = RNFetchBlob.fs.dirs;
-      let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
-      RNFetchBlob.fs
-        .mkdir(folderPath)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-
-      const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
-      // const path = Platform.select({
-      //   ios: 'sestek_bot/' + createUUID() + '.m4a',
-      //   android: `${dirs}/${createUUID()}.wav`,
-      // });
-      const path = Platform.select({
-        ios: 'sestek_bot/' + 'sound' + '.m4a',
-        android: `${dirs}/sound.mp3`,
-      });
-      console.log(dirs);
-      console.log(path);
-      await recorder.startRecorder(path);
-      recorder.addRecordBackListener((e: any) => {
-        console.log('record : ', e.currentPosition);
-        console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
-        //return;
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    // setInterval(() => {
-
-    // }, 500);
-  };
-
-  const atob = (input: string) => {
-    const chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-    let str = input.replace(/=+$/, '');
-    let output = '';
-
-    if (str.length % 4 == 1) {
-      throw new Error(
-        "'atob' failed: The string to be decoded is not correctly encoded.",
-      );
-    }
-    for (
-      let bc = 0, bs = 0, buffer, i = 0;
-      (buffer = str.charAt(i++));
-      ~buffer && ((bs = bc % 4 ? bs * 64 + buffer : buffer), bc++ % 4)
-        ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
-        : 0
-    ) {
-      buffer = chars.indexOf(buffer);
-    }
-
-    return output;
-  };
-
-  // const Uint8ArrayFromBase64 = async (base64: any) => {
-  //   return Uint8Array.from(atob(base64), v => v.charCodeAt(0));
-  // };
-
   const Uint8ArrayFromBase64 = async (value: any) => {
     const binaryString = decode(value);
     //console.log('rif:', binaryString);
@@ -168,27 +118,6 @@ const ChatGpt = ({navigation}) => {
       await recorder.stopRecorder();
       recorder.removeRecordBackListener();
       setRecordStatus(false);
-      // ----------------------
-      // const dirFile = result.split('/');
-      // const data =
-      //   RNFetchBlob.fs.dirs.CacheDir +
-      //   '/sestek_bot/' +
-      //   dirFile[dirFile.length - 1];
-      // console.log('eski data : ', data);
-      // const SendData = {
-      //   url: result,
-      //   data: await RNFetchBlob.fs.readFile(data, 'base64'),
-      // };
-      // console.log(SendData);
-      // ----------------------
-      // socket.send(
-      //   JSON.stringify({
-      //     event: 'bts:subscribe',
-      //     data: {channel: 'order_book_btcusd'},
-      //   }),
-      // );
-      // ----------------------
-
       const soundPath = Platform.select({
         ios: RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot/sound.m4a',
         android: RNFetchBlob.fs.dirs.CacheDir + `/sound.mp3`,
@@ -242,41 +171,10 @@ const ChatGpt = ({navigation}) => {
     } catch (error) {
       console.log(error);
     }
-    //return {url: result, data: await RNFetchBlob.fs.readFile(data, 'base64')};
   };
 
-  socket.onmessage = e => {
-    console.log('Mesaj:', e.data);
-  };
-  socket.onclose = e => {
-    console.log('WebSocket bağlantısı kapatıldı:', e.reason);
-  };
-  socket.onerror = e => {
-    console.error('WebSocket hatası:', e.message);
-  };
-
-  useEffect(() => {
-    socket.onopen = (event: any) => {
-      //socket.send(JSON.stringify(apiCall));
-      console.log('Web Socket open', event);
-      socket.send(
-        JSON.stringify({
-          'message-name': 'start',
-          audio: {
-            'sample-rate': '8000',
-            'channel-count': '1',
-          },
-          ca: {
-            user_properties: {},
-          },
-          settings: {
-            channel_tags: null,
-          },
-          tenant_id: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
-        }),
-      );
-    };
-  }, []);
+ 
+ 
 
   const [fakeMessages, setFakeMessages] = useState([
     {
@@ -320,7 +218,86 @@ const ChatGpt = ({navigation}) => {
     setIsModalOpen(false);
     navigation.navigate('Home');
   };
-
+  const sendAudioToSocket = async () => {
+    // console.log("socket",socket)
+    try {
+      await recorder.stopRecorder();
+      recorder.removeRecordBackListener();
+      setRecordStatus(false);
+  
+      const soundPath = Platform.select({
+        ios: RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot/sound.m4a',
+        android: RNFetchBlob.fs.dirs.CacheDir + '/sound.mp3',
+      });
+  
+      if (soundPath) {
+        console.log('sound path:', soundPath);
+        const audioToBase64 = await RNFetchBlob.fs.readFile(soundPath, 'base64');
+  
+        // Base64 sesi dönüştür
+        let myBase64 = '';
+        await fetch('https://api-gateway.sestek.com/base64-aac-to-wav', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          body: audioToBase64,
+        })
+          .then(response => response.text())
+          .then(data => {
+            myBase64 = data;
+          })
+          .catch(error => {
+            console.error('API isteği sırasında hata oluştu:', error);
+          });
+  
+        // Base64'ü Uint8Array'a dönüştür
+        const convertedAudio = await Uint8ArrayFromBase64(myBase64);
+        // console.log("myBase64",myBase64)
+        console.log('Gönderiliyor...');
+        socket.send(convertedAudio);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleRecord = async () => {
+    console.log('Kayıt Başladı');
+    permission();
+    setRecordStatus(true);
+  
+    try {
+      let dirsFOLDER = RNFetchBlob.fs.dirs;
+      let folderPath = dirsFOLDER.CacheDir + '/sestek_bot';
+      RNFetchBlob.fs
+        .mkdir(folderPath)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+  
+      const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
+      const path = Platform.select({
+        ios: 'sestek_bot/' + 'sound' + '.m4a',
+        android: `${dirs}/sound.mp3`,
+      });
+  
+      console.log(dirs);
+      console.log(path);
+      await recorder.startRecorder(path);
+  
+      recorder.addRecordBackListener((e: any) => {
+        console.log('record : ', e.currentPosition);
+        console.log('ms : ', recorder.mmssss(Math.floor(e.currentPosition)));
+      });
+  
+      // Ses kaydı bittiğinde otomatik olarak sokete gönder
+      setTimeout(() => {
+        sendAudioToSocket();
+      }, 5000); // Örneğin 5 saniye sonra gönderilebilir, bu süreyi ayarlayabilirsiniz.
+    } catch (error) {
+      console.log(error);
+    }
+  };
+    
   return (
     <Modal
       animationType="slide"
