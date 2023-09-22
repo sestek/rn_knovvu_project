@@ -211,7 +211,6 @@ const ChatGpt = ({navigation}) => {
             : Dimensions.get('screen').width * 0.4,
         }}>
         {recordStatus ? (
-          // kayıt var
           <View
             style={{
               display: 'flex',
@@ -226,7 +225,6 @@ const ChatGpt = ({navigation}) => {
               autoPlay
               loop
               style={{
-                // width: Dimensions.get('screen').width,
                 height: 300,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -247,7 +245,6 @@ const ChatGpt = ({navigation}) => {
             </TouchableOpacity>
           </View>
         ) : (
-          // Bu kısım kayıt olmayan
           <View style={styles.recorder}>
             <TouchableOpacity onPress={() => handleRecord()}>
               <Image source={Mic} resizeMode="stretch" style={styles.Mic} />
