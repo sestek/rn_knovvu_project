@@ -13,17 +13,20 @@ class CustomWebSocket {
     settings: {
       channel_tags: null,
     },
-    tenant_id: '3a0cc777-85df-d0ec-0ef2-d0117048aab5',
+    tenant_id: '3a0de364-7f18-61b5-f57c-1221a8c54334',
   };
 
   reConnect = async () => {
     this.websocket = new WebSocket(
-      'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatgpt',
+      'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGPTTr',
     );
     this.websocket.onopen = () => {
       console.log('Web Socket open');
       this.connection = true;
       this.websocket.send(JSON.stringify(this.defultConnection));
+    };
+    this.websocket.onmessage = (event: any) => {
+      console.log(event.data);
     };
   };
 

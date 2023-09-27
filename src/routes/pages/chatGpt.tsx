@@ -21,12 +21,13 @@ import Recorder from '@src/service/Recorder';
 import CustomWebSocket from '@src/service/CustomWebsocket';
 import Uint8ArrayFromBase64 from '@src/utils/functions/unit8ArrayFunc';
 import PermissionCheck from '@src/utils/functions/permission';
+import socketValue from '@src/constant/socket';
 
 // < ------------------------  finish ---------------------- >
 
-// < ----------------  create socket and audio ------------- >
+// < ----------------  create audio ------------- >
 const recorder = new Recorder();
-const socket = new CustomWebSocket();
+
 // < ------------------------  finish ---------------------- >
 
 const ChatGpt = ({navigation}) => {
@@ -69,14 +70,24 @@ const ChatGpt = ({navigation}) => {
   // < ------------------------  finish ---------------------- >
 
   // < ------------------------  Socket Operation ---------------------- >
+  const socket = new WebSocket(
+    'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGPTTr',
+  );
+  useEffect(() => {
+    console.log('hfggfghgfh');
+    socket.onopen = () => {
+      console.log('Web Socket open');
+      socket.send(JSON.stringify(socketValue));
+    };
+  }, []);
 
-  socket.websocket.onmessage = e => {
+  socket.onmessage = e => {
     console.log('Mesaj:', e.data);
   };
-  socket.websocket.onclose = e => {
+  socket.onclose = e => {
     console.log('socket bağlantısı kapatıldı:', e.reason);
   };
-  socket.websocket.onerror = e => {
+  socket.onerror = e => {
     console.error('socket hatası:', e.message);
   };
   // < ------------------------  finish ---------------------- >
@@ -122,28 +133,31 @@ const ChatGpt = ({navigation}) => {
 
   // < ------------------------  finish ---------------------- >
 
-  // < ------------------------  Start Record Button ---------------------- >
-
-  const handleRecord = async () => {
-    console.log('Kayıt Başladı');
-    PermissionCheck();
-    setRecordStatus(true);
-    await recorder.onStartRecord();
-    try {
-      setTimeout(() => {
-        sendAudioToSocket();
-      }, 4000);
-      // setInterval(() => {
-
-      // }, 500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // < ------------------------  finish ---------------------- >
-
   // < ------------------------  Socket send Audio ---------------------- >
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+  const atob = (input: string = '') => {
+    let str = input.replace(/=+$/, '');
+    let output = '';
+
+    if (str.length % 4 == 1) {
+      throw new Error(
+        "'atob' failed: The string to be decoded is not correctly encoded.",
+      );
+    }
+    for (
+      let bc = 0, bs = 0, buffer, i = 0;
+      (buffer = str.charAt(i++));
+      ~buffer && ((bs = bc % 4 ? bs * 64 + buffer : buffer), bc++ % 4)
+        ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
+        : 0
+    ) {
+      buffer = chars.indexOf(buffer);
+    }
+
+    return output;
+  };
 
   const sendAudioToSocket = async () => {
     try {
@@ -170,9 +184,36 @@ const ChatGpt = ({navigation}) => {
           });
         const convertedAudio = await Uint8ArrayFromBase64(myBase64);
         console.log('Gönderiliyor...');
-        socket.websocket.send(convertedAudio);
+        socket.send(convertedAudio);
+        socket.onmessage = event => {
+          console.log(event.data);
+        };
+        await recorder.onStartRecord();
         //await recorder.onStartRecord();
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Start Record Button ---------------------- >
+
+  const handleRecord = async () => {
+    console.log('Kayıt Başladı');
+    PermissionCheck();
+    setRecordStatus(true);
+    await recorder.onStartRecord();
+    try {
+      // setTimeout(() => {
+      //   sendAudioToSocket();
+      // }, 1000);
+      setInterval(async () => {
+        setTimeout(() => {
+          sendAudioToSocket();
+        });
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
