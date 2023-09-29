@@ -123,7 +123,7 @@ const ChatGpt = ({navigation}) => {
 
   const handleSend = async () => {
     try {
-      await recorder.onStopRecord();
+      await recorder.onStopRecord('sound');
       // o an ki gönderilecek
       setRecordStatus(false);
     } catch (error) {
@@ -158,11 +158,20 @@ const ChatGpt = ({navigation}) => {
 
     return output;
   };
-
+  const [audioCounter, setAudioCounter] = useState(0);
   const sendAudioToSocket = async () => {
     try {
-      const soundPath = await recorder.onStopRecord();
+      await new Promise(r => setTimeout(r, 2000));
+      var soundPath;
+      if (audioCounter % 2 == 0) {
+        soundPath = await recorder.onStopRecord('sound');
+        await recorder.onStartRecord('soundOther');
+      } else {
+        soundPath = await recorder.onStopRecord('soundOther');
+        await recorder.onStartRecord('sound');
+      }
 
+      setAudioCounter(old => old + 1);
       if (soundPath) {
         console.log('sound path:', soundPath);
         const audioToBase64 = await recorder.recordToBase64(soundPath);
@@ -185,10 +194,10 @@ const ChatGpt = ({navigation}) => {
         const convertedAudio = await Uint8ArrayFromBase64(myBase64);
         console.log('Gönderiliyor...');
         socket.send(convertedAudio);
-        socket.onmessage = event => {
-          console.log(event.data);
-        };
-        await recorder.onStartRecord();
+        // socket.onmessage = event => {
+        //   console.log(event.data);
+        // };
+        //await recorder.onStartRecord();
         //await recorder.onStartRecord();
       }
     } catch (error) {
@@ -204,16 +213,15 @@ const ChatGpt = ({navigation}) => {
     console.log('Kayıt Başladı');
     PermissionCheck();
     setRecordStatus(true);
-    await recorder.onStartRecord();
+    await recorder.onStartRecord('sound');
     try {
       // setTimeout(() => {
       //   sendAudioToSocket();
       // }, 1000);
+
       setInterval(async () => {
-        setTimeout(() => {
-          sendAudioToSocket();
-        });
-      }, 1000);
+        sendAudioToSocket();
+      }, 2000); // Her iki saniye de bir çalışacak
     } catch (error) {
       console.log(error);
     }

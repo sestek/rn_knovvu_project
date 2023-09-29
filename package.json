@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest --verbose --coverage",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "all": "react-native run-ios && react-native run-android",
+    "rn": "react-native run-ios --simulator \"iPhone 14\""
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^1.5.0",

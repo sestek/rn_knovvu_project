@@ -22,11 +22,15 @@ class Recorder {
       .catch(err => console.log(err));
   }
 
-  onStartRecord = async () => {
+  onStartRecord = async (fileName: any) => {
     const dirs = RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot';
+    // const path = Platform.select({
+    //   ios: 'sestek_bot/' + 'sound' + '.m4a',
+    //   android: `${dirs}/sound.mp3`,
+    // });
     const path = Platform.select({
-      ios: 'sestek_bot/' + 'sound' + '.m4a',
-      android: `${dirs}/sound.mp3`,
+      ios: 'sestek_bot/' + fileName + '.m4a',
+      android: `${dirs}/` + fileName + '.mp3',
     });
     console.log(path);
     await this.recorderBase.startRecorder(path);
@@ -39,12 +43,12 @@ class Recorder {
     });
   };
 
-  onStopRecord = async () => {
+  onStopRecord = async (fileName: any) => {
     await this.recorderBase.stopRecorder();
     this.recorderBase.removeRecordBackListener();
     const soundPath = Platform.select({
-      ios: RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot/sound.m4a',
-      android: RNFetchBlob.fs.dirs.CacheDir + `/sound.mp3`,
+      ios: RNFetchBlob.fs.dirs.CacheDir + '/sestek_bot/' + fileName + '.m4a',
+      android: RNFetchBlob.fs.dirs.CacheDir + '/' + fileName + '.mp3',
     });
     console.log('stop');
     return soundPath;
