@@ -385,6 +385,8 @@ import React from 'react';
 import {StyleSheet, View, Button} from 'react-native';
 import AudioRecord from 'react-native-audio-record';
 import {Buffer} from 'buffer';
+import Uint8ArrayFromBase64 from '@src/utils/functions/unit8ArrayFunc';
+
 
 const ChatGpt = () => {
   // const options = {
@@ -394,7 +396,37 @@ const ChatGpt = () => {
   //   audioSource: 6, // android only (see below)
   //   wavFile: 'test.wav', // default 'audio.wav'
   // };
-
+  const socket = new WebSocket(
+    'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGPTTr',
+  );
+  socket.onopen = (event: any) => {
+    console.log('Web Socket open', event);
+    socket.send(
+      JSON.stringify({
+        'message-name': 'start',
+        audio: {
+          'sample-rate': '8000',
+          'channel-count': '1',
+        },
+        ca: {
+          user_properties: {},
+        },
+        settings: {
+          channel_tags: null,
+        },
+        tenant_id: '3a0de364-7f18-61b5-f57c-1221a8c54334',
+      }),
+    );
+  };
+  socket.onmessage = e => {
+    console.log('Mesaj:', e.data);
+  };
+  socket.onclose = e => {
+    console.log('WebSocket bağlantısı kapatıldı:', e.reason);
+  };
+  socket.onerror = e => {
+    console.error('WebSocket hatası:', e.message);
+  };
   const options = {
     sampleRate: 44100, // Örnek hızı (Hz)
     channels: 2, // Kanal sayısı (1 veya 2)
@@ -407,10 +439,15 @@ const ChatGpt = () => {
 
   AudioRecord.init(options);
 
-  AudioRecord.on('data', data => {
+  AudioRecord.on('data', async(data) => {
     // base64-encoded audio data chunks
-    //const chunk = Buffer.from(data, 'base64');
-    console.log(data);
+    //
+    // const chunk = Buffer.from(data, 'base64');
+    // console.log(data)
+    const convertedAudio = await Uint8ArrayFromBase64(data);
+    // console.log(data.charAt(4))
+    socket.send(convertedAudio)
+    // console.log(data);
   });
 
   const start = () => {
