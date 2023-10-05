@@ -33,74 +33,74 @@ const recorder = new Recorder();
 
 const ChatGpt = ({navigation}) => {
   // < ----------------  MessageList and panc Message ------------- >
-  const [fakeMessages, setFakeMessages] = useState([
-    {
-      key: 1,
-      value: `Hello
-      I want to know bla
-      bla bla?`,
-      position: 'right',
-      type: 'message',
-    },
-    {
-      key: 2,
-      value: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.`,
-      position: 'left',
-      type: 'message',
-    },
-    {
-      key: 3,
-      value: `The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using it.`,
-      position: 'right',
-      type: 'message',
-    },
-    {
-      key: 4,
-      value: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.`,
-      position: 'left',
-      type: 'message',
-    },
-    {
-      key: 5,
-      value: `The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using it.`,
-      position: 'right',
-      type: 'message',
-    },
-  ]);
+  const [messageList, setMessageList] = useState<any>([]);
   const [pancMessage, setPancMessage] = useState<any>('');
   // < ------------------------  finish ---------------------- >
 
   // < ------------------------  Socket Operation ---------------------- >
-  const messageRef = useRef('');
-  const [message, setMessage] = useState('');
-  const socket = new WebSocket(
-    'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGPTTr',
-  );
 
-  const updateMessage = (e: any) => {
-    const Jsondata = JSON.parse(e?.data);
-    const StringData = String(Jsondata?.event?.data?.text);
-    console.log('Mesaj:', StringData);
-    if (StringData) {
-      //setPancMessage((m: any) => m.concat(StringData));
+  const [ws, setWs] = React.useState<WebSocket>(null);
+
+  const getWebSocket = () => {
+    const socket = new WebSocket(
+      'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGPTTr',
+    );
+
+    socket.onopen = () => {
+      console.log('Web Socket open');
+      socket.send(JSON.stringify(socketValue));
+    };
+
+    socket.onmessage = e => {
+      const Jsondata = JSON.parse(e?.data);
+      const contentMessage = Jsondata?.event?.data;
+      const text: string = Jsondata?.event?.data?.text;
+      const oldMessageList = messageList;
+      if (text) {
+        console.log(text);
+        setPancMessage(text);
+        if (contentMessage?.text_attributes === 'recognized, punctuated') {
+          // our message
+          messageList?.push({
+            value: text,
+            position: 'right',
+            type: 'message',
+          });
+          setMessageList([...oldMessageList]);
+          setPancMessage('');
+        }
+      }
+      const chatResponse = contentMessage?.chatGPTResult;
+      if (chatResponse) {
+        // chat message
+        oldMessageList?.push({
+          value: chatResponse[0].message?.content,
+          position: 'left',
+          type: 'message',
+        });
+        setMessageList([...oldMessageList]);
+        setPancMessage('');
+      }
+    };
+
+    socket.onclose = e => {
+      console.log('socket bağlantısı kapatıldı:', e.reason);
+    };
+    socket.onerror = e => {
+      console.error('socket hatası:', e.message);
+    };
+    return socket;
+  };
+
+  React.useEffect(() => {
+    if (ws === null) {
+      connectWebSocket();
     }
-  };
+  }, []);
 
-  socket.onopen = () => {
-    console.log('Web Socket open');
-    socket.send(JSON.stringify(socketValue));
-  };
-  console.log(messageRef.current);
-  socket.onmessage = e => {
-    const Jsondata = JSON.parse(e?.data);
-    messageRef.current = Jsondata?.event?.data?.text;
-    console.log('Mesaj:', Jsondata?.event?.data?.text);
-  };
-  socket.onclose = e => {
-    console.log('socket bağlantısı kapatıldı:', e.reason);
-  };
-  socket.onerror = e => {
-    console.error('socket hatası:', e.message);
+  const connectWebSocket = () => {
+    let wsTemp = getWebSocket();
+    setWs(wsTemp);
   };
 
   // < ------------------------  finish ---------------------- >
@@ -134,55 +134,6 @@ const ChatGpt = ({navigation}) => {
 
   // < ------------------------  Socket send Audio ---------------------- >
 
-  // const sendAudioToSocket = async () => {
-  //   try {
-  //     await new Promise(r => setTimeout(r, 3000));
-  //     var soundPath;
-  //     // if (audioCounter % 2 == 0) {
-  //     //   soundPath = await recorder.onStopRecord('sound');
-  //     //   await recorder.onStartRecord('soundOther');
-  //     // } else {
-  //     //   soundPath = await recorder.onStopRecord('soundOther');
-  //     //   await recorder.onStartRecord('sound');
-  //     // }
-
-  //     soundPath = await recorder.onStopRecord('sound');
-
-  //     setAudioCounter(old => old + 1);
-  //     if (soundPath) {
-  //       console.log('sound path:', soundPath);
-  //       const audioToBase64 = await recorder.recordToBase64(soundPath);
-
-  //       let myBase64 = '';
-  //       await fetch('https://api-gateway.sestek.com/base64-aac-to-wav', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'text/plain',
-  //         },
-  //         body: audioToBase64,
-  //       })
-  //         .then(response => response.text())
-  //         .then(data => {
-  //           myBase64 = data;
-  //         })
-  //         .catch(error => {
-  //           console.error('API isteği sırasında hata oluştu:', error);
-  //         });
-  //       console.log(myBase64);
-  //       const convertedAudio = await Uint8ArrayFromBase64(myBase64);
-  //       console.log('Gönderiliyor...');
-  //       socket.send(convertedAudio);
-  //       // socket.onmessage = event => {
-  //       //   console.log(event.data);
-  //       // };
-  //       //await recorder.onStartRecord();
-  //       //await recorder.onStartRecord();
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const options = {
     sampleRate: 8000,
     channels: 1,
@@ -195,7 +146,9 @@ const ChatGpt = ({navigation}) => {
 
   AudioRecord.on('data', async data => {
     const convertedAudio = await Uint8ArrayFromBase64(data);
-    socket.send(convertedAudio);
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(convertedAudio);
+    }
   });
 
   const start = () => {
@@ -236,6 +189,20 @@ const ChatGpt = ({navigation}) => {
 
   // < ------------------------  finish ---------------------- >
 
+  const PancComponent = React.memo(() => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'flex-start',
+          alignContent: 'center',
+          padding: 10,
+        }}>
+        <Text style={styles.pancMessage}>{pancMessage}</Text>
+      </View>
+    );
+  });
+
   return (
     <Modal animationType="slide" visible={isModalOpen}>
       <SafeAreaView style={styles.SafeArea}>
@@ -252,10 +219,9 @@ const ChatGpt = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <ScrollView style={styles.scroll}>
-          <MessageBoxBody messages={fakeMessages} />
+          <MessageBoxBody messages={messageList} />
         </ScrollView>
       </SafeAreaView>
-
       <View
         style={{
           flexDirection: 'column',
@@ -307,17 +273,7 @@ const ChatGpt = ({navigation}) => {
             </TouchableOpacity>
           </View>
         )}
-        {pancMessage && (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'flex-start',
-              alignContent: 'center',
-              padding: 10,
-            }}>
-            <Text style={styles.pancMessage}>{pancMessage}</Text>
-          </View>
-        )}
+        {pancMessage && <PancComponent />}
       </View>
     </Modal>
   );
