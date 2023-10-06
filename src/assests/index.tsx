@@ -6,6 +6,8 @@ import ChatGpt from './chatGpt.png';
 import Mic from './mic.png';
 import StopMic from './stop.png';
 import Close from './close.png';
+import BigRecord from './micBig.png';
+import BackgroundChatgpt from './bck.jpg';
 
 import C_Vodafone from './customer/vodafone.png';
 import C_Avaya from './customer/avaya.png';
@@ -42,4 +44,6 @@ export {
   Mic,
   StopMic,
   Close,
+  BigRecord,
+  BackgroundChatgpt,
 };
