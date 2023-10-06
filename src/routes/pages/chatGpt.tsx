@@ -34,11 +34,6 @@ import AudioRecord from 'react-native-audio-record';
 
 // < ------------------------  finish ---------------------- >
 
-// < ----------------  create audio ------------- >
-const recorder = new Recorder();
-
-// < ------------------------  finish ---------------------- >
-
 const ChatGpt = ({navigation}) => {
   // < ----------------  State Base ------------- >
   const [messageList, setMessageList] = useState<any>([]);
@@ -180,7 +175,7 @@ const ChatGpt = ({navigation}) => {
 
   // < ------------------------  finish ---------------------- >
 
-  // < ------------------------  Start Record Button ---------------------- >
+  // < ------------------------  Start Stop Record Button ---------------------- >
 
   const handleRecord = async () => {
     PermissionCheck();
