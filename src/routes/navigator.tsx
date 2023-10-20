@@ -1,23 +1,25 @@
-import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from './pages/home';
 import Settings from './pages/settings';
 import TabBarComponent from '@src/components/tabBarComponent';
-import { useAppDispatch, useAppSelector } from '@src/utils/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@src/utils/redux/hooks';
 import About from './pages/about';
-import { Knovvu32 } from '@src/assests';
-import { asyncGetWebchatData } from '@src/utils/redux/slice/webchatSlice';
+import {Knovvu32} from '@src/assests';
+import {asyncGetWebchatData} from '@src/utils/redux/slice/webchatSlice';
 import ContactUs from './pages/contactus';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Dimensions, Image, StatusBar } from 'react-native';
+import {Dimensions, Image, StatusBar} from 'react-native';
 import ChatGpt from './pages/chatGpt';
+import Sound from './pages/sound';
+import DigitalHuman from './pages/digitalHuman';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-const KnovvuCmp = ({ navigation }) => {
+const KnovvuCmp = ({navigation}) => {
   return null;
 };
 
@@ -33,19 +35,19 @@ const Navigator = () => {
 
   return (
     <>
-      <StatusBar
-        hidden={false}
-        barStyle="dark-content"
-      />
+      <StatusBar hidden={false} barStyle="dark-content" />
       <NavigationContainer>
         <Tab.Navigator
           tabBar={props => <TabBarComponent {...props} />}
-          screenOptions={({ route }) => ({
-            title: route.name === 'Knovvu' ||  route.name === 'ChatGpt' ? '' : route.name,
+          screenOptions={({route}) => ({
+            title:
+              route.name === 'Knovvu' || route.name === 'ChatGpt'
+                ? ''
+                : route.name,
             headerRight: () => (
               <Image
                 source={Knovvu32}
-                style={{ width: 32, height: 32, marginHorizontal: 16 }}
+                style={{width: 32, height: 32, marginHorizontal: 16}}
               />
             ),
             tabBarHideOnKeyboard: true,
@@ -58,6 +60,8 @@ const Navigator = () => {
           {/* <Drawer.Screen name="Contact Us" component={ContactUs} /> */}
           <Drawer.Screen name="Settings" component={Settings} />
           <Drawer.Screen name="ChatGpt" component={ChatGpt} />
+          {/* <Drawer.Screen name="Sound" component={Sound} />
+          <Drawer.Screen name="Digital" component={DigitalHuman} /> */}
           <Drawer.Screen name="Knovvu" component={KnovvuCmp} />
         </Tab.Navigator>
       </NavigationContainer>

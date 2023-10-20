@@ -66,6 +66,7 @@ const ChatGpt = ({navigation}) => {
       if (text) {
         console.log(text);
         setPancMessage(text);
+        scrollViewRef.current.scrollToEnd({animated: true})
         if (contentMessage?.text_attributes === 'recognized, punctuated') {
           // our message
           messageList?.push({
@@ -88,6 +89,7 @@ const ChatGpt = ({navigation}) => {
         });
         setMessageList([...oldMessageList]);
         setPancMessage('');
+        scrollViewRef.current.scrollToEnd({animated: true})
       }
     };
 
