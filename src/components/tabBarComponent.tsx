@@ -120,6 +120,8 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
                   style={styles().image}
                 />
               );
+            } else if (route.name === 'Digital') {
+              iconName = focused ? 'ios-home' : 'ios-home-outline';
             }
             return (
               <Ionicons

@@ -60,8 +60,8 @@ const Navigator = () => {
           {/* <Drawer.Screen name="Contact Us" component={ContactUs} /> */}
           <Drawer.Screen name="Settings" component={Settings} />
           <Drawer.Screen name="ChatGpt" component={ChatGpt} />
-          {/* <Drawer.Screen name="Sound" component={Sound} />
-          <Drawer.Screen name="Digital" component={DigitalHuman} /> */}
+          {/* <Drawer.Screen name="Sound" component={Sound} /> */}
+          <Drawer.Screen name="Digital" component={DigitalHuman} />
           <Drawer.Screen name="Knovvu" component={KnovvuCmp} />
         </Tab.Navigator>
       </NavigationContainer>
