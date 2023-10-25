@@ -30,10 +30,23 @@ const DigitalHuman = ({navigation}) => {
               allowsAirPlayForMediaPlayback={true}
               allowFileAccessFromFileURLs={true}
               allowUniversalAccessFromFileURLs={true}
+
               allowFileAccess={true}
               mediaCapturePermissionGrantType="grant"
               mediaPlaybackRequiresUserAction={false}
+              allowsProtectedMedia={true}
+              javaScriptEnabled={true}
+
+              androidHardwareAccelerationDisabled={false}
+              domStorageEnabled={true}
+              mixedContentMode="always"
+              thirdPartyCookiesEnabled={true}
+
               blur={true}
+              cacheMode="LOAD_DEFAULT"
+              onHttpError={error => {
+                console.error('WebView Hatası:', error);
+              }}
               onMessage={event => {
                 handleMessage(event);
               }}
