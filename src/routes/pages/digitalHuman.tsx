@@ -32,6 +32,7 @@ const DigitalHuman = ({navigation}) => {
               allowUniversalAccessFromFileURLs={true}
               allowFileAccess={true}
               mediaCapturePermissionGrantType="grant"
+              mediaPlaybackRequiresUserAction={false}
               blur={true}
               onMessage={event => {
                 handleMessage(event);
