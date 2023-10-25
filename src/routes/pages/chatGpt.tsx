@@ -24,7 +24,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Lottie from 'lottie-react-native';
 import MessageBoxBody from '@src/components/chatgpt/MessageBoxBody';
-import useModalCloseStore from '../../zustandStore/store';
+import useModalCloseStore from '../../zustandStore/chatgpt/store';
 import Recorder from '@src/service/Recorder';
 import CustomWebSocket from '@src/service/CustomWebsocket';
 import Uint8ArrayFromBase64 from '@src/utils/functions/unit8ArrayFunc';

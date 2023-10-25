@@ -8,12 +8,13 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import {Knovvu32, ChatGpt} from '@src/assests';
+import {Knovvu32, ChatGpt, Avatar} from '@src/assests';
 import {Text} from '@rneui/base';
 import {useAppSelector} from '@src/utils/redux/hooks';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import useModalCloseStore from '@src/zustandStore/store';
+import useModalCloseStore from '@src/zustandStore/chatgpt/store';
 import {useRoute} from '@react-navigation/native';
+import useModalCloseAvatarStore from '@src/zustandStore/avatar/store';
 
 const TabBarComponent = ({state, descriptors, navigation}) => {
   const color_100 = useAppSelector(state => state.theme.color_100);
@@ -46,12 +47,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
     Dimensions.get('screen').width * (1 / state.routes?.length);
 
   const {isModalOpen, setIsModalOpen} = useModalCloseStore();
-
-  useEffect(() => {
-    // return () => {
-    //   setIsModalOpen(true);
-    // };
-  }, []);
+  const {isModalAvatarOpen, setIsModalAvatarOpen} = useModalCloseAvatarStore();
 
   const RenderTabBarComp = () => {
     return (
@@ -75,9 +71,14 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
             }
 
             if (route.name === 'ChatGpt') {
-              console.log('tıklandı');
               setIsModalOpen(true);
               navigation.navigate('ChatGpt');
+              return;
+            }
+
+            if (route.name === 'Avatar') {
+              setIsModalAvatarOpen(true);
+              navigation.navigate('Avatar');
               return;
             }
 
@@ -120,8 +121,14 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
                   style={styles().image}
                 />
               );
-            } else if (route.name === 'Digital') {
-              iconName = focused ? 'ios-home' : 'ios-home-outline';
+            } else if (route.name === 'Avatar') {
+              return (
+                <Image
+                  source={Avatar}
+                  resizeMode="stretch"
+                  style={styles().image}
+                />
+              );
             }
             return (
               <Ionicons

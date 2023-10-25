@@ -41,7 +41,9 @@ const Navigator = () => {
           tabBar={props => <TabBarComponent {...props} />}
           screenOptions={({route}) => ({
             title:
-              route.name === 'Knovvu' || route.name === 'ChatGpt'
+              route.name === 'Knovvu' ||
+              route.name === 'ChatGpt' ||
+              route.name === 'Avatar'
                 ? ''
                 : route.name,
             headerRight: () => (
@@ -61,7 +63,7 @@ const Navigator = () => {
           <Drawer.Screen name="Settings" component={Settings} />
           <Drawer.Screen name="ChatGpt" component={ChatGpt} />
           {/* <Drawer.Screen name="Sound" component={Sound} /> */}
-          <Drawer.Screen name="Digital" component={DigitalHuman} />
+          <Drawer.Screen name="Avatar" component={DigitalHuman} />
           <Drawer.Screen name="Knovvu" component={KnovvuCmp} />
         </Tab.Navigator>
       </NavigationContainer>
