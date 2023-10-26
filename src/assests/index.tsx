@@ -10,6 +10,9 @@ import BigRecord from './micBig.png';
 import BackgroundChatgpt from './bck.jpg';
 import Avatar from './avatar.png';
 import Copy from './copy.png';
+import Settings from './settingspage.png'
+import HomePic from './homepage.png'
+import HomeDark from './homedark.png'
 
 import C_Vodafone from './customer/vodafone.png';
 import C_Avaya from './customer/avaya.png';
@@ -50,4 +53,7 @@ export {
   BackgroundChatgpt,
   Avatar,
   Copy,
+  Settings,
+  HomePic,
+  HomeDark
 };

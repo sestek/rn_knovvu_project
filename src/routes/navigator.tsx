@@ -33,7 +33,6 @@ const Navigator = () => {
     dispatch(asyncGetWebchatData());
   }, []);
 
-  const [userCheckGpt, setUserCheckGpt] = useState();
 
   return (
     <>
@@ -41,13 +40,9 @@ const Navigator = () => {
       <NavigationContainer>
         <Tab.Navigator
           tabBar={props => <TabBarComponent {...props} />}
+          
           screenOptions={({route}) => ({
-            title:
-              route.name === 'Knovvu' ||
-              route.name === 'ChatGpt' ||
-              route.name === 'Avatar'
-                ? ''
-                : route.name,
+            title:'',
             headerRight: () => (
               <Image
                 source={Knovvu32}
@@ -60,11 +55,8 @@ const Navigator = () => {
             tabBarInactiveTintColor: color_300,
           })}>
           <Drawer.Screen name="Home" component={Home} />
-          <Drawer.Screen name="About" component={About} />
-          {/* <Drawer.Screen name="Contact Us" component={ContactUs} /> */}
           <Drawer.Screen name="Settings" component={Settings} />
           <Drawer.Screen name="ChatGpt" component={ChatGpt} />
-          {/* <Drawer.Screen name="Sound" component={Sound} /> */}
           <Drawer.Screen name="Avatar" component={DigitalHuman} />
           <Drawer.Screen name="Knovvu" component={KnovvuCmp} />
         </Tab.Navigator>

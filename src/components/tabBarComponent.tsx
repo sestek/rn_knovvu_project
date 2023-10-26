@@ -8,12 +8,10 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import {Knovvu32, ChatGpt, Avatar} from '@src/assests';
+import {Knovvu32, ChatGpt, Avatar, HomePic, Settings,HomeDark} from '@src/assests';
 import {Text} from '@rneui/base';
 import {useAppSelector} from '@src/utils/redux/hooks';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import useModalCloseStore from '@src/zustandStore/chatgpt/store';
-import {useRoute} from '@react-navigation/native';
 import useModalCloseAvatarStore from '@src/zustandStore/avatar/store';
 
 const TabBarComponent = ({state, descriptors, navigation}) => {
@@ -93,18 +91,26 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
             }
           };
           const getIconFunc = (focused: boolean) => {
-            let iconName;
-
             if (route.name === 'Home') {
-              iconName = focused ? 'ios-home' : 'ios-home-outline';
+              return (
+                focused ? <Image
+                  source={HomeDark}
+                  resizeMode="cover"
+                  style={styles().image}
+                />: <Image
+                source={HomePic}
+                resizeMode="cover"
+                style={styles().image}
+              />
+              );
             } else if (route.name === 'Settings') {
-              iconName = focused ? 'ios-build' : 'ios-build-outline';
-            } else if (route.name === 'About') {
-              iconName = focused
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline';
-            } else if (route.name === 'Contact Us') {
-              iconName = focused ? 'ios-mail-sharp' : 'ios-mail-outline';
+              return (
+                <Image
+                  source={Settings}
+                  resizeMode="stretch"
+                  style={styles().image}
+                />
+              );
             } else if (route.name === 'ChatGpt') {
               return (
                 <Image
@@ -130,13 +136,6 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
                 />
               );
             }
-            return (
-              <Ionicons
-                name={iconName || ''}
-                size={26}
-                color={focused ? color_100 : color_200}
-              />
-            );
           };
           return (
             <TouchableOpacity
@@ -148,9 +147,9 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
               style={styles(dynamicWidth).touchArea}
               key={route.name}>
               {getIconFunc(isFocused)}
-              <Text style={styles(isFocused, color_100, color_200).text}>
+               <Text style={styles(isFocused, color_100, color_200).text}>
                 {label}
-              </Text>
+              </Text> 
             </TouchableOpacity>
           );
         })}
