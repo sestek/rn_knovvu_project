@@ -35,6 +35,7 @@ import socketValue from '@src/constant/socket';
 import AudioRecord from 'react-native-audio-record';
 import {getUniqueId} from 'react-native-device-info';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 // < ------------------------  finish ---------------------- >
 
@@ -101,7 +102,11 @@ const ChatGpt = ({navigation}) => {
       console.log('socket bağlantısı kapatıldı:', e.reason);
     };
     socket.onerror = e => {
-      console.error('socket hatası:', e.message);
+      Toast.show({
+        type: 'error',
+        text1: 'Socket bağlantısı kurulamadı ⚠️',
+      });
+      closeModalButton();
     };
     return socket;
   };
@@ -185,7 +190,7 @@ const ChatGpt = ({navigation}) => {
   // < ------------------------  Start Stop Record Button ---------------------- >
 
   const handleRecord = async () => {
-    console.log("tetiklendi")
+    console.log('tetiklendi');
     PermissionCheck();
     if (ws) {
       connectWebSocket();

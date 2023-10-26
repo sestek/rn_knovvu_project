@@ -2,6 +2,7 @@ import useModalCloseAvatarStore from '@src/zustandStore/avatar/store';
 import React, {useEffect, useRef, useState} from 'react';
 import {Platform, Text, View, Modal, SafeAreaView} from 'react-native';
 import {WebView} from 'react-native-webview';
+import Toast from 'react-native-toast-message';
 
 const DigitalHuman = ({navigation}) => {
   const handleMessage = (event: any) => {
@@ -11,6 +12,15 @@ const DigitalHuman = ({navigation}) => {
       setIsModalAvatarOpen(false);
       navigation.navigate('Home');
     }
+  };
+
+  const handleError = () => {
+    setIsModalAvatarOpen(false);
+    navigation.navigate('Home');
+    Toast.show({
+      type: 'error',
+      text1: 'Webview bağlantısı kurulamadı ⚠️',
+    });
   };
 
   const {isModalAvatarOpen, setIsModalAvatarOpen} = useModalCloseAvatarStore();
@@ -30,25 +40,25 @@ const DigitalHuman = ({navigation}) => {
               allowsAirPlayForMediaPlayback={true}
               allowFileAccessFromFileURLs={true}
               allowUniversalAccessFromFileURLs={true}
-
               allowFileAccess={true}
               mediaCapturePermissionGrantType="grant"
               mediaPlaybackRequiresUserAction={false}
               allowsProtectedMedia={true}
               javaScriptEnabled={true}
-
               androidHardwareAccelerationDisabled={false}
               domStorageEnabled={true}
               mixedContentMode="always"
               thirdPartyCookiesEnabled={true}
-
               blur={true}
               cacheMode="LOAD_DEFAULT"
               onHttpError={error => {
-                console.error('WebView Hatası:', error);
+                handleError();
               }}
               onMessage={event => {
                 handleMessage(event);
+              }}
+              onError={e => {
+                handleError();
               }}
             />
           </View>

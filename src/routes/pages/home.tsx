@@ -1,10 +1,10 @@
 import {Button, Card, Text} from '@rneui/base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import { getVersion, getBuildNumber } from 'react-native-device-info';
+import {getVersion, getBuildNumber} from 'react-native-device-info';
 
 import {KnovvuBackground, LottieVoice} from '@src/assests';
 import {useAppSelector} from '@src/utils/redux/hooks';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -30,6 +30,7 @@ import {
 } from '@src/assests';
 import YoutubeIframeModal from '@src/components/youtubeIframeModal';
 import SwiperText from '@src/components/swiperText';
+import Toast from 'react-native-toast-message';
 
 const customer_image = [
   C_Avaya,
