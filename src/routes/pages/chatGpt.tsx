@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import {
   Close,
   LottieRecord,
@@ -20,6 +21,7 @@ import {
   StopMic,
   BigRecord,
   BackgroundChatgpt,
+  Copy,
 } from '@src/assests';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Lottie from 'lottie-react-native';
@@ -31,6 +33,8 @@ import Uint8ArrayFromBase64 from '@src/utils/functions/unit8ArrayFunc';
 import PermissionCheck from '@src/utils/functions/permission';
 import socketValue from '@src/constant/socket';
 import AudioRecord from 'react-native-audio-record';
+import {getUniqueId} from 'react-native-device-info';
+import axios from 'axios';
 
 // < ------------------------  finish ---------------------- >
 
@@ -39,7 +43,7 @@ const ChatGpt = ({navigation}) => {
   const [messageList, setMessageList] = useState<any>([]);
   const [pancMessage, setPancMessage] = useState<any>('');
   const scrollViewRef = useRef();
-
+  const [checkPermissionId, setCheckPermissionId] = useState(false);
   const [recordStatus, setRecordStatus] = useState(false);
   const [baseRecordStatus, setBaseRecordStatus] = useState(false);
   // < ------------------------  finish ---------------------- >
@@ -66,7 +70,7 @@ const ChatGpt = ({navigation}) => {
       if (text) {
         console.log(text);
         setPancMessage(text);
-        scrollViewRef.current.scrollToEnd({animated: true})
+        scrollViewRef.current.scrollToEnd({animated: true});
         if (contentMessage?.text_attributes === 'recognized, punctuated') {
           // our message
           messageList?.push({
@@ -89,7 +93,7 @@ const ChatGpt = ({navigation}) => {
         });
         setMessageList([...oldMessageList]);
         setPancMessage('');
-        scrollViewRef.current.scrollToEnd({animated: true})
+        scrollViewRef.current.scrollToEnd({animated: true});
       }
     };
 
@@ -134,6 +138,7 @@ const ChatGpt = ({navigation}) => {
   const {isModalOpen, setIsModalOpen} = useModalCloseStore();
   const closeModalButton = async () => {
     await handleStop();
+    await checkPermissionIdFunc();
     setIsModalOpen(false);
     navigation.navigate('Home');
   };
@@ -180,6 +185,7 @@ const ChatGpt = ({navigation}) => {
   // < ------------------------  Start Stop Record Button ---------------------- >
 
   const handleRecord = async () => {
+    console.log("tetiklendi")
     PermissionCheck();
     if (ws) {
       connectWebSocket();
@@ -190,9 +196,9 @@ const ChatGpt = ({navigation}) => {
   };
   const handleStop = async () => {
     try {
-      //await recorder.onStopRecord('sound');
-      // o an ki gönderilecek
-      await stop();
+      if (recordStatus) {
+        await stop();
+      }
       ws.close();
       setRecordStatus(false);
       setBaseRecordStatus(false);
@@ -201,6 +207,33 @@ const ChatGpt = ({navigation}) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // < ------------------------  finish ---------------------- >
+
+  // < ------------------------  Copy device Id Button ---------------------- >
+  const checkPermissionIdFunc = async () => {
+    try {
+      const deviceId = await getUniqueId();
+      const response = await axios.get(
+        'https://api-gateway.sestek.com/check-voicegpt/' + deviceId,
+      );
+      if (response?.data == true) {
+        setCheckPermissionId(true);
+      }
+      console.log('id : ', deviceId, ' - sonuc :', response.data);
+    } catch (error) {
+      console.log('hata : ', error);
+    }
+  };
+  useEffect(() => {
+    checkPermissionIdFunc();
+  }, []);
+
+  const copyToClipboard = async () => {
+    const id = await getUniqueId();
+    console.log(id);
+    Clipboard.setString(id);
   };
 
   // < ------------------------  finish ---------------------- >
@@ -256,22 +289,70 @@ const ChatGpt = ({navigation}) => {
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <View style={styles.recorder}>
-                <TouchableOpacity onPress={() => handleRecord()}>
-                  <Image
-                    source={BigRecord}
-                    resizeMode="stretch"
-                    style={styles.BaseMic}
-                  />
-                </TouchableOpacity>
-                <Text
-                  style={{
-                    fontWeight: '500',
-                    fontSize: 18,
-                    lineHeight: 21,
-                    marginTop: 10,
-                  }}>
-                  Lets Talk!
-                </Text>
+                {checkPermissionId ? (
+                  <>
+                    <TouchableOpacity onPress={() => handleRecord()}>
+                      <Image
+                        source={BigRecord}
+                        resizeMode="stretch"
+                        style={styles.BaseMic}
+                      />
+                    </TouchableOpacity>
+                    <Text
+                      style={{
+                        fontWeight: '500',
+                        fontSize: 16,
+                        lineHeight: 21,
+                        marginTop: 10,
+                      }}>
+                      Lets Talk!
+                    </Text>
+                  </>
+                ) : (
+                  <View
+                    style={{
+                      backgroundColor: 'transparent',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      padding: 10,
+                      borderRadius: 10,
+                      marginLeft: 30,
+                      marginRight: 30,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        textAlign: 'center',
+                        lineHeight: 40,
+                        color: '#E26310',
+                        fontWeight: 'bold',
+                      }}>
+                      Kullanabilmek için id'yi sestek ekibine iletin
+                    </Text>
+                    <TouchableOpacity
+                      style={{
+                        width: 130,
+                        height: 50,
+                        backgroundColor: '#F0F0F0',
+                        justifyContent: 'space-around',
+                        alignItems: 'center',
+                        marginTop: 20,
+                        borderRadius: 10,
+                        display: 'flex',
+                        flexDirection: 'row',
+                      }}
+                      onPress={() => copyToClipboard()}>
+                      <Text style={{fontWeight: 'bold'}}>Kopyala</Text>
+                      <Image
+                        source={Copy}
+                        resizeMode="stretch"
+                        style={styles.Close}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             </View>
           )}

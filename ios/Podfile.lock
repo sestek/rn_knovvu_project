@@ -234,7 +234,7 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-webview (11.26.0):
+  - react-native-webview (11.26.1):
     - React-Core
   - React-perflogger (0.69.1)
   - React-RCTActionSheet (0.69.1):
@@ -308,7 +308,9 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.17.11):
     - React-Core
-  - RNDeviceInfo (10.2.1):
+  - RNCClipboard (1.12.1):
+    - React-Core
+  - RNDeviceInfo (10.11.0):
     - React-Core
   - RNGestureHandler (2.7.0):
     - React-Core
@@ -389,6 +391,7 @@ DEPENDENCIES:
   - RNAudioRecord (from `../node_modules/react-native-audio-record`)
   - RNAudioRecorderPlayer (from `../node_modules/react-native-audio-recorder-player`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -481,6 +484,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-audio-recorder-player"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
@@ -520,7 +525,7 @@ SPEC CHECKSUMS:
   React-logger: ca970551cb7eea2fd814d0d5f6fc1a471eb53b76
   react-native-fetch-blob: 0cbdf9764c75d9438c162427395f4bc35a857d5a
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
-  react-native-webview: 994b9f8fbb504d6314dc40d83f94f27c6831b3bf
+  react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: c9161ff0f1c769993cd11d2751e4331ff4ceb7cd
   React-RCTActionSheet: 2d885b0bea76a5254ef852939273edd8de116180
   React-RCTAnimation: 353fa4fc3c19060068832dd32e555182ec07be45
@@ -536,7 +541,8 @@ SPEC CHECKSUMS:
   RNAudioRecord: 162fee3b8fb628773ec704bf0333823125be2ed7
   RNAudioRecorderPlayer: 001f01049754e978c43af97162452c8563d5794a
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
-  RNDeviceInfo: c31137f22ee779fe3931d1a8d60cc1af80ef4077
+  RNCClipboard: d77213bfa269013bf4b857b7a9ca37ee062d8ef1
+  RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNGestureHandler: 7673697e7c0e9391adefae4faa087442bc04af33
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 1da6ab05b5591b76606da2f30b309550fdc3f7d5

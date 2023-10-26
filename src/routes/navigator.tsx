@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from './pages/home';
@@ -32,6 +32,8 @@ const Navigator = () => {
   useEffect(() => {
     dispatch(asyncGetWebchatData());
   }, []);
+
+  const [userCheckGpt, setUserCheckGpt] = useState();
 
   return (
     <>
