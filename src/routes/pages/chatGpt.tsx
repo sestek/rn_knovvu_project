@@ -54,7 +54,7 @@ const ChatGpt = ({navigation}) => {
 
   const getWebSocket = () => {
     const socket = new WebSocket(
-      'wss://nesibe-yilmaz-tokyo.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGPTTr',
+      'wss://enes-zehir-hullcity.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGpt',
     );
 
     socket.onopen = () => {
