@@ -13,10 +13,6 @@ import {View, Text} from 'react-native';
 
 export default function App() {
   const toastConfig = {
-    /*
-      Overwrite 'success' type,
-      by modifying the existing `BaseToast` component
-    */
     success: (props: any) => (
       <BaseToast
         {...props}
@@ -28,10 +24,6 @@ export default function App() {
         }}
       />
     ),
-    /*
-      Overwrite 'error' type,
-      by modifying the existing `ErrorToast` component
-    */
     error: (props: any) => (
       <ErrorToast
         {...props}
@@ -43,13 +35,6 @@ export default function App() {
         }}
       />
     ),
-    /*
-      Or create a completely new type - `tomatoToast`,
-      building the layout from scratch.
-  
-      I can consume any custom `props` I want.
-      They will be passed when calling the `show` method (see below)
-    */
     tomatoToast: ({text1, props}) => (
       <View style={{height: 60, width: '100%', backgroundColor: 'tomato'}}>
         <Text>{text1}</Text>
@@ -70,9 +55,9 @@ export default function App() {
         <Provider store={store}>
           <WebchatModal />
           <Navigator />
+          <Toast config={toastConfig} />
         </Provider>
       </SafeAreaProvider>
-      <Toast config={toastConfig} />
     </GestureHandlerRootView>
   );
 }

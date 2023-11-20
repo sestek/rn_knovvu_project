@@ -47,6 +47,7 @@ const ChatGpt = ({navigation}) => {
   const [checkPermissionId, setCheckPermissionId] = useState(false);
   const [recordStatus, setRecordStatus] = useState(false);
   const [baseRecordStatus, setBaseRecordStatus] = useState(false);
+  const [copyText, setCopyText] = useState('');
   // < ------------------------  finish ---------------------- >
 
   // < ------------------------  Socket Operation ---------------------- >
@@ -226,24 +227,41 @@ const ChatGpt = ({navigation}) => {
       if (response?.data == true) {
         setCheckPermissionId(true);
       }
-      console.log('id : ', deviceId, ' - sonuc :', response.data);
     } catch (error) {
-      console.log('hata : ', error);
+      setCheckPermissionId(false);
+      // console.log('hata : ', error);
     }
   };
+
   useEffect(() => {
     checkPermissionIdFunc();
   }, []);
+
+  if (isModalOpen) {
+    checkPermissionIdFunc();
+  }
+
+  const secondCopyText = () => {
+    setTimeout(() => {
+      setCopyText('');
+    }, 2500);
+  };
 
   const copyToClipboard = async () => {
     const id = await getUniqueId();
     console.log(id);
     Clipboard.setString(id);
+    Toast.show({
+      type: 'success',
+      text1: 'ID KOPYALANDI',
+    });
+    setCopyText('Kopyalandı');
+    secondCopyText();
   };
 
   // < ------------------------  finish ---------------------- >
 
-  const PancComponent = React.memo(() => {
+  const PancComponent = () => {
     return (
       <View
         style={{
@@ -255,7 +273,7 @@ const ChatGpt = ({navigation}) => {
         <Text style={styles.pancMessage}>{pancMessage}</Text>
       </View>
     );
-  });
+  };
 
   const ClosedButton = () => {
     return (
@@ -356,6 +374,18 @@ const ChatGpt = ({navigation}) => {
                         style={styles.Close}
                       />
                     </TouchableOpacity>
+                    {copyText && (
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          textAlign: 'center',
+                          lineHeight: 40,
+                          color: 'green',
+                          fontWeight: 'bold',
+                        }}>
+                        {copyText}
+                      </Text>
+                    )}
                   </View>
                 )}
               </View>
