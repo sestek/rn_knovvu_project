@@ -20,9 +20,10 @@ const PermissionCheck = async () => {
           PermissionsAndroid.RESULTS.GRANTED
       ) {
         console.log('Permissions granted');
+        return true;
       } else {
         console.log('All required permissions not granted');
-        return;
+        return false;
       }
     } catch (err) {
       console.warn(err);

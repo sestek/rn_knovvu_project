@@ -12,6 +12,7 @@ import {
   Modal,
   SafeAreaView,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {
@@ -32,11 +33,10 @@ import CustomWebSocket from '@src/service/CustomWebsocket';
 import Uint8ArrayFromBase64 from '@src/utils/functions/unit8ArrayFunc';
 import PermissionCheck from '@src/utils/functions/permission';
 import socketValue from '@src/constant/socket';
-import AudioRecord from 'react-native-audio-record';
+import AudioRecord, {IAudioRecord} from 'react-native-audio-record';
 import {getUniqueId} from 'react-native-device-info';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
-import checkConnection from '@src/utils/functions/checkConnection';
 
 // < ------------------------  finish ---------------------- >
 
@@ -54,13 +54,16 @@ const ChatGpt = ({navigation}) => {
 
   // < ------------------------  Socket Operation ---------------------- >
 
-  const [ws, setWs] = React.useState<WebSocket>(null);
+  const [ws, setWs] = useState<WebSocket>(null);
+  const [audio, setAudio] = useState<IAudioRecord>(null);
 
   // < ------------------------  Token  ---------------------- >
 
   const requestToken = async () => {
     const token = await AsyncStorage.getItem('token');
-    sendSocketData({...socketValue, token: token}); // token değişkenin değerini kendinize göre ayarlayın
+    if (token) {
+      sendSocketData({...socketValue, token: token});
+    }
   };
 
   // < ------------------------  finish ---------------------- >
@@ -71,10 +74,14 @@ const ChatGpt = ({navigation}) => {
     );
 
     socket.onopen = () => {
-      socket.send(JSON.stringify(socketData));
+      console.log('open socket');
+      if (socketData) {
+        socket.send(JSON.stringify(socketData));
+      }
     };
 
     socket.onmessage = e => {
+      console.log(e);
       const Jsondata = JSON.parse(e?.data);
       const contentMessage = Jsondata?.event?.data;
       const text: string = Jsondata?.event?.data?.text;
@@ -127,15 +134,19 @@ const ChatGpt = ({navigation}) => {
     if (ws === null) {
       connectWebSocket();
     }
-
-    return async () => {
-      await handleStop();
-    };
-  }, []);
+    if (audio === null && ws != null) {
+      connectAudio();
+    }
+  }, [ws, audio]);
 
   const connectWebSocket = () => {
     let wsTemp = getWebSocket();
     setWs(wsTemp);
+  };
+
+  const connectAudio = () => {
+    let audioTemp = getAudioOperation();
+    setAudio(audioTemp);
   };
 
   // < ------------------------  finish ---------------------- >
@@ -154,37 +165,29 @@ const ChatGpt = ({navigation}) => {
 
   // < ------------------------  Socket send Audio ---------------------- >
 
-  const options = {
-    sampleRate: 8000,
-    channels: 1,
-    bitsPerSample: 16,
-    audioSource: 6,
-    wavFile: 'test.wav',
-  };
+  const getAudioOperation = () => {
+    const options = {
+      sampleRate: 8000,
+      channels: 1,
+      bitsPerSample: 16,
+      audioSource: 6,
+      wavFile: 'test.wav',
+    };
 
-  AudioRecord.init(options);
+    AudioRecord.init(options);
 
-  AudioRecord.on('data', async data => {
-    const convertedAudio = await Uint8ArrayFromBase64(data);
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(convertedAudio);
-    }
-  });
-
-  const start = () => {
-    try {
-      AudioRecord.start();
-      console.log('Kayıt Başladı');
-    } catch (error) {}
-  };
-
-  const stop = async () => {
-    try {
-      const audioFile = await AudioRecord.stop();
-      console.log(audioFile);
-    } catch (error) {
-      console.log(error);
-    }
+    AudioRecord.on('data', async data => {
+      // console.log(data.charCodeAt(5));
+      const convertedAudio = await Uint8ArrayFromBase64(data);
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(convertedAudio);
+      }
+      // if (ws && ws.readyState === WebSocket.OPEN) {
+      //   console.log('göndermee');
+      //   ws.send(convertedAudio);
+      // }
+    });
+    return AudioRecord;
   };
 
   // < ------------------------  finish ---------------------- >
@@ -192,21 +195,43 @@ const ChatGpt = ({navigation}) => {
   // < ------------------------  Start Stop Record Button ---------------------- >
 
   const handleRecord = async () => {
-    console.log('tetiklendi');
-    PermissionCheck();
-    if (ws) {
-      connectWebSocket();
-    }
-    setRecordStatus(true);
-    setBaseRecordStatus(true);
-    start();
+    try {
+      console.log('tetiklendi');
+      const per = await PermissionCheck();
+      if (ws) {
+        console.log('oluştur');
+        connectWebSocket();
+      }
+      if (Platform.OS === 'android') {
+        if (per) {
+          if (audio) {
+            audio.start();
+            setRecordStatus(true);
+            setBaseRecordStatus(true);
+          } else {
+            connectAudio();
+          }
+        }
+      } else {
+        if (audio) {
+          audio.start();
+          setRecordStatus(true);
+          setBaseRecordStatus(true);
+        } else {
+          connectAudio();
+        }
+      }
+    } catch (error) {}
   };
   const handleStop = async () => {
     try {
       if (recordStatus) {
-        await stop();
+        const path = await audio.stop();
+        console.log(path);
       }
-      ws.close();
+      if (ws) {
+        ws.close();
+      }
       setRecordStatus(false);
       setBaseRecordStatus(false);
       setMessageList([]);
@@ -233,10 +258,6 @@ const ChatGpt = ({navigation}) => {
       // console.log('hata : ', error);
     }
   };
-
-  useEffect(() => {
-    checkPermissionIdFunc();
-  }, []);
 
   if (isModalOpen) {
     checkPermissionIdFunc();
@@ -278,7 +299,7 @@ const ChatGpt = ({navigation}) => {
 
   const ClosedButton = () => {
     return (
-      <TouchableOpacity onPress={closeModalButton}>
+      <TouchableOpacity onPress={() => closeModalButton()}>
         <Image
           source={Close}
           resizeMode="stretch"
