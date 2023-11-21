@@ -48,20 +48,29 @@ const ChatGpt = ({navigation}) => {
   const [recordStatus, setRecordStatus] = useState(false);
   const [baseRecordStatus, setBaseRecordStatus] = useState(false);
   const [copyText, setCopyText] = useState('');
+  const [socketData, sendSocketData] = useState({})
   // < ------------------------  finish ---------------------- >
 
   // < ------------------------  Socket Operation ---------------------- >
 
   const [ws, setWs] = React.useState<WebSocket>(null);
 
+  // < ------------------------  Token  ---------------------- >
+
+  const requestToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    sendSocketData({ ...socketValue, token: token }); // token değişkenin değerini kendinize göre ayarlayın
+  };
+
+  // < ------------------------  finish ---------------------- >
+
   const getWebSocket = () => {
     const socket = new WebSocket(
-      'wss://enes-zehir-hullcity.wagtail.test.core.devops.sestek.com.tr/project-runner/chatGpt',
+      'wss://dataflow.eu.knovvu.com/project-runner/chatGPTTr',
     );
 
     socket.onopen = () => {
-      console.log('Web Socket open');
-      socket.send(JSON.stringify(socketValue));
+      socket.send(JSON.stringify(socketData));
     };
 
     socket.onmessage = e => {
@@ -113,6 +122,7 @@ const ChatGpt = ({navigation}) => {
   };
 
   React.useEffect(() => {
+    requestToken();
     if (ws === null) {
       connectWebSocket();
     }
@@ -125,16 +135,6 @@ const ChatGpt = ({navigation}) => {
   const connectWebSocket = () => {
     let wsTemp = getWebSocket();
     setWs(wsTemp);
-  };
-
-  // < ------------------------  finish ---------------------- >
-
-  // < ------------------------  Token  ---------------------- >
-
-  const requestToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    console.log('tokenımız :', token);
-    return token;
   };
 
   // < ------------------------  finish ---------------------- >
