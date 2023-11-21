@@ -36,6 +36,7 @@ import AudioRecord from 'react-native-audio-record';
 import {getUniqueId} from 'react-native-device-info';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
+import checkConnection from '@src/utils/functions/checkConnection';
 
 // < ------------------------  finish ---------------------- >
 
@@ -48,7 +49,7 @@ const ChatGpt = ({navigation}) => {
   const [recordStatus, setRecordStatus] = useState(false);
   const [baseRecordStatus, setBaseRecordStatus] = useState(false);
   const [copyText, setCopyText] = useState('');
-  const [socketData, sendSocketData] = useState({})
+  const [socketData, sendSocketData] = useState({});
   // < ------------------------  finish ---------------------- >
 
   // < ------------------------  Socket Operation ---------------------- >
@@ -59,7 +60,7 @@ const ChatGpt = ({navigation}) => {
 
   const requestToken = async () => {
     const token = await AsyncStorage.getItem('token');
-    sendSocketData({ ...socketValue, token: token }); // token değişkenin değerini kendinize göre ayarlayın
+    sendSocketData({...socketValue, token: token}); // token değişkenin değerini kendinize göre ayarlayın
   };
 
   // < ------------------------  finish ---------------------- >

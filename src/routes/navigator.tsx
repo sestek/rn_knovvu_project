@@ -33,16 +33,14 @@ const Navigator = () => {
     dispatch(asyncGetWebchatData());
   }, []);
 
-
   return (
     <>
       <StatusBar hidden={false} barStyle="dark-content" />
       <NavigationContainer>
         <Tab.Navigator
           tabBar={props => <TabBarComponent {...props} />}
-          
           screenOptions={({route}) => ({
-            title:'',
+            title: '',
             headerRight: () => (
               <Image
                 source={Knovvu32}

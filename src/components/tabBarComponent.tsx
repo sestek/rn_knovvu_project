@@ -8,11 +8,20 @@ import {
   Keyboard,
   Platform,
 } from 'react-native';
-import {Knovvu32, ChatGpt, Avatar, HomePic, Settings,HomeDark} from '@src/assests';
+import {
+  Knovvu32,
+  ChatGpt,
+  Avatar,
+  HomePic,
+  Settings,
+  HomeDark,
+} from '@src/assests';
 import {Text} from '@rneui/base';
 import {useAppSelector} from '@src/utils/redux/hooks';
 import useModalCloseStore from '@src/zustandStore/chatgpt/store';
 import useModalCloseAvatarStore from '@src/zustandStore/avatar/store';
+import NetInfo from '@react-native-community/netinfo';
+import Toast from 'react-native-toast-message';
 
 const TabBarComponent = ({state, descriptors, navigation}) => {
   const color_100 = useAppSelector(state => state.theme.color_100);
@@ -63,45 +72,69 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
           const isFocused = state.index === index;
 
           const onPress = () => {
-            if (route.name === 'Knovvu' && modalVisible) {
-              modalVisible();
-              return;
-            }
+            if (route.name === 'Home') {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: route.key,
+                canPreventDefault: true,
+              });
 
-            if (route.name === 'ChatGpt') {
-              setIsModalOpen(true);
-              navigation.navigate('ChatGpt');
-              return;
-            }
+              if (!isFocused && !event?.defaultPrevented) {
+                navigation.navigate({name: route.name, merge: true});
+              }
+            } else {
+              NetInfo.addEventListener(state => {
+                if (state.isConnected) {
+                  if (route.name === 'Knovvu' && modalVisible) {
+                    modalVisible();
+                    return;
+                  }
 
-            if (route.name === 'Avatar') {
-              setIsModalAvatarOpen(true);
-              navigation.navigate('Avatar');
-              return;
-            }
+                  if (route.name === 'ChatGpt') {
+                    setIsModalOpen(true);
+                    navigation.navigate('ChatGpt');
+                    return;
+                  }
 
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
+                  if (route.name === 'Avatar') {
+                    setIsModalAvatarOpen(true);
+                    navigation.navigate('Avatar');
+                    return;
+                  }
 
-            if (!isFocused && !event?.defaultPrevented) {
-              navigation.navigate({name: route.name, merge: true});
+                  const event = navigation.emit({
+                    type: 'tabPress',
+                    target: route.key,
+                    canPreventDefault: true,
+                  });
+
+                  if (!isFocused && !event?.defaultPrevented) {
+                    navigation.navigate({name: route.name, merge: true});
+                  }
+                } else {
+                  Toast.show({
+                    type: 'error',
+                    text1: 'Internet bağlantısı kurulamadı ⚠️',
+                  });
+                  navigation.navigate('Home');
+                }
+              });
             }
           };
           const getIconFunc = (focused: boolean) => {
             if (route.name === 'Home') {
-              return (
-                focused ? <Image
+              return focused ? (
+                <Image
                   source={HomeDark}
                   resizeMode="cover"
                   style={styles().image}
-                />: <Image
-                source={HomePic}
-                resizeMode="cover"
-                style={styles().image}
-              />
+                />
+              ) : (
+                <Image
+                  source={HomePic}
+                  resizeMode="cover"
+                  style={styles().image}
+                />
               );
             } else if (route.name === 'Settings') {
               return (
@@ -147,9 +180,9 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
               style={styles(dynamicWidth).touchArea}
               key={route.name}>
               {getIconFunc(isFocused)}
-               <Text style={styles(isFocused, color_100, color_200).text}>
+              <Text style={styles(isFocused, color_100, color_200).text}>
                 {label}
-              </Text> 
+              </Text>
             </TouchableOpacity>
           );
         })}

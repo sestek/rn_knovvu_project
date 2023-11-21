@@ -110,6 +110,7 @@ const Settings = () => {
       .get('https://api-gateway.sestek.com/get-demos')
       .then(response => {
         setDemoProjectList(response.data);
+        console.log(response)
       })
       .catch(error => {
         console.log('Error: ', error);
