@@ -154,26 +154,31 @@ const ChatGpt = ({navigation}) => {
 
   // < ------------------------  Socket send Audio ---------------------- >
 
-  const options = {
-    sampleRate: 8000,
-    channels: 1,
-    bitsPerSample: 16,
-    audioSource: 6,
-    wavFile: 'test.wav',
-  };
+  useEffect(() => {
+    const options = {
+      sampleRate: 8000,
+      channels: 1,
+      bitsPerSample: 16,
+      audioSource: 6,
+      wavFile: 'test.wav',
+    };
 
-  AudioRecord.init(options);
+    AudioRecord.init(options);
+  }, []);
 
-  AudioRecord.on('data', async data => {
-    const convertedAudio = await Uint8ArrayFromBase64(data);
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(convertedAudio);
-    }
+  useEffect(() => {
+    AudioRecord.on('data', async data => {
+      const convertedAudio = await Uint8ArrayFromBase64(data);
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(convertedAudio);
+      }
+    });
   });
 
   const start = () => {
     try {
       AudioRecord.start();
+
       console.log('Kayıt Başladı');
     } catch (error) {}
   };
