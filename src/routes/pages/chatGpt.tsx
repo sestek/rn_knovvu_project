@@ -173,7 +173,7 @@ const ChatGpt = ({navigation}) => {
         ws.send(convertedAudio);
       }
     });
-  });
+  }, []);
 
   const start = () => {
     try {
