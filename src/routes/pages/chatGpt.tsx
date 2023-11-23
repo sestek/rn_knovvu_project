@@ -12,6 +12,7 @@ import {
   Modal,
   SafeAreaView,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {
@@ -50,6 +51,7 @@ const ChatGpt = ({navigation}) => {
   const [baseRecordStatus, setBaseRecordStatus] = useState(false);
   const [copyText, setCopyText] = useState('');
   const [socketData, sendSocketData] = useState({});
+  const [loading, setLoading] = useState(false);
   // < ------------------------  finish ---------------------- >
 
   // < ------------------------  Socket Operation ---------------------- >
@@ -173,7 +175,7 @@ const ChatGpt = ({navigation}) => {
         ws.send(convertedAudio);
       }
     });
-  }, []);
+  });
 
   const start = () => {
     try {
@@ -226,6 +228,7 @@ const ChatGpt = ({navigation}) => {
   // < ------------------------  Copy device Id Button ---------------------- >
   const checkPermissionIdFunc = async () => {
     try {
+      setLoading(true);
       const deviceId = await getUniqueId();
       const response = await axios.get(
         'https://api-gateway.sestek.com/check-voicegpt/' + deviceId,
@@ -233,19 +236,17 @@ const ChatGpt = ({navigation}) => {
       if (response?.data == true) {
         setCheckPermissionId(true);
       }
+      setLoading(false);
     } catch (error) {
       setCheckPermissionId(false);
+      setLoading(false);
       // console.log('hata : ', error);
     }
   };
 
   useEffect(() => {
     checkPermissionIdFunc();
-  }, []);
-
-  if (isModalOpen) {
-    checkPermissionIdFunc();
-  }
+  }, [isModalOpen]);
 
   const secondCopyText = () => {
     setTimeout(() => {
@@ -261,7 +262,7 @@ const ChatGpt = ({navigation}) => {
       type: 'success',
       text1: 'ID KOPYALANDI',
     });
-    setCopyText('Kopyalandı');
+    setCopyText('Copied');
     secondCopyText();
   };
 
@@ -337,6 +338,19 @@ const ChatGpt = ({navigation}) => {
                       Lets Talk!
                     </Text>
                   </>
+                ) : loading ? (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <ActivityIndicator size="large" color="#E26310" />
+                    <Text
+                      style={{marginTop: 10, fontSize: 18, fontWeight: '700'}}>
+                      Loading...
+                    </Text>
+                  </View>
                 ) : (
                   <View
                     style={{
@@ -352,13 +366,13 @@ const ChatGpt = ({navigation}) => {
                     }}>
                     <Text
                       style={{
-                        fontSize: 18,
+                        fontSize: 15,
                         textAlign: 'center',
-                        lineHeight: 40,
+                        lineHeight: 20,
                         color: '#E26310',
                         fontWeight: 'bold',
                       }}>
-                      Kullanabilmek için id'yi sestek ekibine iletin
+                      Forward the id to the sestek team to use it
                     </Text>
                     <TouchableOpacity
                       style={{
@@ -373,7 +387,7 @@ const ChatGpt = ({navigation}) => {
                         flexDirection: 'row',
                       }}
                       onPress={() => copyToClipboard()}>
-                      <Text style={{fontWeight: 'bold'}}>Kopyala</Text>
+                      <Text style={{fontWeight: 'bold'}}>Copy</Text>
                       <Image
                         source={Copy}
                         resizeMode="stretch"
