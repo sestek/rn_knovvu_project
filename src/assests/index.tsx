@@ -10,7 +10,6 @@ import BigRecord from './micBig.png';
 import BackgroundChatgpt from './bck.jpg';
 import Avatar from './avatar.png';
 import Copy from './copy.png';
-import Settings from './settingspage.png'
 import HomePic from './homepage.png'
 import HomeDark from './homedark.png'
 
@@ -24,9 +23,21 @@ import C_Hepsiburada from './customer/hepsiburada.png';
 import C_IngBANK from './customer/ingbank.png';
 import C_TurkTelekom from './customer/turktelekom.png';
 import C_VakıfBank from './customer/vakifbank.png';
-
+import HomeActive from './home.png'
+import HomePassive from './home-passive.png'
+import ChatBotActive from './chatbot.png'
+import ChatBotPassive from './chatbot-passive.png'
+import ChatbotWhite from './chatbot-white.png'
+import AvatarActive from './avatar.png'
+import AvatarPassive from './avatar-passive.png'
+import AvatarWhite from './avatar-white.png'
+import Settings from './settings.png';
 import LottieVoice from './voice.json';
 import LottieRecord from './lottie/recorder.json';
+import ClosePink from './close-pink.png'
+import Knovvu32x32 from './knovvu-32x32.png'
+import ArrowUp from './arrow-up.png'
+import ArrowDown from './arrow-down.png'
 
 export {
   KnovvuBanner,
@@ -53,7 +64,19 @@ export {
   BackgroundChatgpt,
   Avatar,
   Copy,
-  Settings,
   HomePic,
-  HomeDark
+  HomeDark,
+  HomeActive,
+  HomePassive,
+  ChatBotActive,
+  ChatBotPassive,
+  ChatbotWhite,
+  AvatarActive,
+  AvatarPassive,
+  AvatarWhite,
+  Settings,
+  ClosePink,
+  Knovvu32x32,
+  ArrowUp,
+  ArrowDown
 };

@@ -7,7 +7,9 @@ export interface WebchatState {
     tenant: string,
     project: string,
     customActionData: any,
-
+    isMicEnabled:any,
+    personaId:string,
+    
     headerColor: string,
     headerText: string,
     bottomColor: string,
@@ -31,6 +33,8 @@ const initialState: WebchatState = {
     url: "https://eu.va.knovvu.com/webchat/chathub",
     tenant: "Demo",
     project: "TR_BANKACILIK_DEMO_v1.0",
+    isMicEnabled:"false",
+    personaId:"",
     customActionData: "",
 
     headerColor: '#7f81ae',
@@ -59,6 +63,7 @@ export const asyncGetWebchatData = createAsyncThunk(
 
 export const asyncSetCustomizeConfiguration = createAsyncThunk(
     "webchat/asyncSetCustomizeConfiguration",
+    
     async (data: WebchatState) => {
         await WebchatManager.setWebchatData(data);
         return data;
@@ -106,6 +111,8 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
     state.outgoingTextColor = data.outgoingTextColor;
     state.messageColor = data.messageColor;
     state.messageBoxColor = data.messageBoxColor;
+    state.personaId = data.personaId;
+    state.isMicEnabled = data.isMicEnabled;
 }
 
 export const webchatSlice = createSlice({

@@ -31,6 +31,7 @@ import {
 import YoutubeIframeModal from '@src/components/youtubeIframeModal';
 import SwiperText from '@src/components/swiperText';
 import Toast from 'react-native-toast-message';
+import UpBarCom from '@src/components/UpBarCom';
 
 const customer_image = [
   C_Avaya,
@@ -83,8 +84,12 @@ const Home = ({navigation}) => {
   const [openYoutube, setOpenYoutube] = useState<boolean>(false);
   const triggerYoutube = () => setOpenYoutube(old => !old);
 
+
   return (
-    <ScrollView>
+   <UpBarCom navigation={navigation} title={"Knovvu Mobile App"} close={false}>
+     <ScrollView>
+     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    </View>
       <View style={styles.extarnalView}>
         <YoutubeIframeModal open={openYoutube} setOpen={triggerYoutube} />
         <Lottie
@@ -307,6 +312,7 @@ const Home = ({navigation}) => {
         </View>
       </View>
     </ScrollView>
+   </UpBarCom>
   );
 };
 

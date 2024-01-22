@@ -40,23 +40,21 @@ const Navigator = () => {
         <Tab.Navigator
           tabBar={props => <TabBarComponent {...props} />}
           screenOptions={({route}) => ({
-            title: '',
-            headerRight: () => (
-              <Image
-                source={Knovvu32}
-                style={{width: 32, height: 32, marginHorizontal: 16}}
-              />
-            ),
+            title: route.name,
+            headerShown: false,
             tabBarHideOnKeyboard: true,
             headerTintColor: color_100,
             tabBarActiveTintColor: color_200,
             tabBarInactiveTintColor: color_300,
           })}>
           <Drawer.Screen name="Home" component={Home} />
-          <Drawer.Screen name="Settings" component={Settings} />
           <Drawer.Screen name="ChatGpt" component={ChatGpt} />
           <Drawer.Screen name="Avatar" component={DigitalHuman} />
           <Drawer.Screen name="Knovvu" component={KnovvuCmp} />
+          <Drawer.Screen
+            name="Settings"
+            component={Settings}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </>

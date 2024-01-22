@@ -9,12 +9,12 @@ import {
   Platform,
 } from 'react-native';
 import {
-  Knovvu32,
-  ChatGpt,
-  Avatar,
-  HomePic,
-  Settings,
-  HomeDark,
+  HomeActive,
+  HomePassive,
+  ChatBotActive,
+  ChatBotPassive,
+  AvatarActive,
+  AvatarPassive,
 } from '@src/assests';
 import {Text} from '@rneui/base';
 import {useAppSelector} from '@src/utils/redux/hooks';
@@ -24,13 +24,23 @@ import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
 
 const TabBarComponent = ({state, descriptors, navigation}) => {
+  const newState = {...state};
+  newState.routes = newState.routes.filter(
+    (item: any) => item.name !== 'ChatGpt' && item.name !== 'Settings',
+  );
+
+  const dynamicWidth =
+    Dimensions.get('screen').width * (1 / state.routes?.length);
+
   const color_100 = useAppSelector(state => state.theme.color_100);
   const color_200 = useAppSelector(state => state.theme.color_200);
   const color_300 = useAppSelector(state => state.theme.color_300);
 
   const modalVisible = useAppSelector(state => state.main.modalVisible);
-
   const [visible, setVisible] = useState<boolean>(true);
+
+  const {isModalOpen, setIsModalOpen} = useModalCloseStore();
+  const {isModalAvatarOpen, setIsModalAvatarOpen} = useModalCloseAvatarStore();
 
   useEffect(() => {
     let keyboardEventListeners: {remove: () => any}[];
@@ -50,18 +60,12 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
     };
   }, []);
 
-  const dynamicWidth =
-    Dimensions.get('screen').width * (1 / state.routes?.length);
-
-  const {isModalOpen, setIsModalOpen} = useModalCloseStore();
-  const {isModalAvatarOpen, setIsModalAvatarOpen} = useModalCloseAvatarStore();
 
   const RenderTabBarComp = () => {
     return (
       <View style={styles(color_100).mainView}>
-        {state.routes.map((route, index) => {
+        {newState.routes.map((route, index) => {
           const {options} = descriptors[route.key];
-
           const label =
             options.tabBarLabel !== undefined
               ? options.tabBarLabel
@@ -122,53 +126,22 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
             }
           };
           const getIconFunc = (focused: boolean) => {
+            let imageName;
             if (route.name === 'Home') {
-              return focused ? (
-                <Image
-                  source={HomeDark}
-                  resizeMode="cover"
-                  style={styles().image}
-                />
-              ) : (
-                <Image
-                  source={HomePic}
-                  resizeMode="cover"
-                  style={styles().image}
-                />
-              );
-            } else if (route.name === 'Settings') {
-              return (
-                <Image
-                  source={Settings}
-                  resizeMode="stretch"
-                  style={styles().image}
-                />
-              );
-            } else if (route.name === 'ChatGpt') {
-              return (
-                <Image
-                  source={ChatGpt}
-                  resizeMode="stretch"
-                  style={styles().image}
-                />
-              );
+              imageName = focused ? HomePassive : HomeActive;
             } else if (route.name === 'Knovvu') {
-              return (
-                <Image
-                  source={Knovvu32}
-                  resizeMode="stretch"
-                  style={styles().image}
-                />
-              );
+              imageName = focused ? ChatBotPassive : ChatBotActive;
             } else if (route.name === 'Avatar') {
-              return (
-                <Image
-                  source={Avatar}
-                  resizeMode="stretch"
-                  style={styles().image}
-                />
-              );
+              imageName = focused ? AvatarPassive : AvatarActive;
             }
+
+            return (
+              <Image
+                source={imageName}
+                resizeMode="stretch"
+                style={styles().image}
+              />
+            );
           };
           return (
             <TouchableOpacity
@@ -180,7 +153,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
               style={styles(dynamicWidth).touchArea}
               key={route.name}>
               {getIconFunc(isFocused)}
-              <Text style={styles(isFocused, color_100, color_200).text}>
+              <Text style={styles(isFocused, color_200, color_300).text}>
                 {label}
               </Text>
             </TouchableOpacity>
@@ -204,7 +177,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
 const styles = (prm?: any, prm2?: any, prm3?: any) =>
   StyleSheet.create({
     text: {
-      color: prm ? prm2 : prm3,
+      color: prm === true ? prm2 : prm3,
       fontSize: 11,
     },
     touchArea: {
@@ -212,12 +185,14 @@ const styles = (prm?: any, prm2?: any, prm3?: any) =>
       alignItems: 'center',
       flexGrow: 1,
       width: prm,
-      padding: 6,
+      paddingTop: 6,
+      marginBottom: 20,
       backgroundColor: 'white',
     },
     image: {
-      width: Dimensions.get('screen').width * 0.11,
-      height: Dimensions.get('screen').width * 0.11,
+      width: 30,
+      height: 30,
+      backgroundColor: 'white',
     },
     mainView: {
       flexDirection: 'row',
