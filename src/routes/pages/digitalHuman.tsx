@@ -29,7 +29,7 @@ const DigitalHuman = ({navigation}) => {
   const webchat = useAppSelector(state => state.webchat);
   var avatarURL = `https://demo-app.sestek.com/sestek-avatar-mobile.html?onlyRecordButton=true` 
   if(webchat.personaId !== ""){
-    avatarURL = avatarURL +`&showProjectName=${webchat.project}&perosnaId=${webchat.personaId}`
+    avatarURL = avatarURL +`&showProjectName=${webchat.project}&personaId=${webchat.personaId}`
   }
   return (
     <Modal animationType="slide" visible={isModalAvatarOpen}>

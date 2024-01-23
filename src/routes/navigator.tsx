@@ -5,15 +5,10 @@ import Home from './pages/home';
 import Settings from './pages/settings';
 import TabBarComponent from '@src/components/tabBarComponent';
 import {useAppDispatch, useAppSelector} from '@src/utils/redux/hooks';
-import About from './pages/about';
-import {Knovvu32} from '@src/assests';
 import {asyncGetWebchatData} from '@src/utils/redux/slice/webchatSlice';
-import ContactUs from './pages/contactus';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Dimensions, Image, StatusBar} from 'react-native';
+import { StatusBar} from 'react-native';
 import ChatGpt from './pages/chatGpt';
-import Sound from './pages/sound';
 import DigitalHuman from './pages/digitalHuman';
 
 const Drawer = createDrawerNavigator();

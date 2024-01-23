@@ -63,7 +63,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
 
   const RenderTabBarComp = () => {
     return (
-      <View style={styles(color_100).mainView}>
+      <View style={styles().mainView}>
         {newState.routes.map((route, index) => {
           const {options} = descriptors[route.key];
           const label =
@@ -186,8 +186,9 @@ const styles = (prm?: any, prm2?: any, prm3?: any) =>
       flexGrow: 1,
       width: prm,
       paddingTop: 6,
-      marginBottom: 20,
+      paddingBottom:20,
       backgroundColor: 'white',
+
     },
     image: {
       width: 30,
@@ -197,8 +198,9 @@ const styles = (prm?: any, prm2?: any, prm3?: any) =>
     mainView: {
       flexDirection: 'row',
       justifyContent: 'center',
-      borderTopWidth: 0.2,
-      borderTopColor: prm,
+      borderTopWidth: 0.5,
+      borderTopColor: "#5F6295",
+      borderTopRadius:30
     },
   });
 
