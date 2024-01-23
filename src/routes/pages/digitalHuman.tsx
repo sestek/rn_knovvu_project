@@ -28,7 +28,6 @@ const DigitalHuman = ({navigation}) => {
   const {isModalAvatarOpen, setIsModalAvatarOpen} = useModalCloseAvatarStore();
   const webchat = useAppSelector(state => state.webchat);
   var avatarURL = `https://demo-app.sestek.com/sestek-avatar-mobile.html?onlyRecordButton=true` 
-
   if(webchat.personaId !== ""){
     avatarURL = avatarURL +`&showProjectName=${webchat.project}&perosnaId=${webchat.personaId}`
   }

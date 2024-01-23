@@ -57,14 +57,14 @@ const DropDownCmp: React.FC<DropdownProps> = ({
             {item.key}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center',}}>
-            { item.value?.isMicEnabled !== false ? <Image
+            {/* { item.value?.isMicEnabled !== false ? <Image
               source={ isSelected ? ChatbotWhite:ChatBotActive}
               style={{width: 25, height: 25, marginHorizontal: 5}}
-            /> : null}
+            /> : null} */}
             {
               item.value?.personaId !== "" ? <Image
               source={isSelected ? AvatarWhite : AvatarActive}
-              style={{width: 25, height: 25, marginHorizontal: 5}}
+              style={{width: 18, height: 20, marginHorizontal: 5}}
             /> : null
             }
           </View>

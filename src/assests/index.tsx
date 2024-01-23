@@ -1,4 +1,3 @@
-import KnovvuMainLogo2 from './knovvu_main_logo2.png';
 import Knovvu32 from './knovvu_32.png';
 import KnovvuBackground from './knovvu_background.png';
 import KnovvuBanner from './knovvu_banner.png';
@@ -10,8 +9,6 @@ import BigRecord from './micBig.png';
 import BackgroundChatgpt from './bck.jpg';
 import Avatar from './avatar.png';
 import Copy from './copy.png';
-import HomePic from './homepage.png'
-import HomeDark from './homedark.png'
 
 import C_Vodafone from './customer/vodafone.png';
 import C_Avaya from './customer/avaya.png';
@@ -41,7 +38,6 @@ import ArrowDown from './arrow-down.png'
 
 export {
   KnovvuBanner,
-  KnovvuMainLogo2,
   Knovvu32,
   KnovvuBackground,
   LottieVoice,
@@ -64,8 +60,6 @@ export {
   BackgroundChatgpt,
   Avatar,
   Copy,
-  HomePic,
-  HomeDark,
   HomeActive,
   HomePassive,
   ChatBotActive,

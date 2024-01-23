@@ -11,6 +11,7 @@ import { WebView } from 'react-native-webview';
 import { PermissionsManager } from "@src/utils/functions/permissionsManager";
 import { WebchatManager } from "@src/utils/functions/webchatManages";
 import { Knovvu32 } from '@src/assests';
+import AudioRecord from 'react-native-audio-record';
 
 const WebchatModal = () => {
     const modalRef = useRef<ChatModalRef>(null);
@@ -48,11 +49,18 @@ const WebchatModal = () => {
     }
 
     console.log(clientId)
-
+    const [responseData, setResponseData] = useState<any>({});
+    const setResponse = (value: any) => {
+      setResponseData(value);
+    };
+    useEffect(() => {
+      console.log(responseData);
+    }, [responseData]);
+  
     return (
         <ChatModal
             url={webchat.url}
-            modules={{ AudioRecorderPlayer: AudioRecorderPlayer, RNFS: RNFetchBlob, RNSlider: Slider, RNWebView: WebView }}
+            modules={{ AudioRecorderPlayer: AudioRecorderPlayer, RNFS: RNFetchBlob, RNSlider: Slider, RNWebView: WebView , Record:AudioRecord }}
             ref={modalRef}
             defaultConfiguration={{
                 sendConversationStart: true,
@@ -60,6 +68,8 @@ const WebchatModal = () => {
                 projectName: webchat.project,
                 channel: 'Mobil',
                 clientId: clientId,
+                enableNdUi: true,
+                getResponseData: setResponse,
                 customActionData: webchat.customActionData,
             }}
             customizeConfiguration={{
@@ -89,7 +99,27 @@ const WebchatModal = () => {
                 sliderMaximumTrackTintColor: 'gray',
                 sliderThumbTintColor: color_300,
                 sliderMinimumTrackTintColor: color_300,
-                beforeAudioClick: audioClickFunc
+                beforeAudioClick: audioClickFunc,
+                closeModalSettings: {
+                    use: true,
+                    text: "Chat'ten çıkmak istediğinize emin misiniz ?",
+                    textColor: 'black',
+                    background: 'white',
+                    buttons: {
+                      yesButton: {
+                        text: 'Evet',
+                        textColor: 'white',
+                        background: '#7f81ae',
+                        borderColor: 'transparent',
+                      },
+                      noButton: {
+                        text: 'Hayır',
+                        textColor: 'black',
+                        background: 'transparent',
+                        borderColor: 'black',
+                      },
+                    },
+                  },
             }}
         />
     )
