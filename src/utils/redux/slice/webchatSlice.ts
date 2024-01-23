@@ -75,8 +75,8 @@ export const asyncSetInitialState = createAsyncThunk(
     async () => {
         var data = {
             url: "https://eu.va.knovvu.com/webchat/chathub",
-            tenant: "Demo",
-            project: "TR_BANKACILIK_DEMO_v1.0",
+            tenant: "internal",
+            project: "Knovvu_Bot",
             customActionData: "",
 
             headerColor: '#7f81ae',
@@ -130,8 +130,8 @@ export const webchatSlice = createSlice({
         },
         setInitialState: (state) => {
             state.url = "https://eu.va.knovvu.com/webchat/chathub";
-            state.tenant = "Demo";
-            state.project = "TR_BANKACILIK_DEMO_v1.0";
+            state.tenant = "internal";
+            state.project = "Knovvu_Bot";
             state.customActionData = "";
             state.headerColor = '#7f81ae';
             state.headerText = 'Knovvu Chat Client';
