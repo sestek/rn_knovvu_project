@@ -32,7 +32,7 @@ interface SetKeyValue {
 const initialState: WebchatState = {
     url: "https://eu.va.knovvu.com/webchat/chathub",
     tenant: "Demo",
-    project: "TR_BANKACILIK_DEMO_v1.0",
+    project: "Knovvu_Bot",
     isMicEnabled:"false",
     personaId:"",
     customActionData: "",
