@@ -21,7 +21,7 @@ const useRequest = () => {
         .join('&');
 
     const formData = toFormUrlEncoded(dataBody);
-    console.log(formData);
+    // console.log(formData);
 
     fetch(url, {
       method: 'POST',

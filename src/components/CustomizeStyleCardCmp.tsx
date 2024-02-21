@@ -22,11 +22,32 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
     ColorPickerState[]
   >([
     {isVisible: false, key: 'headerColor', title: 'Header Color'},
+    {isVisible: false, key: 'headerTextColor', title: 'Header Text Color'},
     {isVisible: false, key: 'bottomColor', title: 'Bottom Color'},
-    {isVisible: false, key: 'incomingTextColor', title: 'Incoming Text Color'},
-    {isVisible: false, key: 'outgoingTextColor', title: 'Outgoing Text Color'},
-    {isVisible: false, key: 'messageColor', title: 'Message Color'},
-    {isVisible: false, key: 'messageBoxColor', title: 'Message Box Color'},
+    {isVisible: false, key: 'bottomInputBorderColor', title: 'Bottom Input Border Color'},
+    {isVisible: false, key: 'bottomInputSendButtonColor', title: 'Bottom Input Send Button Color'},
+    {isVisible: false, key: 'userMessageBoxBackground', title: 'User Message Box Background'},
+    {isVisible: false, key: 'userMessageBoxTextColor', title: 'User Message Text Color'},
+    {isVisible: false, key: 'chatBotMessageBoxBackground', title: 'Chat Bot Message Box Background'},
+    {isVisible: false, key: 'chatBotMessageBoxTextColor', title: 'Chat Bot Message Box Text Color'},
+    {isVisible: false, key: 'chatBotMessageBoxHeaderNameColor', title: 'Chat Bot Message Box Header Name Color'},
+    {isVisible: false, key: 'chatBotMessageBoxButtonBackground', title: 'Chat Bot Message Box Button Background'},
+    {isVisible: false, key: 'chatBotMessageBoxButtonTextColor', title: 'Chat Bot Message Bo Button Text Color'},
+    {isVisible: false, key: 'chatBotMessageBoxButtonBorderColor', title: 'Chat Bot Message Box Button Border Color'},
+    {isVisible: false, key: 'chatBody', title: 'Chat Body'},
+    {isVisible: false, key: 'sliderMaximumTrackTintColor', title: 'Slider Maximum Track Tint Color'},
+    {isVisible: false, key: 'sliderThumbTintColor', title: 'Slider Thumb Tint Color'},
+    {isVisible: false, key: 'sliderMinimumTrackTintColor', title: 'Slider Minumum Track Tint Color'},
+    {isVisible: false, key: 'cmsTextColor', title: 'Close Modal Text Color'},
+    {isVisible: false, key: 'cmsBackground', title: 'Close Modal Background Color'},
+    {isVisible: false, key: 'cmsYesButtonTextColor', title: 'Close Modal Yes Button Text Color'},
+    {isVisible: false, key: 'cmsYesButtonBackground', title: 'Close Modal Yes Button Background'},
+    {isVisible: false, key: 'cmsYesButtonBorderColor', title: 'Close Modal Yes Button Border Color'},
+    {isVisible: false, key: 'cmsNoButtonTextColor', title: 'Close Modal No Button Text Color'},
+    {isVisible: false, key: 'cmsNoButtonBackground', title: 'Close Modal No Button Background'},
+    {isVisible: false, key: 'cmsNoButtonBorderColor', title: 'Close Modal No Button Border Color'},
+
+
   ]);
 
   const handleColorPickerToggle = (index: string) => {
@@ -64,6 +85,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                 badgeStyle={{
                   height: 24,
                   width: 24,
+                  borderColor:"black", borderWidth:1,
                   backgroundColor: webchatCustomize.headerColor,
                 }}></Badge>
               &nbsp;&nbsp;
@@ -79,6 +101,27 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
             onChangeText={value => onChangeCustomize('headerText', value)}
             style={{color: '#EC008C'}}
           />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Header Text Color</Text>
+          <Pressable
+            style={{display: 'flex'}}
+            onPress={() => handleColorPickerToggle('headerTextColor')}>
+            <Text
+              h4
+              h4Style={{color: webchatCustomize.headerTextColor, fontSize: 22}}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.headerTextColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.headerTextColor}
+            </Text>
+          </Pressable>
         </View>
       </CollapseView>
       <View style={styles.line} />
@@ -96,6 +139,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                   height: 24,
                   width: 24,
                   backgroundColor: webchatCustomize.bottomColor,
+                  borderColor:"black", borderWidth:1
                 }}></Badge>
               &nbsp;&nbsp;
               {webchatCustomize.bottomColor}
@@ -103,26 +147,64 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>Bottom Text</Text>
+          <Text style={styles.text}>Bottom Input Text</Text>
           <Input
             placeholder="Bottom Text"
             style={{color: '#EC008C'}}
-            value={webchatCustomize.bottomText}
-            onChangeText={value => onChangeCustomize('bottomText', value)}
+            value={webchatCustomize.bottomInputText}
+            onChangeText={value => onChangeCustomize('bottomInputText', value)}
           />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Bottom Input Border Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('bottomInputBorderColor')}>
+            <Text
+              h4
+              h4Style={{color: webchatCustomize.bottomInputBorderColor, fontSize: 22}}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.bottomInputBorderColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.bottomInputBorderColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Bottom Input Send Button Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('bottomInputSendButtonColor')}>
+            <Text
+              h4
+              h4Style={{color: webchatCustomize.bottomInputSendButtonColor, fontSize: 22}}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.bottomInputSendButtonColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.bottomInputSendButtonColor}
+            </Text>
+          </Pressable>
         </View>
       </CollapseView>
       <View style={styles.line} />
 
-      <CollapseView header="INCOMING">
+      <CollapseView header="USER MESSAGE BOX">
         <View style={styles.padding}>
-          <Text style={styles.text}>Incoming Text Color</Text>
+          <Text style={styles.text}>User Message Box Background</Text>
           <Pressable
-            onPress={() => handleColorPickerToggle('incomingTextColor')}>
+            onPress={() => handleColorPickerToggle('userMessageBoxBackground')}>
             <Text
               h4
               h4Style={{
-                color: webchatCustomize.incomingTextColor,
+                color: webchatCustomize.userMessageBoxBackground,
                 fontSize: 22,
               }}>
               <Badge
@@ -130,33 +212,48 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                 badgeStyle={{
                   height: 24,
                   width: 24,
-                  backgroundColor: webchatCustomize.incomingTextColor,
+                  backgroundColor: webchatCustomize.userMessageBoxBackground,
+                  borderColor:"black", borderWidth:1
                 }}></Badge>
               &nbsp;&nbsp;
-              {webchatCustomize.incomingTextColor}
+              {webchatCustomize.userMessageBoxBackground}
             </Text>
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>Incoming Text</Text>
-          <Input
-            placeholder="Incoming Text"
-            value={webchatCustomize.incomingText}
-            onChangeText={value => onChangeCustomize('incomingText', value)}
-            style={{color: '#EC008C'}}
-          />
+          <Text style={styles.text}>User Message Box Text Color</Text>
+          <Pressable
+            onPress={() => handleColorPickerToggle('userMessageBoxTextColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.userMessageBoxTextColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.userMessageBoxTextColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.userMessageBoxTextColor}
+            </Text>
+          </Pressable>
         </View>
       </CollapseView>
       <View style={styles.line} />
-      <CollapseView header="OUTING">
+      <CollapseView header="BOT MESSAGE BOX ">
         <View style={styles.padding}>
-          <Text style={styles.text}>Outgoing Text Color</Text>
+          <Text style={styles.text}>Chat Bot Message Box Background</Text>
           <Pressable
-            onPress={() => handleColorPickerToggle('outgoingTextColor')}>
+            onPress={() => handleColorPickerToggle('chatBotMessageBoxBackground')}>
             <Text
               h4
               h4Style={{
-                color: webchatCustomize.outgoingTextColor,
+                color: webchatCustomize.chatBotMessageBoxBackground,
                 fontSize: 22,
               }}>
               <Badge
@@ -164,33 +261,149 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                 badgeStyle={{
                   height: 24,
                   width: 24,
-                  backgroundColor: webchatCustomize.outgoingTextColor,
+                  backgroundColor: webchatCustomize.chatBotMessageBoxBackground,
+                  borderColor:"black", borderWidth:1
                 }}></Badge>
               &nbsp;&nbsp;
-              {webchatCustomize.outgoingTextColor}
+              {webchatCustomize.chatBotMessageBoxBackground}
             </Text>
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>Outgoing Text</Text>
+          <Text style={styles.text}>Chat Bot Message Box Text Color</Text>
+          <Pressable
+            onPress={() => handleColorPickerToggle('chatBotMessageBoxTextColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.chatBotMessageBoxTextColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.chatBotMessageBoxTextColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.chatBotMessageBoxTextColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Chat Bot Message Box Header Name</Text>
           <Input
-            placeholder="Outgoing Text"
-            value={webchatCustomize.outgoingText}
-            onChangeText={value => onChangeCustomize('outgoingText', value)}
+            placeholder="Chat Bot Message Box Header Name"
+            value={webchatCustomize.chatBotMessageBoxHeaderName}
+            onChangeText={value => onChangeCustomize('chatBotMessageBoxHeaderName', value)}
             style={{color: '#EC008C'}}
           />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Chat Bot Message Box Header Name Color</Text>
+          <Pressable
+            onPress={() => handleColorPickerToggle('chatBotMessageBoxHeaderNameColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.chatBotMessageBoxHeaderNameColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.chatBotMessageBoxHeaderNameColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.chatBotMessageBoxHeaderNameColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Chat Bot Message Box Button Background</Text>
+          <Pressable
+            onPress={() => handleColorPickerToggle('chatBotMessageBoxButtonBackground')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.chatBotMessageBoxButtonBackground,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.chatBotMessageBoxButtonBackground,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.chatBotMessageBoxButtonBackground}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Chat Bot Message Box Button Text Color</Text>
+          <Pressable
+            onPress={() => handleColorPickerToggle('chatBotMessageBoxButtonTextColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.chatBotMessageBoxButtonTextColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.chatBotMessageBoxButtonTextColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.chatBotMessageBoxButtonTextColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Chat Bo Message Box Button Border Color</Text>
+          <Pressable
+            onPress={() => handleColorPickerToggle('chatBotMessageBoxButtonBorderColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.chatBotMessageBoxButtonBorderColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.chatBotMessageBoxButtonBorderColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.chatBotMessageBoxButtonBorderColor}
+            </Text>
+          </Pressable>
         </View>
       </CollapseView>
       <View style={styles.line} />
 
-      <CollapseView header="MESSAGE">
+      <CollapseView header="CHAT BODY">
         <View style={styles.padding}>
-          <Text style={styles.text}>Message Color</Text>
-          <Pressable onPress={() => handleColorPickerToggle('messageColor')}>
+          <Text style={styles.text}>Chat Body</Text>
+          <Pressable onPress={() => handleColorPickerToggle('chatBody')}>
             <Text
               h4
               h4Style={{
-                color: webchatCustomize.messageColor,
+                color: webchatCustomize.chatBody,
                 fontSize: 22,
               }}>
               <Badge
@@ -198,20 +411,48 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                 badgeStyle={{
                   height: 24,
                   width: 24,
-                  backgroundColor: webchatCustomize.messageColor,
+                  backgroundColor: webchatCustomize.chatBody,
+                  borderColor:"black", borderWidth:1
                 }}></Badge>
               &nbsp;&nbsp;
-              {webchatCustomize.messageColor}
+              {webchatCustomize.chatBody}
+            </Text>
+          </Pressable>
+        </View>
+   
+      </CollapseView>
+      <View style={styles.line} />
+
+      <CollapseView header="AUDIO SLIDER">
+        <View style={styles.padding}>
+          <Text style={styles.text}>Slider Maximum Track Tint Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('sliderMaximumTrackTintColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.sliderMaximumTrackTintColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.sliderMaximumTrackTintColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.sliderMaximumTrackTintColor}
             </Text>
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>Message Box Color</Text>
-          <Pressable onPress={() => handleColorPickerToggle('messageBoxColor')}>
+          <Text style={styles.text}>Slider Thumb Tint Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('sliderThumbTintColor')}>
             <Text
               h4
               h4Style={{
-                color: webchatCustomize.messageBoxColor,
+                color: webchatCustomize.sliderThumbTintColor,
                 fontSize: 22,
               }}>
               <Badge
@@ -219,14 +460,245 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                 badgeStyle={{
                   height: 24,
                   width: 24,
-                  backgroundColor: webchatCustomize.messageBoxColor,
+                  backgroundColor: webchatCustomize.sliderThumbTintColor,
+                  borderColor:"black", borderWidth:1
                 }}></Badge>
               &nbsp;&nbsp;
-              {webchatCustomize.messageBoxColor}
+              {webchatCustomize.sliderThumbTintColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Slider Minimum Track Tint Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('sliderMinimumTrackTintColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.sliderMinimumTrackTintColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.sliderMinimumTrackTintColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.sliderMinimumTrackTintColor}
             </Text>
           </Pressable>
         </View>
       </CollapseView>
+      <View style={styles.line} />
+
+      <CollapseView header="CLOSE MODAL">
+      <View style={styles.padding}>
+          <Text style={styles.text}>Close Modal Text</Text>
+          <Input
+            placeholder="Close Modal Text"
+            value={webchatCustomize.cmsText}
+            onChangeText={value => onChangeCustomize('chatBotMessageBoxHeaderName', value)}
+            style={{color: '#EC008C'}}
+          />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Close Modal Text Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsTextColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsTextColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsTextColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsTextColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>CM Background</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsBackground')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsBackground,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsBackground,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsBackground}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Close Modal Yes Text</Text>
+          <Input
+            placeholder="Yes"
+            value={webchatCustomize.cmsYesButtonText}
+            onChangeText={value => onChangeCustomize('cmsYesButtonText', value)}
+            style={{color: '#EC008C'}}
+          />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>CM Yes Button Text Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsYesButtonTextColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsYesButtonTextColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsYesButtonTextColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsYesButtonTextColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>CM Yes Button Background</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsYesButtonBackground')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsYesButtonBackground,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsYesButtonBackground,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsYesButtonBackground}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>CM Yes Button Border Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsYesButtonBorderColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsYesButtonBorderColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsYesButtonBorderColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsYesButtonBorderColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>Close Modal No Button Text</Text>
+          <Input
+            placeholder="No"
+            value={webchatCustomize.cmsNoButtonText}
+            onChangeText={value => onChangeCustomize('cmsNoButtonText', value)}
+            style={{color: '#EC008C'}}
+          />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>CM No Button Text Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsNoButtonTextColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsNoButtonTextColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsNoButtonTextColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsNoButtonTextColor}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>CM No Button Background</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsNoButtonBackground')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsNoButtonBackground,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsNoButtonBackground,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsNoButtonBackground}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>CM No Button Border Color</Text>
+          <Pressable onPress={() => handleColorPickerToggle('cmsNoButtonBorderColor')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.cmsNoButtonBorderColor,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.cmsNoButtonBorderColor,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.cmsNoButtonBorderColor}
+            </Text>
+          </Pressable>
+        </View>
+      </CollapseView>
+
       {colorPickerStates.map((colorPicker, index) => (
         <>
           <ColorPickerModal

@@ -389,7 +389,7 @@ const Settings = ({navigation}) => {
             <CustomizeStyleCard
               webchatCustomize={webchatCustomize}
               onChangeCustomize={onChangeCustomize}
-            />
+            /> 
           </Card>
           <View style={{marginBottom: 30}}>
             <Card wrapperStyle={styles.padding}>

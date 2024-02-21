@@ -35,6 +35,10 @@ import ClosePink from './close-pink.png'
 import Knovvu32x32 from './knovvu-32x32.png'
 import ArrowUp from './arrow-up.png'
 import ArrowDown from './arrow-down.png'
+import ModalClose from './modalClose.png'
+import ModalMinus from './minus.png'
+import ModalPause from './modalPause.png'
+import ModalPlay from './modalPlay.png'
 
 export {
   KnovvuBanner,
@@ -72,5 +76,9 @@ export {
   ClosePink,
   Knovvu32x32,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  ModalClose,
+  ModalMinus,
+  ModalPause,
+  ModalPlay
 };
