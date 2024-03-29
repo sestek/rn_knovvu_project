@@ -10,6 +10,7 @@ interface CustomizeStyleCardProps {
 }
 
 interface ColorPickerState {
+  id:number;
   isVisible: boolean;
   key: string;
   title: string;
@@ -18,37 +19,35 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
   webchatCustomize,
   onChangeCustomize,
 }) => {
-  const [colorPickerStates, setColorPickerStates] = useState<
-    ColorPickerState[]
-  >([
-    {isVisible: false, key: 'headerColor', title: 'Header Color'},
-    {isVisible: false, key: 'headerTextColor', title: 'Header Text Color'},
-    {isVisible: false, key: 'bottomColor', title: 'Bottom Color'},
-    {isVisible: false, key: 'bottomInputBorderColor', title: 'Bottom Input Border Color'},
-    {isVisible: false, key: 'bottomInputSendButtonColor', title: 'Bottom Input Send Button Color'},
-    {isVisible: false, key: 'userMessageBoxBackground', title: 'User Message Box Background'},
-    {isVisible: false, key: 'userMessageBoxTextColor', title: 'User Message Text Color'},
-    {isVisible: false, key: 'chatBotMessageBoxBackground', title: 'Chat Bot Message Box Background'},
-    {isVisible: false, key: 'chatBotMessageBoxTextColor', title: 'Chat Bot Message Box Text Color'},
-    {isVisible: false, key: 'chatBotMessageBoxHeaderNameColor', title: 'Chat Bot Message Box Header Name Color'},
-    {isVisible: false, key: 'chatBotMessageBoxButtonBackground', title: 'Chat Bot Message Box Button Background'},
-    {isVisible: false, key: 'chatBotMessageBoxButtonTextColor', title: 'Chat Bot Message Bo Button Text Color'},
-    {isVisible: false, key: 'chatBotMessageBoxButtonBorderColor', title: 'Chat Bot Message Box Button Border Color'},
-    {isVisible: false, key: 'chatBody', title: 'Chat Body'},
-    {isVisible: false, key: 'sliderMaximumTrackTintColor', title: 'Slider Maximum Track Tint Color'},
-    {isVisible: false, key: 'sliderThumbTintColor', title: 'Slider Thumb Tint Color'},
-    {isVisible: false, key: 'sliderMinimumTrackTintColor', title: 'Slider Minumum Track Tint Color'},
-    {isVisible: false, key: 'cmsTextColor', title: 'Close Modal Text Color'},
-    {isVisible: false, key: 'cmsBackground', title: 'Close Modal Background Color'},
-    {isVisible: false, key: 'cmsYesButtonTextColor', title: 'Close Modal Yes Button Text Color'},
-    {isVisible: false, key: 'cmsYesButtonBackground', title: 'Close Modal Yes Button Background'},
-    {isVisible: false, key: 'cmsYesButtonBorderColor', title: 'Close Modal Yes Button Border Color'},
-    {isVisible: false, key: 'cmsNoButtonTextColor', title: 'Close Modal No Button Text Color'},
-    {isVisible: false, key: 'cmsNoButtonBackground', title: 'Close Modal No Button Background'},
-    {isVisible: false, key: 'cmsNoButtonBorderColor', title: 'Close Modal No Button Border Color'},
-
-
-  ]);
+  const [colorPickerStates, setColorPickerStates] = useState<ColorPickerState[]>(
+    [
+      { id: 1, isVisible: false, key: 'headerColor', title: 'Header Color' },
+      { id: 2, isVisible: false, key: 'headerTextColor', title: 'Header Text Color' },
+      { id: 3, isVisible: false, key: 'bottomColor', title: 'Bottom Color' },
+      { id: 4, isVisible: false, key: 'bottomInputBorderColor', title: 'Bottom Input Border Color' },
+      { id: 5, isVisible: false, key: 'bottomInputSendButtonColor', title: 'Bottom Input Send Button Color' },
+      { id: 6, isVisible: false, key: 'userMessageBoxBackground', title: 'User Message Box Background' },
+      { id: 7, isVisible: false, key: 'userMessageBoxTextColor', title: 'User Message Text Color' },
+      { id: 8, isVisible: false, key: 'chatBotMessageBoxBackground', title: 'Chat Bot Message Box Background' },
+      { id: 9, isVisible: false, key: 'chatBotMessageBoxTextColor', title: 'Chat Bot Message Box Text Color' },
+      { id: 10, isVisible: false, key: 'chatBotMessageBoxHeaderNameColor', title: 'Chat Bot Message Box Header Name Color' },
+      { id: 11, isVisible: false, key: 'chatBotMessageBoxButtonBackground', title: 'Chat Bot Message Box Button Background' },
+      { id: 12, isVisible: false, key: 'chatBotMessageBoxButtonTextColor', title: 'Chat Bot Message Box Button Text Color' },
+      { id: 13, isVisible: false, key: 'chatBotMessageBoxButtonBorderColor', title: 'Chat Bot Message Box Button Border Color' },
+      { id: 14, isVisible: false, key: 'chatBody', title: 'Chat Body' },
+      { id: 15, isVisible: false, key: 'sliderMaximumTrackTintColor', title: 'Slider Maximum Track Tint Color' },
+      { id: 16, isVisible: false, key: 'sliderThumbTintColor', title: 'Slider Thumb Tint Color' },
+      { id: 17, isVisible: false, key: 'sliderMinimumTrackTintColor', title: 'Slider Minimum Track Tint Color' },
+      { id: 18, isVisible: false, key: 'cmsTextColor', title: 'Close Modal Text Color' },
+      { id: 19, isVisible: false, key: 'cmsBackground', title: 'Close Modal Background Color' },
+      { id: 20, isVisible: false, key: 'cmsYesButtonTextColor', title: 'Close Modal Yes Button Text Color' },
+      { id: 21, isVisible: false, key: 'cmsYesButtonBackground', title: 'Close Modal Yes Button Background' },
+      { id: 22, isVisible: false, key: 'cmsYesButtonBorderColor', title: 'Close Modal Yes Button Border Color' },
+      { id: 23, isVisible: false, key: 'cmsNoButtonTextColor', title: 'Close Modal No Button Text Color' },
+      { id: 24, isVisible: false, key: 'cmsNoButtonBackground', title: 'Close Modal No Button Background' },
+      { id: 25, isVisible: false, key: 'cmsNoButtonBorderColor', title: 'Close Modal No Button Border Color' },
+    ]
+  );
 
   const handleColorPickerToggle = (index: string) => {
     const indexToUpdate = colorPickerStates.findIndex(
@@ -292,7 +291,16 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
             </Text>
           </Pressable>
         </View>
-        <View style={styles.padding}>
+         <View style={styles.padding}>
+          <Text style={styles.text}>Chat Bot Message Box Icon</Text>
+          <Input
+            placeholder="Chat Bot Message Box Icon"
+            value={webchatCustomize.chatBotMessageBoxIcon}
+            onChangeText={value => onChangeCustomize('chatBotMessageBoxIcon', value)}
+            style={{color: '#EC008C'}}
+          />
+        </View>
+        {/* <View style={styles.padding}>
           <Text style={styles.text}>Chat Bot Message Box Header Name</Text>
           <Input
             placeholder="Chat Bot Message Box Header Name"
@@ -300,8 +308,8 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
             onChangeText={value => onChangeCustomize('chatBotMessageBoxHeaderName', value)}
             style={{color: '#EC008C'}}
           />
-        </View>
-        <View style={styles.padding}>
+        </View> */}
+        {/* <View style={styles.padding}>
           <Text style={styles.text}>Chat Bot Message Box Header Name Color</Text>
           <Pressable
             onPress={() => handleColorPickerToggle('chatBotMessageBoxHeaderNameColor')}>
@@ -321,6 +329,33 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                 }}></Badge>
               &nbsp;&nbsp;
               {webchatCustomize.chatBotMessageBoxHeaderNameColor}
+            </Text>
+          </Pressable>
+        </View> */}
+       
+      </CollapseView>
+      <View style={styles.line} />
+
+      <CollapseView header="CHAT BODY">
+        <View style={styles.padding}>
+          <Text style={styles.text}>Chat Body</Text>
+          <Pressable onPress={() => handleColorPickerToggle('chatBody')}>
+            <Text
+              h4
+              h4Style={{
+                color: webchatCustomize.chatBody,
+                fontSize: 22,
+              }}>
+              <Badge
+                containerStyle={{paddingLeft: 8, paddingTop: 8}}
+                badgeStyle={{
+                  height: 24,
+                  width: 24,
+                  backgroundColor: webchatCustomize.chatBody,
+                  borderColor:"black", borderWidth:1
+                }}></Badge>
+              &nbsp;&nbsp;
+              {webchatCustomize.chatBody}
             </Text>
           </Pressable>
         </View>
@@ -371,7 +406,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>Chat Bo Message Box Button Border Color</Text>
+          <Text style={styles.text}>Chat Bot Message Box Button Border Color</Text>
           <Pressable
             onPress={() => handleColorPickerToggle('chatBotMessageBoxButtonBorderColor')}>
             <Text
@@ -393,33 +428,6 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
             </Text>
           </Pressable>
         </View>
-      </CollapseView>
-      <View style={styles.line} />
-
-      <CollapseView header="CHAT BODY">
-        <View style={styles.padding}>
-          <Text style={styles.text}>Chat Body</Text>
-          <Pressable onPress={() => handleColorPickerToggle('chatBody')}>
-            <Text
-              h4
-              h4Style={{
-                color: webchatCustomize.chatBody,
-                fontSize: 22,
-              }}>
-              <Badge
-                containerStyle={{paddingLeft: 8, paddingTop: 8}}
-                badgeStyle={{
-                  height: 24,
-                  width: 24,
-                  backgroundColor: webchatCustomize.chatBody,
-                  borderColor:"black", borderWidth:1
-                }}></Badge>
-              &nbsp;&nbsp;
-              {webchatCustomize.chatBody}
-            </Text>
-          </Pressable>
-        </View>
-   
       </CollapseView>
       <View style={styles.line} />
 
@@ -526,7 +534,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>CM Background</Text>
+          <Text style={styles.text}>Close Modal Background</Text>
           <Pressable onPress={() => handleColorPickerToggle('cmsBackground')}>
             <Text
               h4
@@ -557,7 +565,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           />
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>CM Yes Button Text Color</Text>
+          <Text style={styles.text}>Close Modal Yes Button Text Color</Text>
           <Pressable onPress={() => handleColorPickerToggle('cmsYesButtonTextColor')}>
             <Text
               h4
@@ -579,7 +587,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>CM Yes Button Background</Text>
+          <Text style={styles.text}>Close Modal Yes Button Background</Text>
           <Pressable onPress={() => handleColorPickerToggle('cmsYesButtonBackground')}>
             <Text
               h4
@@ -601,7 +609,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>CM Yes Button Border Color</Text>
+          <Text style={styles.text}>Close Modal Yes Button Border Color</Text>
           <Pressable onPress={() => handleColorPickerToggle('cmsYesButtonBorderColor')}>
             <Text
               h4
@@ -632,7 +640,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           />
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>CM No Button Text Color</Text>
+          <Text style={styles.text}>Close Modal No Button Text Color</Text>
           <Pressable onPress={() => handleColorPickerToggle('cmsNoButtonTextColor')}>
             <Text
               h4
@@ -654,7 +662,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>CM No Button Background</Text>
+          <Text style={styles.text}>Close Modal No Button Background</Text>
           <Pressable onPress={() => handleColorPickerToggle('cmsNoButtonBackground')}>
             <Text
               h4
@@ -676,7 +684,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={styles.padding}>
-          <Text style={styles.text}>CM No Button Border Color</Text>
+          <Text style={styles.text}>Close Modal No Button Border Color</Text>
           <Pressable onPress={() => handleColorPickerToggle('cmsNoButtonBorderColor')}>
             <Text
               h4
@@ -699,9 +707,21 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
         </View>
       </CollapseView>
 
+      <CollapseView header="USE ND">
+      <View style={styles.padding}>
+          <Text style={styles.text}>Use ND Channel</Text>
+          <Input
+            placeholder="Use ND Channel"
+            value={webchatCustomize.channel}
+            onChangeText={value => onChangeCustomize('channel', value)}
+            style={{color: '#EC008C'}}
+          />
+        </View>
+       
+      </CollapseView>
       {colorPickerStates.map((colorPicker, index) => (
-        <>
-          <ColorPickerModal
+           <ColorPickerModal
+            key={colorPicker.id}
             state={colorPickerStates}
             index={index}
             color={webchatCustomize[colorPicker.key]}
@@ -710,7 +730,6 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
               onChangeCustomize(colorPicker.key, color)
             }
           />
-        </>
       ))}
       <View style={styles.line} />
     </>

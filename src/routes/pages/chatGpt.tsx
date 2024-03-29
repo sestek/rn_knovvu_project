@@ -287,7 +287,7 @@ const ChatGpt = ({navigation}) => {
       <TouchableOpacity onPress={closeModalButton}>
         <Image
           source={Close}
-          resizeMode="stretch"
+          // resizeMode="stretch"
           style={{
             ...styles.Close,
           }}
@@ -500,8 +500,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get('screen').width * 0.4,
   },
   Close: {
-    width: Dimensions.get('screen').width * 0.05,
-    height: Dimensions.get('screen').width * 0.05,
+    width: 42,
+    height: 42,
   },
   title: {
     color: '#373F48',

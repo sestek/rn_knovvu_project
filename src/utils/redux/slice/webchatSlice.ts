@@ -9,6 +9,8 @@ export interface WebchatState {
   customActionData: any;
   isMicEnabled: any;
   personaId: string;
+  enableNdUi :boolean;
+  channel:string;
 
   headerColor: string;
   headerText: string;
@@ -33,6 +35,7 @@ export interface WebchatState {
 
   userMessageBoxHeaderName: string;
   userMessageBoxHeaderNameColor: string;
+  chatBotMessageBoxIcon:string;
   chatBotMessageBoxBackground: string;
   chatBotMessageBoxTextColor: string;
   chatBotMessageBoxHeaderName: string;
@@ -72,18 +75,10 @@ const initialState: WebchatState = {
   isMicEnabled: 'false',
   personaId: '',
   customActionData: '',
+  enableNdUi : false,
+  channel:'mobil',
 
-  // headerColor: '#7f81ae',
-  // headerText: 'Knovvu Chat Client',
-  // bottomColor: 'white',
-  // bottomText: 'Input text..',
-
-  // incomingText: 'Test User',
-  // incomingTextColor: 'black',
-  // outgoingText: 'Knovvu Virtual Agent',
-  // outgoingTextColor: '#7f81ae',
-  // messageColor: '#FCFBF7',
-  // messageBoxColor: '#7f81ae',
+  // enableNdUi : false,
 
   /// new redux
   headerColor: '#863CEB',
@@ -98,6 +93,7 @@ const initialState: WebchatState = {
 
   userMessageBoxHeaderName: '',
   userMessageBoxHeaderNameColor: 'white',
+  chatBotMessageBoxIcon:"",
   chatBotMessageBoxBackground: '#EFEFEF',
   chatBotMessageBoxTextColor: 'black',
   chatBotMessageBoxHeaderName: 'Knovvu',
@@ -157,6 +153,8 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
   state.tenant = data.tenant;
   state.project = data.project;
   state.customActionData = data.customActionData;
+  state.enableNdUi = data.enableNdUi;
+  state.channel= data.channel;
   state.headerColor = data.headerColor;
   state.headerText = data.headerText;
   state.bottomColor = data.bottomColor;
@@ -180,6 +178,7 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
 
   state.userMessageBoxHeaderName = data.userMessageBoxHeaderName;
   state.userMessageBoxHeaderNameColor = data.userMessageBoxHeaderNameColor;
+  state.chatBotMessageBoxIcon = data.chatBotMessageBoxIcon;
   state.chatBotMessageBoxBackground = data.chatBotMessageBoxBackground;
   state.chatBotMessageBoxTextColor = data.chatBotMessageBoxTextColor;
   state.chatBotMessageBoxHeaderName = data.chatBotMessageBoxHeaderName;

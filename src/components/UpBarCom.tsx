@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {ClosePink, Knovvu32, Knovvu32x32, Settings} from '@src/assests';
+import {Close, ClosePink, Knovvu32, Knovvu32x32, Settings} from '@src/assests';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const UpBarCom = ({navigation, children, title, close}) => {
@@ -16,10 +16,11 @@ const UpBarCom = ({navigation, children, title, close}) => {
             height:40,
             borderBottomWidth:0.5,
             borderBottomColor:"#5F6295",
+            alignItems:"center"
           }}>
           <Image
             source={Knovvu32x32}
-            style={{width: 30, height: 30, marginHorizontal: 16}}
+            style={{width: 25, height: 25, marginHorizontal: 16}}
           />
           <Text style={{color: '#5F6295', fontWeight: '500', textAlign: 'center', paddingTop:10}}>
             {title}
@@ -27,8 +28,8 @@ const UpBarCom = ({navigation, children, title, close}) => {
           {close ? (
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
               <Image
-                source={ClosePink}
-                style={{width: 30, height: 30, marginHorizontal: 16}}
+                source={Close}
+                style={{width: 25, height: 25, marginHorizontal: 16}}
                 onProgress={() => {
                   navigation.navigate('Home');
                 }}
@@ -38,7 +39,7 @@ const UpBarCom = ({navigation, children, title, close}) => {
             <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
               <Image
                 source={Settings}
-                style={{width: 30, height: 30, marginHorizontal: 16}}
+                style={{width: 25, height: 25, marginHorizontal: 16}}
                 onProgress={() => {
                   navigation.navigate('Settings');
                 }}

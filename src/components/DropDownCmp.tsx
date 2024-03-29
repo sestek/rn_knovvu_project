@@ -34,7 +34,7 @@ const DropDownCmp: React.FC<DropdownProps> = ({
     const isSelected = selectedItem === item;
     return (
       <TouchableOpacity
-        key={index.key}
+        key={index}
         style={[
           styles.itemContainer,
           {
@@ -62,7 +62,7 @@ const DropDownCmp: React.FC<DropdownProps> = ({
               style={{width: 25, height: 25, marginHorizontal: 5}}
             /> : null} */}
             {
-              item.value?.personaId !== "" ? <Image
+              item.value?.personaId !== "" && item.value?.personaId !== null ? <Image
               source={isSelected ? AvatarWhite : AvatarActive}
               style={{width: 18, height: 20, marginHorizontal: 5}}
             /> : null
