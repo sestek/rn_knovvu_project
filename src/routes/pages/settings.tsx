@@ -31,7 +31,7 @@ interface WebchatType {
   tenant: string;
   project: string;
   customActionData: any;
-  enableNdUi:boolean;
+  enableNdUi: boolean;
   headerColor: string;
   headerText: string;
   bottomColor: string;
@@ -196,8 +196,7 @@ const Settings = ({navigation}) => {
     project: string,
     isMicEnabled: string,
     personaId: string,
-     enableNdUi:boolean,
-    
+    enableNdUi: boolean,
   ) => {
     const data = Object.assign({}, webchat);
     data.url = url;
@@ -205,7 +204,7 @@ const Settings = ({navigation}) => {
     data.project = project;
     data.isMicEnabled = isMicEnabled;
     data.personaId = personaId;
-    data.enableNdUi = enableNdUi; 
+    data.enableNdUi = enableNdUi;
     await dispatch(asyncSetCustomizeConfiguration(data));
     showMessage({
       backgroundColor: '#7f81ae',
@@ -272,7 +271,7 @@ const Settings = ({navigation}) => {
       item.value.project,
       item.value.isMicEnabled,
       item.value.personaId,
-       enableND
+      enableND,
     );
   };
 
@@ -287,9 +286,8 @@ const Settings = ({navigation}) => {
       title={'Projects and Settings'}
       close={true}>
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === 'android' ? 20 : 50}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView style={{marginBottom: Platform.OS === 'android' ? 80 : 60}}>
+        <ScrollView>
           <Card wrapperStyle={styles.padding}>
             <Card.Title style={styles.cardTitle}>PROJECTS</Card.Title>
             <Card.Divider />
@@ -391,12 +389,12 @@ const Settings = ({navigation}) => {
           <Card wrapperStyle={styles.padding}>
             <Card.Title style={styles.cardTitle}>CUSTOMIZE STYLE</Card.Title>
 
-              <CustomizeStyleCard
-                webchatCustomize={webchatCustomize}
-                onChangeCustomize={onChangeCustomize}
-              />
+            <CustomizeStyleCard
+              webchatCustomize={webchatCustomize}
+              onChangeCustomize={onChangeCustomize}
+            />
           </Card>
-          <View style={{marginBottom: 30}}>
+          <View style={{marginBottom: Platform.OS === 'android' ? 100 : 80}}>
             <Card wrapperStyle={styles.padding}>
               <Card.Title style={styles.cardTitle}>ADD NEW PROJECT</Card.Title>
               <Card.Divider />

@@ -507,7 +507,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           <Input
             placeholder="Close Modal Text"
             value={webchatCustomize.cmsText}
-            onChangeText={value => onChangeCustomize('chatBotMessageBoxHeaderName', value)}
+            onChangeText={value => onChangeCustomize('cmsText', value)}
             style={{color: '#EC008C'}}
           />
         </View>
