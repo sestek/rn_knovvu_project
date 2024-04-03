@@ -17,12 +17,15 @@ import {
 } from '@src/assests';
 import AudioRecord from 'react-native-audio-record';
 import DocumentPicker from 'react-native-document-picker';
-import useModalCloseStore from '@src/zustandStore/chatgpt/store';
-const WebchatModal = () => {
-  const modalRef = useRef<ChatModalRef>(null);
+interface WebchatModalProps {
+  modalRef: any;
+}
+const WebchatModal = (props: WebchatModalProps) => {
   const webchat = useAppSelector(state => state.webchat);
   const color_200 = useAppSelector(state => state.theme.color_200);
   const color_300 = useAppSelector(state => state.theme.color_300);
+
+  const {modalRef} = props;
 
   const dispatch = useAppDispatch();
 
@@ -57,9 +60,6 @@ const WebchatModal = () => {
   const setResponse = (value: any) => {
     setResponseData(value);
   };
-  useEffect(() => {
-    console.log(responseData);
-  }, [responseData]);
 
   return (
     <ChatModal
