@@ -10,6 +10,7 @@ import useRequest from '@src/hooks/apiHook';
 import constants from './src/constant/api';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import {View, Text} from 'react-native';
+import {ChatModalProps} from 'rn-sestek-webchat';
 
 export default function App() {
   const toastConfig = {
@@ -48,13 +49,15 @@ export default function App() {
     getRequestToken(constants.apiUrl, constants.requestData);
   }, []);
 
+  const modalRef = React.useRef<ChatModalProps>(null);
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <FlashMessage position="top" />
       <SafeAreaProvider>
         <Provider store={store}>
-          <WebchatModal />
-          <Navigator />
+          <WebchatModal modalRef={modalRef} />
+          <Navigator modalRef={modalRef} />
           <Toast config={toastConfig} />
         </Provider>
       </SafeAreaProvider>

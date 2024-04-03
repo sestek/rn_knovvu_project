@@ -23,12 +23,11 @@ import useModalCloseAvatarStore from '@src/zustandStore/avatar/store';
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
 
-const TabBarComponent = ({state, descriptors, navigation}) => {
+const TabBarComponent = ({state, descriptors, navigation, modalRef}) => {
   const newState = {...state};
   newState.routes = newState.routes.filter(
     (item: any) => item.name !== 'ChatGpt' && item.name !== 'Settings',
   );
-
   const dynamicWidth =
     Dimensions.get('screen').width * (1 / state.routes?.length);
 
@@ -90,7 +89,7 @@ const TabBarComponent = ({state, descriptors, navigation}) => {
               NetInfo.addEventListener(state => {
                 if (state.isConnected) {
                   if (route.name === 'Knovvu' && modalVisible) {
-                    modalVisible();
+                    modalRef?.current?.startConversation();                   
                     return;
                   }
 
@@ -186,9 +185,8 @@ const styles = (prm?: any, prm2?: any, prm3?: any) =>
       flexGrow: 1,
       width: prm,
       paddingTop: 6,
-      paddingBottom:20,
+      paddingBottom: 20,
       backgroundColor: 'white',
-
     },
     image: {
       width: 30,
@@ -199,8 +197,8 @@ const styles = (prm?: any, prm2?: any, prm3?: any) =>
       flexDirection: 'row',
       justifyContent: 'center',
       borderTopWidth: 0.5,
-      borderTopColor: "#5F6295",
-      borderTopRadius:30
+      borderTopColor: '#5F6295',
+      borderTopRadius: 30,
     },
   });
 

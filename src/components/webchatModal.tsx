@@ -8,14 +8,24 @@ import {Slider} from '@miblanchard/react-native-slider';
 import {WebView} from 'react-native-webview';
 import {PermissionsManager} from '@src/utils/functions/permissionsManager';
 import {WebchatManager} from '@src/utils/functions/webchatManages';
-import {Knovvu32, ModalClose, ModalMinus, ModalPause, ModalPlay} from '@src/assests';
+import {
+  Knovvu32,
+  ModalClose,
+  ModalMinus,
+  ModalPause,
+  ModalPlay,
+} from '@src/assests';
 import AudioRecord from 'react-native-audio-record';
-import DocumentPicker from 'react-native-document-picker' 
-const WebchatModal = () => {
-  const modalRef = useRef<ChatModalRef>(null);
+import DocumentPicker from 'react-native-document-picker';
+interface WebchatModalProps {
+  modalRef: any;
+}
+const WebchatModal = (props: WebchatModalProps) => {
   const webchat = useAppSelector(state => state.webchat);
   const color_200 = useAppSelector(state => state.theme.color_200);
   const color_300 = useAppSelector(state => state.theme.color_300);
+
+  const {modalRef} = props;
 
   const dispatch = useAppDispatch();
 
@@ -46,13 +56,11 @@ const WebchatModal = () => {
     });
   };
 
+
   const [responseData, setResponseData] = useState<any>({});
   const setResponse = (value: any) => {
     setResponseData(value);
   };
-  useEffect(() => {
-    console.log(responseData);
-  }, [responseData]);
 
   return (
     <ChatModal
@@ -63,7 +71,7 @@ const WebchatModal = () => {
         RNSlider: Slider,
         RNWebView: WebView,
         Record: AudioRecord,
-        RNFileSelector :DocumentPicker
+        RNFileSelector: DocumentPicker,
       }}
       ref={modalRef}
       defaultConfiguration={{
@@ -107,14 +115,20 @@ const WebchatModal = () => {
         chatBotMessageBoxBackground: webchat.chatBotMessageBoxBackground,
         chatBotMessageBoxTextColor: webchat.chatBotMessageBoxTextColor,
         chatBotMessageIcon: {
-          type: webchat.chatBotMessageBoxIcon? 'uri' : "component",
-          value: webchat.chatBotMessageBoxIcon ? webchat.chatBotMessageBoxIcon : Knovvu32, 
+          type: webchat.chatBotMessageBoxIcon ? 'uri' : 'component',
+          value: webchat.chatBotMessageBoxIcon
+            ? webchat.chatBotMessageBoxIcon
+            : Knovvu32,
         },
         chatBotMessageBoxHeaderName: webchat.chatBotMessageBoxHeaderName,
-        chatBotMessageBoxHeaderNameColor: webchat.chatBotMessageBoxHeaderNameColor,
-        chatBotMessageBoxButtonBackground: webchat.chatBotMessageBoxButtonBackground,
-        chatBotMessageBoxButtonTextColor: webchat.chatBotMessageBoxButtonTextColor,
-        chatBotMessageBoxButtonBorderColor: webchat.chatBotMessageBoxButtonBorderColor,
+        chatBotMessageBoxHeaderNameColor:
+          webchat.chatBotMessageBoxHeaderNameColor,
+        chatBotMessageBoxButtonBackground:
+          webchat.chatBotMessageBoxButtonBackground,
+        chatBotMessageBoxButtonTextColor:
+          webchat.chatBotMessageBoxButtonTextColor,
+        chatBotMessageBoxButtonBorderColor:
+          webchat.chatBotMessageBoxButtonBorderColor,
         // Chat Body
         chatBody: {type: 'color', value: webchat.chatBody},
         chatStartButtonHide: true,
@@ -122,14 +136,14 @@ const WebchatModal = () => {
         sliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
         sliderThumbTintColor: webchat.sliderThumbTintColor,
         sliderMinimumTrackTintColor: webchat.sliderMinimumTrackTintColor,
-         sliderPauseImage: {
-           type: 'component',
-           value: ModalPause,
-         },
-         sliderPlayImage: {
-           type: 'component',
-           value: ModalPlay,
-         },
+        sliderPauseImage: {
+          type: 'component',
+          value: ModalPause,
+        },
+        sliderPlayImage: {
+          type: 'component',
+          value: ModalPlay,
+        },
         // Before Func
         permissionAudioCheck: audioClickFunc,
         // Close Modal
