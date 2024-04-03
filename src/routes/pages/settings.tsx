@@ -148,7 +148,7 @@ const Settings = ({navigation}) => {
           text: 'Cancel',
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => dispatch(asyncSetInitialState())},
+        {text: 'OK', onPress: () => (setValueInput(""),setListData([]),dispatch(asyncSetInitialState()))},
       ],
     );
   };
@@ -223,7 +223,7 @@ const Settings = ({navigation}) => {
       };
       setListData([...listData, newItem]);
       setKeyInput('');
-      setValueInput('');
+      setValueInput("");
       inputRef.current?.focus();
     }
   };
