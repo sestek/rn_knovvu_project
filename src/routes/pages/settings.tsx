@@ -148,7 +148,12 @@ const Settings = ({navigation}) => {
           text: 'Cancel',
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => (setValueInput(""),setListData([]),dispatch(asyncSetInitialState()))},
+        {
+          text: 'OK',
+          onPress: () => (
+            setValueInput(''), setListData([]), dispatch(asyncSetInitialState())
+          ),
+        },
       ],
     );
   };
@@ -223,7 +228,7 @@ const Settings = ({navigation}) => {
       };
       setListData([...listData, newItem]);
       setKeyInput('');
-      setValueInput("");
+      setValueInput('');
       inputRef.current?.focus();
     }
   };
@@ -232,14 +237,15 @@ const Settings = ({navigation}) => {
     setListData(updatedData);
     inputRef.current?.focus();
   };
-  const renderItem = ({item}: {item: ListItem}) => (
+  const renderItem = ({item, idx}: {item: ListItem; idx: number}) => (
     <View
       style={{
         backgroundColor: 'white',
         bottom: 0,
         padding: 8,
         flexDirection: 'row',
-      }}>
+      }}
+      key={idx}>
       <View style={{flexDirection: 'row', width: '94%'}}>
         <View style={{flex: 3, paddingHorizontal: 2}}>
           <Input disabled value={item.key} />
@@ -378,11 +384,14 @@ const Settings = ({navigation}) => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                <FlatList
+                {/* <FlatList
                   data={listData}
                   renderItem={renderItem}
                   keyExtractor={item => item.id}
-                />
+                /> */}
+                {listData?.map((item, idx) => {
+                  return renderItem({item, idx});
+                })}
               </View>
             </CollapseView>
           </Card>
