@@ -102,7 +102,7 @@ const initialState: WebchatState = {
   chatBotMessageBoxButtonTextColor: 'black',
   chatBotMessageBoxButtonBorderColor: '#863CEB',
   chatBody: 'white',
-  sliderMaximumTrackTintColor: 'white',
+  sliderMaximumTrackTintColor: '#8c8c8c',
   sliderThumbTintColor: '#C3ACD0',
   sliderMinimumTrackTintColor: '#C3ACD0',
  

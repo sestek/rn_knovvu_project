@@ -1,7 +1,7 @@
 import {useAppDispatch, useAppSelector} from '@src/utils/redux/hooks';
 import {setModalVisible} from '@src/utils/redux/slice/mainSlice';
 import React, {useEffect, useRef, useState} from 'react';
-import {ChatModal, ChatModalRef} from 'rn-sestek-webchat';
+import {ChatModal} from 'rn-sestek-webchat';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFetchBlob from 'react-native-fetch-blob';
 import {Slider} from '@miblanchard/react-native-slider';
@@ -9,6 +9,8 @@ import {WebView} from 'react-native-webview';
 import {PermissionsManager} from '@src/utils/functions/permissionsManager';
 import {WebchatManager} from '@src/utils/functions/webchatManages';
 import {
+  BotPause,
+  BotPlay,
   Knovvu32,
   ModalClose,
   ModalMinus,
@@ -132,17 +134,43 @@ const WebchatModal = (props: WebchatModalProps) => {
         chatBody: {type: 'color', value: webchat.chatBody},
         chatStartButtonHide: true,
         // Slider
-        sliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
-        sliderThumbTintColor: webchat.sliderThumbTintColor,
-        sliderMinimumTrackTintColor: webchat.sliderMinimumTrackTintColor,
-        sliderPauseImage: {
-          type: 'component',
-          value: ModalPause,
+
+        audioSliderSettings: {
+          userSliderMinimumTrackTintColor: webchat.sliderMinimumTrackTintColor,
+          userSliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
+          userSliderThumbTintColor: webchat.sliderThumbTintColor,
+          userSliderPlayImage: {
+            type: 'component',
+            value: ModalPlay,
+          },
+          userSliderPauseImage: {
+            type: 'component',
+            value: ModalPause,
+          },
+          //bot
+          botSliderMinimumTrackTintColor:webchat.sliderMinimumTrackTintColor,
+          botSliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
+          botSliderThumbTintColor: webchat.sliderThumbTintColor,
+          botSliderPlayImage: {
+            type: 'component',
+            value: BotPlay,
+          },
+          botSliderPauseImage: {
+            type: 'component',
+            value: BotPause,
+          },
         },
-        sliderPlayImage: {
-          type: 'component',
-          value: ModalPlay,
-        },
+        // sliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
+        // sliderThumbTintColor: webchat.sliderThumbTintColor,
+        // sliderMinimumTrackTintColor: webchat.sliderMinimumTrackTintColor,
+        // sliderPauseImage: {
+        //   type: 'component',
+        //   value: ModalPause,
+        // },
+        // sliderPlayImage: {
+        //   type: 'component',
+        //   value: ModalPlay,
+        // },
         // Before Func
         permissionAudioCheck: audioClickFunc,
         // Close Modal

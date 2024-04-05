@@ -39,6 +39,9 @@ import ModalClose from './modalClose.png'
 import ModalMinus from './minus.png'
 import ModalPause from './modalPause.png'
 import ModalPlay from './modalPlay.png'
+import BotPause from './botPause.png'
+import BotPlay from './botPlay.png'
+
 
 export {
   KnovvuBanner,
@@ -80,5 +83,7 @@ export {
   ModalClose,
   ModalMinus,
   ModalPause,
-  ModalPlay
+  ModalPlay,
+  BotPause,
+  BotPlay
 };
