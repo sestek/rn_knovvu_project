@@ -68,7 +68,7 @@ const WebchatModal = (props: WebchatModalProps) => {
       url={webchat.url}
       modules={{
         AudioRecorderPlayer: AudioRecorderPlayer,
-        RNFS: RNFetchBlob,
+         RNFS: RNFetchBlob,
         RNSlider: Slider,
         RNWebView: WebView,
         Record: AudioRecord,
