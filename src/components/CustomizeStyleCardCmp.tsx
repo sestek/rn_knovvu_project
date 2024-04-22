@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {Badge, Input, Text} from '@rneui/base';
+import {Badge, Input, Text, Button} from '@rneui/base';
 import ColorPickerModal from '@src/components/colorPickerModal';
 import {Pressable, StyleSheet, View} from 'react-native';
 import CollapseView from './CollapseView';
+import DropDownCmp from './DropDownCmp';
+import FontSliderCmp from './FontSliderCmp';
 
 interface CustomizeStyleCardProps {
   webchatCustomize: any;
@@ -163,6 +165,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
     const indexToUpdate = colorPickerStates.findIndex(
       colorPicker => colorPicker.key === index,
     );
+    console.log("index",index)
 
     if (indexToUpdate !== -1) {
       const updatedStates = [...colorPickerStates];
@@ -175,7 +178,21 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
       setColorPickerStates(updatedStates);
     }
   };
+  const [isVisible, setIsVisible] = useState(false);
+  const list = [
+    {value: 'textToLeft', key: 'Text To Left'},
+    {value: 'textToCenter', key: 'Text To Center'},
+    {value: 'textToRight', key: 'Text To Right'},
+  ];
 
+  const onClose = () => {
+    setIsVisible(false);
+  };
+  const onDone = async (item: string | null) => {
+    onChangeCustomize('headerAlignmentType', item?.value);
+  };
+
+  
   return (
     <>
       <View style={styles.line} />
@@ -204,6 +221,32 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
                 backgroundColor: webchatCustomize.headerTextColor,
               }}></Badge>
           </Pressable>
+        </View>
+        <View style={{...styles.badgeView}}>
+          <Text style={{...styles.text, width: '50%'}}>
+            Header Alignment Type
+          </Text>
+          <View style={{flex: 1}}>
+            <DropDownCmp
+              isVisible={isVisible}
+              onClose={onClose}
+              items={list}
+              onDone={onDone}
+              dropDownTitle="Header Alignment Type"
+            />
+            <Button
+              title={
+                <View style={{flexDirection: 'column'}}>
+                  <Text style={styles.dropDownText}>
+                    {list.find(
+                      x => x?.value === webchatCustomize.headerAlignmentType,
+                    )?.key || webchatCustomize.headerAlignmentType}
+                  </Text>
+                </View>
+              }
+              buttonStyle={styles.dropDownButton}
+              onPress={() => setIsVisible(true)}></Button>
+          </View>
         </View>
         <View style={styles.padding}>
           <Text style={styles.text}>Header Text</Text>
@@ -415,6 +458,10 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
               }}></Badge>
           </Pressable>
         </View>
+        <View style={styles.padding}>
+          <FontSliderCmp webchatCustomize={webchatCustomize} onChangeCustomize={onChangeCustomize}/>
+        </View>
+     
       </CollapseView>
       <View style={styles.line} />
 
@@ -542,11 +589,10 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           <Pressable
             onPress={() => handleColorPickerToggle('cmsNoButtonBorderColor')}>
             <Badge
-             badgeStyle={{
-              ...styles.badgeStyle,
-              backgroundColor: webchatCustomize.cmsNoButtonBorderColor,
-            }}
-           ></Badge>
+              badgeStyle={{
+                ...styles.badgeStyle,
+                backgroundColor: webchatCustomize.cmsNoButtonBorderColor,
+              }}></Badge>
           </Pressable>
         </View>
         <View style={styles.padding}>
@@ -636,5 +682,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#DFE0E6',
     alignSelf: 'stretch',
+  },
+  dropDownButton: {
+    backgroundColor: 'white',
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 8,
+    height: 35,
+    width: '100%',
+  },
+  dropDownText: {
+    fontSize: 14,
+    color: '#EB1685',
   },
 });

@@ -47,6 +47,10 @@ export interface WebchatState {
   sliderMaximumTrackTintColor: string;
   sliderThumbTintColor: string;
   sliderMinimumTrackTintColor: string;
+  headerAlignmentType:HeaderAlignmentType;
+  titleFontSize:number;
+  subtitleFontSize:number;
+  descriptionFontSize:number;
 
   ///closeModal
   cmsUse : boolean;
@@ -68,6 +72,9 @@ interface SetKeyValue {
   value: any;
 }
 
+type HeaderAlignmentType = 'textToLeft' | 'textToRight' | 'textToCenter';
+
+
 const initialState: WebchatState = {
   url: 'https://eu.va.knovvu.com/webchat/chathub',
   tenant: 'internal',
@@ -85,7 +92,7 @@ const initialState: WebchatState = {
   headerText: 'Knovvu',
   headerTextColor: '#FCFBF7',
   bottomColor: 'white',
-  bottomInputText: 'Bottom input text..',
+  bottomInputText: 'Type a message',
   bottomInputBorderColor: '#d5d5d5',
   bottomInputSendButtonColor: '#7743DB',
   userMessageBoxBackground: '#863CEB',
@@ -105,19 +112,23 @@ const initialState: WebchatState = {
   sliderMaximumTrackTintColor: '#8c8c8c',
   sliderThumbTintColor: '#C3ACD0',
   sliderMinimumTrackTintColor: '#C3ACD0',
+  headerAlignmentType:'textToCenter',
  
   cmsUse : true,
-  cmsText: "Chat'ten çıkmak istediğinize emin misiniz ?",
+  cmsText: "Are you sure you want to leave the chat?",
   cmsTextColor: 'black',
   cmsBackground : 'white',
-  cmsYesButtonText: 'Evet',
+  cmsYesButtonText: 'Yes',
   cmsYesButtonTextColor: 'white',
   cmsYesButtonBackground: '#863CEB',
   cmsYesButtonBorderColor: 'transparent',
-  cmsNoButtonText: 'Hayır',
+  cmsNoButtonText: 'No',
   cmsNoButtonTextColor: 'black',
   cmsNoButtonBackground: 'transparent',
   cmsNoButtonBorderColor: '#863CEB',
+  titleFontSize:18,
+  subtitleFontSize:16,
+  descriptionFontSize:13
 };
 
 export const asyncGetWebchatData = createAsyncThunk(
@@ -190,6 +201,7 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
   state.sliderMaximumTrackTintColor = data.sliderMaximumTrackTintColor;
   state.sliderThumbTintColor = data.sliderThumbTintColor;
   state.sliderMinimumTrackTintColor = data.sliderMinimumTrackTintColor;
+  state.headerAlignmentType = data.headerAlignmentType;
  
   state.cmsUse = data.cmsUse;
   state.cmsText = data.cmsText;
@@ -202,7 +214,10 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
   state.cmsNoButtonText = data.cmsNoButtonText;
   state.cmsNoButtonTextColor = data.cmsNoButtonTextColor
   state.cmsNoButtonBackground = data.cmsNoButtonBackground;
-  state.cmsNoButtonBorderColor = data.cmsNoButtonBorderColor
+  state.cmsNoButtonBorderColor = data.cmsNoButtonBorderColor;
+  state.titleFontSize = data.titleFontSize;
+  state.subtitleFontSize = data.subtitleFontSize;
+  state.descriptionFontSize = data.descriptionFontSize;
 
 };
 
@@ -227,13 +242,17 @@ export const webchatSlice = createSlice({
       state.headerColor = '#7f81ae';
       state.headerText = 'Knovvu Chat Client';
       state.bottomColor = '#7f81ae';
-      state.bottomText = 'Input text..';
+      state.bottomInputText = 'Type a message';
       state.incomingText = 'Test User';
       state.incomingTextColor = 'black';
       state.outgoingText = 'Knovvu Virtual Agent';
       state.outgoingTextColor = '#7f81ae';
       state.messageColor = '#FCFBF7';
       state.messageBoxColor = '#7f81ae';
+      state.headerAlignmentType = 'textToCenter'
+      state.titleFontSize = 18;
+      state.subtitleFontSize = 16;
+      state.descriptionFontSize = 13;
     },
     setCustomizeConfiguration: (state, action: PayloadAction<SetKeyValue>) => {
       (state as any)[action.payload.key] = action.payload.value;

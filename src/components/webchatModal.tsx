@@ -62,7 +62,6 @@ const WebchatModal = (props: WebchatModalProps) => {
   const setResponse = (value: any) => {
     setResponseData(value);
   };
-
   return (
     <ChatModal
       url={webchat.url}
@@ -97,6 +96,22 @@ const WebchatModal = (props: WebchatModalProps) => {
         headerCloseIcon: {
           type: 'component',
           value: ModalClose,
+        },
+        headerAlignmentType: webchat?.headerAlignmentType,
+        chatBotCarouselSettings: {
+          // nexButtonIcon: {
+          //   type: 'component',
+          //   value: require('./example.png'),
+          // },
+          // prevButtonIcon: {
+          //   type: 'component',
+          //   value: require('./example.png'),
+          // },
+          buttonGroup: {
+            borderColor:  webchat.chatBotMessageBoxButtonBorderColor,
+            backgroundColor: webchat.chatBotMessageBoxButtonBackground,
+            textColor:  webchat.chatBotMessageBoxButtonTextColor,
+          },
         },
         // Bottom
         bottomColor: webchat.bottomColor,
@@ -133,6 +148,12 @@ const WebchatModal = (props: WebchatModalProps) => {
         // Chat Body
         chatBody: {type: 'color', value: webchat.chatBody},
         chatStartButtonHide: true,
+
+        fontSettings:{
+          titleFontSize:webchat.titleFontSize,
+          subtitleFontSize:webchat.subtitleFontSize,
+          descriptionFontSize: webchat.descriptionFontSize,
+        },
         // Slider
 
         audioSliderSettings: {

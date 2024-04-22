@@ -20,7 +20,8 @@ interface DropdownProps {
   isVisible: boolean;
   onClose: () => void;
   items: string[];
-  onDone: (selectedItem: string | null) => void; 
+  onDone: (selectedItem: string | null) => void;
+  dropDownTitle: string;
 }
 
 const DropDownCmp: React.FC<DropdownProps> = ({
@@ -28,8 +29,12 @@ const DropDownCmp: React.FC<DropdownProps> = ({
   onClose,
   items,
   onDone,
+  dropDownTitle,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const calculateModalHeight = (itemCount: any): any => {
+    return itemCount > 3 ? '50%' : '25%';
+  };
   const renderItem = (item: string, index: number) => {
     const isSelected = selectedItem === item;
     return (
@@ -56,18 +61,17 @@ const DropDownCmp: React.FC<DropdownProps> = ({
             style={[styles.itemText, {color: isSelected ? 'white' : 'black'}]}>
             {item.key}
           </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center',}}>
-            {/* { item.value?.isMicEnabled !== false ? <Image
-              source={ isSelected ? ChatbotWhite:ChatBotActive}
-              style={{width: 25, height: 25, marginHorizontal: 5}}
-            /> : null} */}
-            {
-              item.value?.personaId !== "" && item.value?.personaId !== null ? <Image
-              source={isSelected ? AvatarWhite : AvatarActive}
-              style={{width: 18, height: 20, marginHorizontal: 5}}
-            /> : null
-            }
-          </View>
+          {dropDownTitle === 'Project Name' ?(
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              {item.value?.personaId !== '' &&
+              item.value?.personaId !== null ? (
+                <Image
+                  source={isSelected ? AvatarWhite : AvatarActive}
+                  style={{width: 18, height: 20, marginHorizontal: 5}}
+                />
+              ) : null}
+            </View>
+          ): null}
         </View>
       </TouchableOpacity>
     );
@@ -93,13 +97,13 @@ const DropDownCmp: React.FC<DropdownProps> = ({
             <Text style={styles.topButton}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDone}>
-            <Text style={styles.centerText}>Project Name</Text>
+            <Text style={styles.centerText}>{dropDownTitle}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDone}>
             <Text style={styles.topButton}>Done</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={[styles.scrollView, { maxHeight: calculateModalHeight(items.length) }]}>
           {items.map((item, index) => renderItem(item, index))}
         </ScrollView>
       </View>
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'flex-end',
-    paddingBottom:0
+    paddingBottom: 0,
   },
   modalHeader: {
     flexDirection: 'row',
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
-    height:60,
+    height: 60,
   },
   topButton: {
     color: '#EB1685',
@@ -135,7 +139,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   scrollView: {
-    maxHeight: '50%', 
     backgroundColor: 'white',
   },
   itemContainer: {

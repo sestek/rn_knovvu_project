@@ -53,28 +53,53 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({
       modalProps={{}}
       isVisible={state[index].isVisible}
       onBackdropPress={() => closeHanddle()}>
-      <View style={{flex: 1, padding: 45, backgroundColor: '#fff'}}>
-        <Text h4 h4Style={{textAlign: 'center'}}>
-          {state[index].title}
-        </Text>
-        <TriangleColorPicker
-          oldColor={color}
-          color={stateColor}
-          onColorChange={color => {
-            setStateColor(color);
-          }}
-          style={{width: Dimensions.get('window').width - 80, height: 400}}
-        />
-        <Input
-          placeholder="Header Text"
-          leftIcon={{type: 'font-awesome', name: 'hashtag', size: 16}}
-          value={colorText?.replace('#', '')}
-          onChangeText={changeText}
-          testID={'adder-input'}
-        />
+      <View
+        style={{
+          paddingTop:10,
+          paddingBottom:40,
+          paddingHorizontal:30,
+          backgroundColor: '#fff',
+          justifyContent: 'center',
+        }}>
+        <View style={styles.badgeView}>
+          <Text style={{...styles.text,   textAlign:'left'}}>{state[index].title} :</Text>
+          <Input
+            placeholder="Header Text"
+            leftIcon={{
+              type: 'font-awesome',
+              name: 'hashtag',
+              size: 16,
+              color: 'gray',
+            }}
+            value={colorText?.replace('#', '')}
+            onChangeText={changeText}
+            testID={'adder-input'}
+            style={{width: '10%'}}
+          />
+        </View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <TriangleColorPicker
+            oldColor={color}
+            color={stateColor}
+            onColorChange={color => {
+              setStateColor(color);
+            }}
+            style={{
+              width: Dimensions.get('window').width - 80,
+              height: 300,
+            }}
+          />
+        
+        </View>
+        <View style={{...styles.badgeView, marginTop:10}}>
+            <Text style={{...styles.text, textAlign:'center'}}>Old Color</Text>
+            <Text style={{...styles.text, textAlign:'center'}}>New Color</Text>
+          </View>
+
         <Button
           color={'#7f81ae'}
           title={'SAVE'}
+          style={{marginTop: 40}}
           onPress={() => {
             closeHanddle();
             saveColor(fromHsv(stateColor));
@@ -86,8 +111,19 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({
 };
 
 const styles = StyleSheet.create({
-  button: {
-    margin: 10,
+  badgeView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  text: {
+    paddingLeft: 8,
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'gray',
+    width: '50%',
+  
   },
 });
 

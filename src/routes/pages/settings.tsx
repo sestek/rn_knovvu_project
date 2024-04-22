@@ -1,6 +1,7 @@
 import {Button, Card, Input, ListItem, Text} from '@rneui/base';
 import {useAppDispatch, useAppSelector} from '@src/utils/redux/hooks';
 import {
+  WebchatState,
   asyncSetCustomizeConfiguration,
   asyncSetInitialState,
 } from '@src/utils/redux/slice/webchatSlice';
@@ -120,7 +121,7 @@ const Settings = ({navigation}) => {
     }
   };
 
-  const [webchatCustomize, setWebchatCustomize] = useState<WebchatType>(
+  const [webchatCustomize, setWebchatCustomize] = useState<WebchatState>(
     Object.assign({}, webchat),
   );
 
@@ -282,8 +283,6 @@ const Settings = ({navigation}) => {
   };
 
   ///////////////////////////////////////////////////////////////////////
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
   // ... existing code
 
   return (
@@ -308,6 +307,7 @@ const Settings = ({navigation}) => {
                 onClose={closeDropdown}
                 items={demoProjectList}
                 onDone={handleDone}
+                dropDownTitle='Project Name'
               />
               <Button
                 title={
@@ -384,11 +384,6 @@ const Settings = ({navigation}) => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                {/* <FlatList
-                  data={listData}
-                  renderItem={renderItem}
-                  keyExtractor={item => item.id}
-                /> */}
                 {listData?.map((item, idx) => {
                   return renderItem({item, idx});
                 })}
