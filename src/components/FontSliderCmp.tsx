@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import {
   View,
-  StyleSheet,
+  StyleSheet
 } from 'react-native';
 import { Text, Slider} from '@rneui/base';
 interface FontSliderCmpProps {
@@ -33,6 +33,7 @@ const FontSliderCmp: React.FC<FontSliderCmpProps> = ({
 
     onChangeCustomize(key, value)
   };
+
   const renderSlider = (key: keyof typeof fontSizes, label: string) => {
     const fontSize = fontSizes[key];
 
@@ -47,7 +48,6 @@ const FontSliderCmp: React.FC<FontSliderCmpProps> = ({
           minimumValue={0}
           minimumTrackTintColor={'#e08dbf'}
           step={1}
-          allowTouchTrack
           trackStyle={{
             height: 5,
             backgroundColor: 'transparent',

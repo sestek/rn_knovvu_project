@@ -90,11 +90,11 @@ const WebchatModal = (props: WebchatModalProps) => {
         headerText: webchat.headerText,
         headerTextColor: webchat.headerTextColor,
         headerHideIcon: {
-          type: 'component',
+          type: 'url',
           value: ModalMinus,
         },
         headerCloseIcon: {
-          type: 'component',
+          type: 'url',
           value: ModalClose,
         },
         headerAlignmentType: webchat?.headerAlignmentType,
@@ -113,6 +113,7 @@ const WebchatModal = (props: WebchatModalProps) => {
             textColor:  webchat.chatBotMessageBoxButtonTextColor,
           },
         },
+        
         // Bottom
         bottomColor: webchat.bottomColor,
         bottomInputText: webchat.bottomInputText,
@@ -131,7 +132,7 @@ const WebchatModal = (props: WebchatModalProps) => {
         chatBotMessageBoxBackground: webchat.chatBotMessageBoxBackground,
         chatBotMessageBoxTextColor: webchat.chatBotMessageBoxTextColor,
         chatBotMessageIcon: {
-          type: webchat.chatBotMessageBoxIcon ? 'uri' : 'component',
+          type: 'url',
           value: webchat.chatBotMessageBoxIcon
             ? webchat.chatBotMessageBoxIcon
             : Knovvu32,
@@ -161,11 +162,11 @@ const WebchatModal = (props: WebchatModalProps) => {
           userSliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
           userSliderThumbTintColor: webchat.sliderThumbTintColor,
           userSliderPlayImage: {
-            type: 'component',
+            type: 'url',
             value: ModalPlay,
           },
           userSliderPauseImage: {
-            type: 'component',
+            type: 'url',
             value: ModalPause,
           },
           //bot
@@ -173,11 +174,11 @@ const WebchatModal = (props: WebchatModalProps) => {
           botSliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
           botSliderThumbTintColor: webchat.sliderThumbTintColor,
           botSliderPlayImage: {
-            type: 'component',
+            type: 'url',
             value: BotPlay,
           },
           botSliderPauseImage: {
-            type: 'component',
+            type: 'url',
             value: BotPause,
           },
         },

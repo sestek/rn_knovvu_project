@@ -32,9 +32,10 @@ const ColorPickerModal: React.FunctionComponent<ColorPickerModalProps> = ({
   const changeText = (value: string) => {
     if (value.length > 5) {
       var data = toHsv('#' + value);
-      if (data.h !== 0 && data.s !== 0 && data.v !== 0) {
-        setStateColor(data);
-      }
+      //  if (data.h !== 0 && data.s !== 0 && data.v !== 0) {
+        //  setStateColor(data);
+      //  }
+      setStateColor(data)
     }
     setColorText('#' + value);
   };

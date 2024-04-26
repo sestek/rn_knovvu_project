@@ -223,7 +223,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
           </Pressable>
         </View>
         <View style={{...styles.badgeView}}>
-          <Text style={{...styles.text, width: '50%'}}>
+          <Text style={{...styles.text, width: '50%', marginRight:10}}>
             Header Alignment Type
           </Text>
           <View style={{flex: 1}}>
