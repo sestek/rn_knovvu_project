@@ -165,7 +165,6 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
     const indexToUpdate = colorPickerStates.findIndex(
       colorPicker => colorPicker.key === index,
     );
-    console.log("index",index)
 
     if (indexToUpdate !== -1) {
       const updatedStates = [...colorPickerStates];
@@ -189,7 +188,10 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
     setIsVisible(false);
   };
   const onDone = async (item: string | null) => {
-    onChangeCustomize('headerAlignmentType', item?.value);
+    if(item.value){
+      onChangeCustomize('headerAlignmentType', item?.value);
+    }
+
   };
 
   

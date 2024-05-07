@@ -87,7 +87,7 @@ const WebchatModal = (props: WebchatModalProps) => {
       customizeConfiguration={{
         // Header
         headerColor: webchat.headerColor,
-        headerText: webchat.headerText,
+        // headerText: webchat.headerText,
         headerTextColor: webchat.headerTextColor,
         headerHideIcon: {
           type: 'url',
@@ -116,7 +116,7 @@ const WebchatModal = (props: WebchatModalProps) => {
         
         // Bottom
         bottomColor: webchat.bottomColor,
-        bottomInputText: webchat.bottomInputText,
+        // bottomInputText: webchat.bottomInputText,
         bottomInputBorderColor: webchat.bottomInputBorderColor,
         bottomInputSendButtonColor: webchat.bottomInputSendButtonColor,
         // User MessageBox
@@ -126,8 +126,8 @@ const WebchatModal = (props: WebchatModalProps) => {
         //   type: 'uri',
         //   value: '',
         // },
-        userMessageBoxHeaderName: webchat.userMessageBoxHeaderName,
-        userMessageBoxHeaderNameColor: webchat.userMessageBoxHeaderNameColor,
+        // userMessageBoxHeaderName: webchat.userMessageBoxHeaderName,
+        // userMessageBoxHeaderNameColor: webchat.userMessageBoxHeaderNameColor,
         // ChatBot MessageBox
         chatBotMessageBoxBackground: webchat.chatBotMessageBoxBackground,
         chatBotMessageBoxTextColor: webchat.chatBotMessageBoxTextColor,
@@ -137,9 +137,9 @@ const WebchatModal = (props: WebchatModalProps) => {
             ? webchat.chatBotMessageBoxIcon
             : Knovvu32,
         },
-        chatBotMessageBoxHeaderName: webchat.chatBotMessageBoxHeaderName,
-        chatBotMessageBoxHeaderNameColor:
-          webchat.chatBotMessageBoxHeaderNameColor,
+        // chatBotMessageBoxHeaderName: webchat.chatBotMessageBoxHeaderName,
+        // chatBotMessageBoxHeaderNameColor:
+        //   webchat.chatBotMessageBoxHeaderNameColor,
         chatBotMessageBoxButtonBackground:
           webchat.chatBotMessageBoxButtonBackground,
         chatBotMessageBoxButtonTextColor:
@@ -198,24 +198,40 @@ const WebchatModal = (props: WebchatModalProps) => {
         // Close Modal
         closeModalSettings: {
           use: webchat.cmsUse,
-          text: webchat.cmsText,
+          // text: webchat.cmsText,
           textColor: webchat.cmsTextColor,
           background: webchat.cmsBackground,
           buttons: {
             yesButton: {
-              text: webchat.cmsYesButtonText,
+              // text: webchat.cmsYesButtonText,
               textColor: webchat.cmsYesButtonTextColor,
               background: webchat.cmsYesButtonBackground,
               borderColor: webchat.cmsYesButtonBorderColor,
             },
             noButton: {
-              text: webchat.cmsNoButtonText,
+              // text: webchat.cmsNoButtonText,
               textColor: webchat.cmsNoButtonTextColor,
               background: webchat.cmsNoButtonBackground,
               borderColor: webchat.cmsNoButtonBorderColor,
             },
           },
         },
+        language:{
+          en:{
+            headerText:webchat.headerText,
+            bottomInputText:webchat.bottomInputText,
+            closeModalText:webchat.cmsText,
+            closeModalYesButtonText:webchat.cmsYesButtonText,
+            closeModalNoButtonText:webchat.cmsNoButtonText
+          },
+          tr:{
+            headerText:"Knovvu",
+            bottomInputText: 'Lütfen bir mesaj yazınız',
+            closeModalText: 'Chatden çıkmak istediğinize emin misiniz?',
+            closeModalYesButtonText: 'Evet',
+            closeModalNoButtonText: 'Hayır',
+          }
+        }
       }}
     />
   );
