@@ -41,7 +41,7 @@ import ModalPause from './modalPause.png'
 import ModalPlay from './modalPlay.png'
 import BotPause from './botPause.png'
 import BotPlay from './botPlay.png'
-
+import ChatBackground from './mobilebackground.png'
 
 export {
   KnovvuBanner,
@@ -85,5 +85,6 @@ export {
   ModalPause,
   ModalPlay,
   BotPause,
-  BotPlay
+  BotPlay,
+  ChatBackground
 };

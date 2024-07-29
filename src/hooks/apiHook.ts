@@ -33,7 +33,7 @@ const useRequest = () => {
       .then(response => response.json())
       .then(data => {
         AsyncStorage.setItem('token', data.access_token)
-        console.log('API yanıtı:', data.access_token);
+        // console.log('API yanıtı:', data.access_token);
       })
       .catch(error => {
         console.error('API isteği sırasında hata oluştu:', error);

@@ -35,6 +35,7 @@ export interface WebchatState {
 
   userMessageBoxHeaderName: string;
   userMessageBoxHeaderNameColor: string;
+  userMessageIcon:string;
   chatBotMessageBoxIcon:string;
   chatBotMessageBoxBackground: string;
   chatBotMessageBoxTextColor: string;
@@ -44,6 +45,7 @@ export interface WebchatState {
   chatBotMessageBoxButtonTextColor: string;
   chatBotMessageBoxButtonBorderColor: string;
   chatBody: string;
+  chatBodyImage:boolean;
   sliderMaximumTrackTintColor: string;
   sliderThumbTintColor: string;
   sliderMinimumTrackTintColor: string;
@@ -51,6 +53,11 @@ export interface WebchatState {
   titleFontSize:number;
   subtitleFontSize:number;
   descriptionFontSize:number;
+  dateFormat:DateFormatType;
+
+  autoPlayAudio:boolean
+  useLegacyProduct:boolean;
+  clientId:string;
 
   ///closeModal
   cmsUse : boolean;
@@ -65,6 +72,7 @@ export interface WebchatState {
   cmsNoButtonTextColor: string;
   cmsNoButtonBackground: string;
   cmsNoButtonBorderColor: string;
+
 }
 
 interface SetKeyValue {
@@ -74,6 +82,7 @@ interface SetKeyValue {
 
 type HeaderAlignmentType = 'textToLeft' | 'textToRight' | 'textToCenter';
 
+type DateFormatType = 'short' | 'long' ;
 
 const initialState: WebchatState = {
   url: 'https://eu.va.knovvu.com/webchat/chathub',
@@ -100,6 +109,7 @@ const initialState: WebchatState = {
 
   userMessageBoxHeaderName: '',
   userMessageBoxHeaderNameColor: 'white',
+  userMessageIcon: "",
   chatBotMessageBoxIcon:"",
   chatBotMessageBoxBackground: '#EFEFEF',
   chatBotMessageBoxTextColor: 'black',
@@ -109,10 +119,16 @@ const initialState: WebchatState = {
   chatBotMessageBoxButtonTextColor: 'black',
   chatBotMessageBoxButtonBorderColor: '#863CEB',
   chatBody: 'white',
+  chatBodyImage:false,
   sliderMaximumTrackTintColor: '#8c8c8c',
   sliderThumbTintColor: '#C3ACD0',
   sliderMinimumTrackTintColor: '#C3ACD0',
   headerAlignmentType:'textToCenter',
+  autoPlayAudio:false,
+  useLegacyProduct:false,
+  clientId:'',
+
+  
  
   cmsUse : true,
   cmsText: "Are you sure you want to leave the chat?",
@@ -128,7 +144,8 @@ const initialState: WebchatState = {
   cmsNoButtonBorderColor: '#863CEB',
   titleFontSize:18,
   subtitleFontSize:16,
-  descriptionFontSize:13
+  descriptionFontSize:13,
+  dateFormat:'long',
 };
 
 export const asyncGetWebchatData = createAsyncThunk(
@@ -189,6 +206,7 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
 
   state.userMessageBoxHeaderName = data.userMessageBoxHeaderName;
   state.userMessageBoxHeaderNameColor = data.userMessageBoxHeaderNameColor;
+  state.userMessageIcon = data.userMessageIcon;
   state.chatBotMessageBoxIcon = data.chatBotMessageBoxIcon;
   state.chatBotMessageBoxBackground = data.chatBotMessageBoxBackground;
   state.chatBotMessageBoxTextColor = data.chatBotMessageBoxTextColor;
@@ -198,11 +216,15 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
   state.chatBotMessageBoxButtonTextColor = data.chatBotMessageBoxButtonTextColor;
   state.chatBotMessageBoxButtonBorderColor = data.chatBotMessageBoxButtonBorderColor;
   state.chatBody = data.chatBody;
+  state.chatBodyImage = data.chatBodyImage;
   state.sliderMaximumTrackTintColor = data.sliderMaximumTrackTintColor;
   state.sliderThumbTintColor = data.sliderThumbTintColor;
   state.sliderMinimumTrackTintColor = data.sliderMinimumTrackTintColor;
   state.headerAlignmentType = data.headerAlignmentType;
- 
+  state.autoPlayAudio = data.autoPlayAudio;
+  state.useLegacyProduct = data.useLegacyProduct;
+  state.clientId = data.clientId;
+
   state.cmsUse = data.cmsUse;
   state.cmsText = data.cmsText;
   state.cmsTextColor = data.cmsTextColor;
@@ -218,6 +240,7 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
   state.titleFontSize = data.titleFontSize;
   state.subtitleFontSize = data.subtitleFontSize;
   state.descriptionFontSize = data.descriptionFontSize;
+  state.dateFormat = data.dateFormat;
 
 };
 
@@ -240,9 +263,7 @@ export const webchatSlice = createSlice({
       state.project = 'Knovvu_Bot';
       state.customActionData = '';
       state.headerColor = '#7f81ae';
-      state.headerText = 'Knovvu Chat Client';
       state.bottomColor = '#7f81ae';
-      state.bottomInputText = 'Type a message';
       state.incomingText = 'Test User';
       state.incomingTextColor = 'black';
       state.outgoingText = 'Knovvu Virtual Agent';
@@ -253,6 +274,12 @@ export const webchatSlice = createSlice({
       state.titleFontSize = 18;
       state.subtitleFontSize = 16;
       state.descriptionFontSize = 13;
+      state.headerText = 'Knovvu';
+      state.bottomInputText = 'Type a message';
+      state.cmsText = 'Are you sure you want to exit chat?';
+      state.cmsYesButtonText = 'Yes';
+      state.cmsNoButtonText ='No';
+      state.dateFormat='long'
     },
     setCustomizeConfiguration: (state, action: PayloadAction<SetKeyValue>) => {
       (state as any)[action.payload.key] = action.payload.value;

@@ -13,7 +13,7 @@ const CollapseView: React.FC<CollapseViewProps> = ({
   children,
   style,
 }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <View style={[styles.collapseContainer, style]}>

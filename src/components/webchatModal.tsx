@@ -11,6 +11,7 @@ import {WebchatManager} from '@src/utils/functions/webchatManages';
 import {
   BotPause,
   BotPlay,
+  ChatBackground,
   Knovvu32,
   ModalClose,
   ModalMinus,
@@ -67,7 +68,7 @@ const WebchatModal = (props: WebchatModalProps) => {
       url={webchat.url}
       modules={{
         AudioRecorderPlayer: AudioRecorderPlayer,
-         RNFS: RNFetchBlob,
+        RNFS: RNFetchBlob,
         RNSlider: Slider,
         RNWebView: WebView,
         Record: AudioRecord,
@@ -78,8 +79,8 @@ const WebchatModal = (props: WebchatModalProps) => {
         sendConversationStart: true,
         tenant: webchat.tenant,
         projectName: webchat.project,
-        channel: 'Mobil',
-        clientId: 'mobile-testing',
+        channel: webchat?.useLegacyProduct ? 'NdUi':'webchatmobile-sestek',
+        clientId: webchat?.clientId,
         // enableNdUi: false,
         getResponseData: setResponse,
         customActionData: webchat.customActionData,
@@ -87,35 +88,30 @@ const WebchatModal = (props: WebchatModalProps) => {
       customizeConfiguration={{
         // Header
         headerColor: webchat.headerColor,
-        // headerText: webchat.headerText,
-        headerTextColor: webchat.headerTextColor,
-        headerHideIcon: {
-          type: 'url',
-          value: ModalMinus,
-        },
-        headerCloseIcon: {
-          type: 'url',
-          value: ModalClose,
+        headerTextStyle:{
+          fontWeight: 'bold',
+          fontSize: 18,
+          color:'white'
         },
         headerAlignmentType: webchat?.headerAlignmentType,
         chatBotCarouselSettings: {
-          // nexButtonIcon: {
-          //   type: 'component',
-          //   value: require('./example.png'),
-          // },
-          // prevButtonIcon: {
-          //   type: 'component',
-          //   value: require('./example.png'),
-          // },
+          nextButtonIcon: {
+            type: 'url',
+            value: require('../assests/next.png'),
+          },
+          prevButtonIcon: {
+            type: 'url',
+            value: require('../assests/back.png'),
+          },
           buttonGroup: {
-            borderColor:  webchat.chatBotMessageBoxButtonBorderColor,
+            borderColor: webchat.chatBotMessageBoxButtonBorderColor,
             backgroundColor: webchat.chatBotMessageBoxButtonBackground,
-            textColor:  webchat.chatBotMessageBoxButtonTextColor,
+            textColor: webchat.chatBotMessageBoxButtonTextColor,
           },
         },
-        
+
         // Bottom
-        bottomColor: webchat.bottomColor,
+        bottomColor: webchat?.chatBodyImage ? undefined :webchat.bottomColor,
         // bottomInputText: webchat.bottomInputText,
         bottomInputBorderColor: webchat.bottomInputBorderColor,
         bottomInputSendButtonColor: webchat.bottomInputSendButtonColor,
@@ -129,6 +125,7 @@ const WebchatModal = (props: WebchatModalProps) => {
         // userMessageBoxHeaderName: webchat.userMessageBoxHeaderName,
         // userMessageBoxHeaderNameColor: webchat.userMessageBoxHeaderNameColor,
         // ChatBot MessageBox
+        
         chatBotMessageBoxBackground: webchat.chatBotMessageBoxBackground,
         chatBotMessageBoxTextColor: webchat.chatBotMessageBoxTextColor,
         chatBotMessageIcon: {
@@ -136,6 +133,11 @@ const WebchatModal = (props: WebchatModalProps) => {
           value: webchat.chatBotMessageBoxIcon
             ? webchat.chatBotMessageBoxIcon
             : Knovvu32,
+        },
+        userMessageIcon:{
+          type:  webchat.userMessageIcon ? 'url' : undefined,
+          value: webchat.userMessageIcon ? webchat.userMessageIcon : ''
+          
         },
         // chatBotMessageBoxHeaderName: webchat.chatBotMessageBoxHeaderName,
         // chatBotMessageBoxHeaderNameColor:
@@ -147,12 +149,12 @@ const WebchatModal = (props: WebchatModalProps) => {
         chatBotMessageBoxButtonBorderColor:
           webchat.chatBotMessageBoxButtonBorderColor,
         // Chat Body
-        chatBody: {type: 'color', value: webchat.chatBody},
+       chatBody: {type: webchat?.chatBodyImage ? 'image':'color', value: webchat?.chatBodyImage ? ChatBackground : webchat.chatBody},
         chatStartButtonHide: true,
 
-        fontSettings:{
-          titleFontSize:webchat.titleFontSize,
-          subtitleFontSize:webchat.subtitleFontSize,
+        fontSettings: {
+          titleFontSize: webchat.titleFontSize,
+          subtitleFontSize: webchat.subtitleFontSize,
           descriptionFontSize: webchat.descriptionFontSize,
         },
         // Slider
@@ -170,7 +172,7 @@ const WebchatModal = (props: WebchatModalProps) => {
             value: ModalPause,
           },
           //bot
-          botSliderMinimumTrackTintColor:webchat.sliderMinimumTrackTintColor,
+          botSliderMinimumTrackTintColor: webchat.sliderMinimumTrackTintColor,
           botSliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
           botSliderThumbTintColor: webchat.sliderThumbTintColor,
           botSliderPlayImage: {
@@ -198,40 +200,49 @@ const WebchatModal = (props: WebchatModalProps) => {
         // Close Modal
         closeModalSettings: {
           use: webchat.cmsUse,
-          // text: webchat.cmsText,
           textColor: webchat.cmsTextColor,
           background: webchat.cmsBackground,
           buttons: {
             yesButton: {
-              // text: webchat.cmsYesButtonText,
               textColor: webchat.cmsYesButtonTextColor,
               background: webchat.cmsYesButtonBackground,
               borderColor: webchat.cmsYesButtonBorderColor,
             },
             noButton: {
-              // text: webchat.cmsNoButtonText,
               textColor: webchat.cmsNoButtonTextColor,
               background: webchat.cmsNoButtonBackground,
               borderColor: webchat.cmsNoButtonBorderColor,
             },
           },
         },
-        language:{
-          en:{
-            headerText:webchat.headerText,
-            bottomInputText:webchat.bottomInputText,
-            closeModalText:webchat.cmsText,
-            closeModalYesButtonText:webchat.cmsYesButtonText,
-            closeModalNoButtonText:webchat.cmsNoButtonText
+        language: {
+          en: {
+            headerText: webchat.headerText,
+            bottomInputText: webchat.bottomInputText,
+            closeModalText: webchat.cmsText,
+            closeModalYesButtonText: webchat.cmsYesButtonText,
+            closeModalNoButtonText: webchat.cmsNoButtonText,
           },
-          tr:{
-            headerText:"Knovvu",
+          tr: {
+            headerText: 'Knovvu',
             bottomInputText: 'Lütfen bir mesaj yazınız',
             closeModalText: 'Chatden çıkmak istediğinize emin misiniz?',
             closeModalYesButtonText: 'Evet',
             closeModalNoButtonText: 'Hayır',
-          }
-        }
+          },
+          ar: {
+            headerText: 'Knovvu',
+            bottomInputText: 'يرجى كتابة رسالة',
+            closeModalText: 'هل أنت متأكد أنك تريد الخروج من الدردشة؟',
+            closeModalYesButtonText: 'نعم',
+            closeModalNoButtonText: 'لا',
+          },
+        },
+        autoPlayAudio: webchat?.autoPlayAudio,
+         dateSettings:{
+           use:true,
+           format:webchat?.dateFormat
+         }
       }}
     />
   );
