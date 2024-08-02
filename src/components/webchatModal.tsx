@@ -237,6 +237,14 @@ const WebchatModal = (props: WebchatModalProps) => {
             closeModalYesButtonText: 'نعم',
             closeModalNoButtonText: 'لا',
           },
+          es: {
+            headerText: 'Knovvu',
+            bottomInputText: 'Por favor, escribe un mensaje',
+            closeModalText: '¿Estás seguro de que quieres salir del chat?',
+            closeModalYesButtonText: 'Sí',
+            closeModalNoButtonText: 'No',
+          },
+          
         },
         autoPlayAudio: webchat?.autoPlayAudio,
          dateSettings:{

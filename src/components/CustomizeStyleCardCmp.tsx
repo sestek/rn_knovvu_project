@@ -586,7 +586,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
             </Pressable>
           </View>
           <View style={styles.badgeView}>
-            <Text style={styles.text}>Automatic Auido Playback</Text>
+            <Text style={styles.text}>Automatic Audio Playback</Text>
             <Switch
               value={webchatCustomize?.autoPlayAudio}
               onValueChange={value => handleSwitch(value)}
@@ -751,7 +751,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
         <View style={styles.padding}>
           <Text style={styles.text}>Client ID</Text>
           <Input
-            placeholder="Bottom Text"
+            placeholder="Client ID"
             style={{color: '#EC008C'}}
             value={webchatCustomize.clientId}
             onChangeText={value => onChangeCustomize('clientId', value)}

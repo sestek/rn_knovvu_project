@@ -90,7 +90,7 @@ const initialState: WebchatState = {
   project: 'Knovvu_Bot',
   isMicEnabled: 'false',
   personaId: '',
-  customActionData: '',
+  customActionData: '{}',
   enableNdUi : false,
   channel:'mobil',
 
