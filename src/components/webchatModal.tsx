@@ -63,6 +63,12 @@ const WebchatModal = (props: WebchatModalProps) => {
   const setResponse = (value: any) => {
     setResponseData(value);
   };
+  const endUserInfo = {
+    name: 'Knovvu Mobile',
+    phone: '+905555555555',
+    email: 'knovvu@example.com',
+    twitter: '@knovvu',
+  };
   return (
     <ChatModal
       url={webchat.url}
@@ -84,6 +90,7 @@ const WebchatModal = (props: WebchatModalProps) => {
         // enableNdUi: false,
         getResponseData: setResponse,
         customActionData: webchat.customActionData,
+        endUser:endUserInfo
       }}
       customizeConfiguration={{
         // Header
@@ -160,9 +167,9 @@ const WebchatModal = (props: WebchatModalProps) => {
         // Slider
 
         audioSliderSettings: {
-          userSliderMinimumTrackTintColor: webchat.sliderMinimumTrackTintColor,
-          userSliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
-          userSliderThumbTintColor: webchat.sliderThumbTintColor,
+          userUnplayedTrackColor: "white",
+          userPlayedTrackColor: "#FF4081",
+          userTimerTextColor:"white",
           userSliderPlayImage: {
             type: 'url',
             value: ModalPlay,
@@ -172,9 +179,9 @@ const WebchatModal = (props: WebchatModalProps) => {
             value: ModalPause,
           },
           //bot
-          botSliderMinimumTrackTintColor: webchat.sliderMinimumTrackTintColor,
-          botSliderMaximumTrackTintColor: webchat.sliderMaximumTrackTintColor,
-          botSliderThumbTintColor: webchat.sliderThumbTintColor,
+          botUnplayedTrackColor: webchat?.sliderMinimumTrackTintColor ? webchat?.sliderMinimumTrackTintColor :'gray',
+          botPlayedTrackColor: webchat?.sliderMaximumTrackTintColor ? webchat?.sliderMaximumTrackTintColor : '#007BFF',
+          botTimerTextColor: webchat?.sliderThumbTintColor ? webchat?.sliderThumbTintColor : 'black',
           botSliderPlayImage: {
             type: 'url',
             value: BotPlay,
@@ -249,7 +256,7 @@ const WebchatModal = (props: WebchatModalProps) => {
         autoPlayAudio: webchat?.autoPlayAudio,
          dateSettings:{
            use:true,
-           format:webchat?.dateFormat
+           format:webchat?.dateFormat ? webchat?.dateFormat :'long'
          }
       }}
     />

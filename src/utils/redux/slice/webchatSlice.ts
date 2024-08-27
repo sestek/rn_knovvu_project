@@ -92,7 +92,7 @@ const initialState: WebchatState = {
   personaId: '',
   customActionData: '{}',
   enableNdUi : false,
-  channel:'mobil',
+  channel:'webchatmobile-sestek',
 
   // enableNdUi : false,
 

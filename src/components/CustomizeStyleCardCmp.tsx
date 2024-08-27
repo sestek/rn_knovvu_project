@@ -549,7 +549,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
 
         <CollapseView header="AUDIO SLIDER">
           <View style={styles.badgeView}>
-            <Text style={styles.text}>Slider Maximum Track Tint Color</Text>
+            <Text style={styles.text}>Bot Played Track Color</Text>
             <Pressable
               onPress={() =>
                 handleColorPickerToggle('sliderMaximumTrackTintColor')
@@ -562,7 +562,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
             </Pressable>
           </View>
           <View style={styles.badgeView}>
-            <Text style={styles.text}>Slider Thumb Tint Color</Text>
+            <Text style={styles.text}>Bot Unplayed Track Color</Text>
             <Pressable
               onPress={() => handleColorPickerToggle('sliderThumbTintColor')}>
               <Badge
@@ -573,7 +573,7 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
             </Pressable>
           </View>
           <View style={styles.badgeView}>
-            <Text style={styles.text}>Slider Minimum Track Tint Color</Text>
+            <Text style={styles.text}>Bot Timer Text Color</Text>
             <Pressable
               onPress={() =>
                 handleColorPickerToggle('sliderMinimumTrackTintColor')
