@@ -22,6 +22,7 @@ import useModalCloseStore from '@src/zustandStore/chatgpt/store';
 import useModalCloseAvatarStore from '@src/zustandStore/avatar/store';
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
+import { KnovuuIcon } from 'rn-sestek-webchat/src/image';
 
 const TabBarComponent = ({state, descriptors, navigation, modalRef}) => {
   const newState = {...state};
@@ -88,7 +89,7 @@ const TabBarComponent = ({state, descriptors, navigation, modalRef}) => {
             } else {
               NetInfo.addEventListener(state => {
                 if (state.isConnected) {
-                  if (route.name === 'Knovvu' && modalVisible) {
+                  if (route.name === 'Virtual Agent' && modalVisible) {
                     modalRef?.current?.startConversation();                   
                     return;
                   }
@@ -128,8 +129,8 @@ const TabBarComponent = ({state, descriptors, navigation, modalRef}) => {
             let imageName;
             if (route.name === 'Home') {
               imageName = focused ? HomePassive : HomeActive;
-            } else if (route.name === 'Knovvu') {
-              imageName = focused ? ChatBotPassive : ChatBotActive;
+            } else if (route.name === 'Virtual Agent') {
+              imageName = KnovuuIcon;
             } else if (route.name === 'Avatar') {
               imageName = focused ? AvatarPassive : AvatarActive;
             }

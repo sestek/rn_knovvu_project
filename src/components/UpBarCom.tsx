@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, Platform} from 'react-native';
 import React from 'react';
 import {Close, ClosePink, Knovvu32, Knovvu32x32, Settings} from '@src/assests';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -13,7 +13,7 @@ const UpBarCom = ({navigation, children, title, close}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             backgroundColor: 'white',
-            height:40,
+            height:Platform.OS === 'android' ? 60 : 40,
             borderBottomWidth:0.5,
             borderBottomColor:"#5F6295",
             alignItems:"center"

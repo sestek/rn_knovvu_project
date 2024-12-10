@@ -747,16 +747,53 @@ const CustomizeStyleCard: React.FC<CustomizeStyleCardProps> = ({
         ))}
         <View style={styles.line} />
       </CollapseView>
-      <CollapseView header="OTHER">
+      <CollapseView header="Other">
         <View style={styles.padding}>
           <Text style={styles.text}>Client ID</Text>
           <Input
             placeholder="Client ID"
             style={{color: '#EC008C'}}
-            value={webchatCustomize.clientId}
+            value={webchatCustomize?.clientId}
             onChangeText={value => onChangeCustomize('clientId', value)}
           />
         </View>
+        <Text style={styles.text}>End User Information</Text>
+        <View style={styles.padding}>
+          <Text style={styles.text}>End User Name</Text>
+          <Input
+            placeholder="End User Name"
+            style={{color: '#EC008C'}}
+            value={webchatCustomize?.endUserName}
+            onChangeText={value => onChangeCustomize('endUserName', value)}
+          />
+        </View>
+        {/* <View style={styles.padding}>
+          <Text style={styles.text}>End User Phone</Text>
+          <Input
+            placeholder="End User Phone"
+            style={{color: '#EC008C'}}
+            value={webchatCustomize?.endUserPhone}
+            onChangeText={value => onChangeCustomize('endUserPhone', value)}
+          />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>End User Email</Text>
+          <Input
+            placeholder="End User Email"
+            style={{color: '#EC008C'}}
+            value={webchatCustomize?.endUserEmail}
+            onChangeText={value => onChangeCustomize('endUserEmail', value)}
+          />
+        </View>
+        <View style={styles.padding}>
+          <Text style={styles.text}>End User Twitter</Text>
+          <Input
+            placeholder="End User Twitter"
+            style={{color: '#EC008C'}}
+            value={webchatCustomize?.endUserTwitter}
+            onChangeText={value => onChangeCustomize('endUserTwitter', value)}
+          />
+        </View> */}
         <View style={styles.badgeView}>
           <Text style={styles.text}>Use Legacy Product</Text>
           <Switch

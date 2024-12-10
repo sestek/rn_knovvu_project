@@ -31,6 +31,7 @@ const DigitalHuman = ({navigation}) => {
   if(webchat.personaId !== ""){
     avatarURL = avatarURL +`&showProjectName=${webchat.project}&personaId=${webchat.personaId}`
   }
+  console.log(avatarURL)
   return (
     <Modal animationType="slide" visible={isModalAvatarOpen}>
       <View style={{flex: 1, backgroundColor: '#eaeaea'}}>

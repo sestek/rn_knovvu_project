@@ -58,6 +58,10 @@ export interface WebchatState {
   autoPlayAudio:boolean
   useLegacyProduct:boolean;
   clientId:string;
+  endUserName:string;
+  endUserPhone:string;
+  endUserEmail:string;
+  endUserTwitter:string;
 
   ///closeModal
   cmsUse : boolean;
@@ -127,6 +131,10 @@ const initialState: WebchatState = {
   autoPlayAudio:false,
   useLegacyProduct:false,
   clientId:'',
+  endUserName:'',
+  endUserPhone:'',
+  endUserEmail:'',
+  endUserTwitter:'',
 
   
  
@@ -224,6 +232,10 @@ const setStateWebchat = (state: WebchatState, data: WebchatState) => {
   state.autoPlayAudio = data.autoPlayAudio;
   state.useLegacyProduct = data.useLegacyProduct;
   state.clientId = data.clientId;
+  state.endUserName = data.endUserName;
+  state.endUserPhone = data.endUserPhone;
+  state.endUserEmail = data.endUserEmail;
+  state.endUserTwitter = data.endUserTwitter;
 
   state.cmsUse = data.cmsUse;
   state.cmsText = data.cmsText;
@@ -279,7 +291,7 @@ export const webchatSlice = createSlice({
       state.cmsText = 'Are you sure you want to exit chat?';
       state.cmsYesButtonText = 'Yes';
       state.cmsNoButtonText ='No';
-      state.dateFormat='long'
+      state.dateFormat='long';
     },
     setCustomizeConfiguration: (state, action: PayloadAction<SetKeyValue>) => {
       (state as any)[action.payload.key] = action.payload.value;

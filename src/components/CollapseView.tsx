@@ -38,6 +38,7 @@ const styles = {
     fontWeight: '400',
     padding: 8,
     paddingRight: 32, 
+    color: 'black'
   },
   icon: {
     position: 'absolute',

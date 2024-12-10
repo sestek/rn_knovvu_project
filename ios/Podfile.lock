@@ -228,9 +228,9 @@ PODS:
     - glog
   - react-native-document-picker (9.1.1):
     - React-Core
-  - react-native-fetch-blob (0.10.6):
+  - react-native-image-picker (7.1.2):
     - React-Core
-  - react-native-netinfo (11.1.0):
+  - react-native-netinfo (11.4.1):
     - React-Core
   - react-native-safe-area-context (4.4.1):
     - RCT-Folly
@@ -306,15 +306,19 @@ PODS:
     - React-jsi (= 0.69.1)
     - React-logger (= 0.69.1)
     - React-perflogger (= 0.69.1)
+  - rn-fetch-blob (0.12.0):
+    - React-Core
   - RNAudioRecord (0.2.2):
     - React
   - RNAudioRecorderPlayer (3.4.0):
     - React-Core
-  - RNCAsyncStorage (1.17.11):
+  - RNCAsyncStorage (1.24.0):
     - React-Core
   - RNCClipboard (1.12.1):
     - React-Core
   - RNDeviceInfo (10.11.0):
+    - React-Core
+  - RNFileViewer (2.1.5):
     - React-Core
   - RNGestureHandler (2.7.0):
     - React-Core
@@ -378,7 +382,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
-  - react-native-fetch-blob (from `../node_modules/react-native-fetch-blob`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -394,11 +398,13 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - RNAudioRecord (from `../node_modules/react-native-audio-record`)
   - RNAudioRecorderPlayer (from `../node_modules/react-native-audio-recorder-player`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNFileViewer (from `../node_modules/react-native-file-viewer`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -456,8 +462,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
-  react-native-fetch-blob:
-    :path: "../node_modules/react-native-fetch-blob"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -488,6 +494,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  rn-fetch-blob:
+    :path: "../node_modules/rn-fetch-blob"
   RNAudioRecord:
     :path: "../node_modules/react-native-audio-record"
   RNAudioRecorderPlayer:
@@ -498,6 +506,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-clipboard/clipboard"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNFileViewer:
+    :path: "../node_modules/react-native-file-viewer"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNPermissions:
@@ -534,8 +544,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 55605caf04e02f9b0e05842b786f1c12dde08f4b
   React-logger: ca970551cb7eea2fd814d0d5f6fc1a471eb53b76
   react-native-document-picker: 3599b238843369026201d2ef466df53f77ae0452
-  react-native-fetch-blob: 0cbdf9764c75d9438c162427395f4bc35a857d5a
-  react-native-netinfo: 3aa5637c18834966e0c932de8ae1ae56fea20a97
+  react-native-image-picker: 6f8b3ea523b02c622b9e4f9c36f17348aff0909d
+  react-native-netinfo: f0a9899081c185db1de5bb2fdc1c88c202a059ac
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: c9161ff0f1c769993cd11d2751e4331ff4ceb7cd
@@ -550,17 +560,19 @@ SPEC CHECKSUMS:
   React-RCTVibration: e8b7dd6635cc95689b5db643b5a3848f1e05b30b
   React-runtimeexecutor: 27f468c5576eaf05ffb7a907528e44c75a3fcbae
   ReactCommon: e30ec17dfb1d4c4f3419eac254350d6abca6d5a2
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAudioRecord: 162fee3b8fb628773ec704bf0333823125be2ed7
   RNAudioRecorderPlayer: 001f01049754e978c43af97162452c8563d5794a
-  RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+  RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNCClipboard: d77213bfa269013bf4b857b7a9ca37ee062d8ef1
   RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
+  RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
   RNGestureHandler: 7673697e7c0e9391adefae4faa087442bc04af33
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 1da6ab05b5591b76606da2f30b309550fdc3f7d5
   RNScreens: f3230dd008a7d0ce5c0a8bc78ff12cf2315bda24
   Yoga: 7ab6e3ee4ce47d7b789d1cb520163833e515f452
 
-PODFILE CHECKSUM: a5f3859ecb435291337ad188d329df050dfd47da
+PODFILE CHECKSUM: 1dc4f2470a2914235dc25581903c68895824615f
 
 COCOAPODS: 1.13.0

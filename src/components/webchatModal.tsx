@@ -3,7 +3,7 @@ import {setModalVisible} from '@src/utils/redux/slice/mainSlice';
 import React, {useEffect, useRef, useState} from 'react';
 import {ChatModal} from 'rn-sestek-webchat';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import {Slider} from '@miblanchard/react-native-slider';
 import {WebView} from 'react-native-webview';
 import {PermissionsManager} from '@src/utils/functions/permissionsManager';
@@ -20,6 +20,10 @@ import {
 } from '@src/assests';
 import AudioRecord from 'react-native-audio-record';
 import DocumentPicker from 'react-native-document-picker';
+import FileViewer from 'react-native-file-viewer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {launchImageLibrary} from 'react-native-image-picker';
+
 interface WebchatModalProps {
   modalRef: any;
 }
@@ -62,13 +66,9 @@ const WebchatModal = (props: WebchatModalProps) => {
   const [responseData, setResponseData] = useState<any>({});
   const setResponse = (value: any) => {
     setResponseData(value);
+    console.log(value);
   };
-  const endUserInfo = {
-    name: 'Knovvu Mobile',
-    phone: '+905555555555',
-    email: 'knovvu@example.com',
-    twitter: '@knovvu',
-  };
+
   return (
     <ChatModal
       url={webchat.url}
@@ -79,26 +79,34 @@ const WebchatModal = (props: WebchatModalProps) => {
         RNWebView: WebView,
         Record: AudioRecord,
         RNFileSelector: DocumentPicker,
+        fileViewer: FileViewer,
+        asyncStorage: AsyncStorage,
+        launchImageLibrary: launchImageLibrary,
       }}
       ref={modalRef}
       defaultConfiguration={{
         sendConversationStart: true,
         tenant: webchat.tenant,
         projectName: webchat.project,
-        channel: webchat?.useLegacyProduct ? 'NdUi':'webchatmobile-sestek',
+        channel: webchat?.useLegacyProduct ? 'NdUi' : 'webchatmobile-sestek',
         clientId: webchat?.clientId,
         // enableNdUi: false,
         getResponseData: setResponse,
         customActionData: webchat.customActionData,
-        endUser:endUserInfo
+        endUser: {
+          name: webchat?.endUserName || 'Knovvu Mobile',
+          // phone: webchat?.endUserPhone || '+905555555555',
+          // email: webchat?.endUserEmail || 'knovvu@example.com',
+          // twitter: webchat?.endUserTwitter || '@knovvu',
+        },
       }}
       customizeConfiguration={{
         // Header
         headerColor: webchat.headerColor,
-        headerTextStyle:{
+        headerTextStyle: {
           fontWeight: 'bold',
           fontSize: 18,
-          color:'white'
+          color: 'white',
         },
         headerAlignmentType: webchat?.headerAlignmentType,
         chatBotCarouselSettings: {
@@ -118,7 +126,7 @@ const WebchatModal = (props: WebchatModalProps) => {
         },
 
         // Bottom
-        bottomColor: webchat?.chatBodyImage ? undefined :webchat.bottomColor,
+        bottomColor: webchat?.chatBodyImage ? undefined : webchat.bottomColor,
         // bottomInputText: webchat.bottomInputText,
         bottomInputBorderColor: webchat.bottomInputBorderColor,
         bottomInputSendButtonColor: webchat.bottomInputSendButtonColor,
@@ -132,7 +140,7 @@ const WebchatModal = (props: WebchatModalProps) => {
         // userMessageBoxHeaderName: webchat.userMessageBoxHeaderName,
         // userMessageBoxHeaderNameColor: webchat.userMessageBoxHeaderNameColor,
         // ChatBot MessageBox
-        
+
         chatBotMessageBoxBackground: webchat.chatBotMessageBoxBackground,
         chatBotMessageBoxTextColor: webchat.chatBotMessageBoxTextColor,
         chatBotMessageIcon: {
@@ -141,10 +149,9 @@ const WebchatModal = (props: WebchatModalProps) => {
             ? webchat.chatBotMessageBoxIcon
             : Knovvu32,
         },
-        userMessageIcon:{
-          type:  webchat.userMessageIcon ? 'url' : undefined,
-          value: webchat.userMessageIcon ? webchat.userMessageIcon : ''
-          
+        userMessageIcon: {
+          type: webchat.userMessageIcon ? 'url' : undefined,
+          value: webchat.userMessageIcon ? webchat.userMessageIcon : '',
         },
         // chatBotMessageBoxHeaderName: webchat.chatBotMessageBoxHeaderName,
         // chatBotMessageBoxHeaderNameColor:
@@ -156,8 +163,11 @@ const WebchatModal = (props: WebchatModalProps) => {
         chatBotMessageBoxButtonBorderColor:
           webchat.chatBotMessageBoxButtonBorderColor,
         // Chat Body
-       chatBody: {type: webchat?.chatBodyImage ? 'image':'color', value: webchat?.chatBodyImage ? ChatBackground : webchat.chatBody},
-        chatStartButtonHide: true,
+        chatBody: {
+          type: webchat?.chatBodyImage ? 'image' : 'color',
+          value: webchat?.chatBodyImage ? ChatBackground : webchat.chatBody,
+        },
+        chatStartButtonHide: false,
 
         fontSettings: {
           titleFontSize: webchat.titleFontSize,
@@ -167,9 +177,9 @@ const WebchatModal = (props: WebchatModalProps) => {
         // Slider
 
         audioSliderSettings: {
-          userUnplayedTrackColor: "white",
-          userPlayedTrackColor: "#FF4081",
-          userTimerTextColor:"white",
+          userUnplayedTrackColor: 'white',
+          userPlayedTrackColor: '#FF4081',
+          userTimerTextColor: 'white',
           userSliderPlayImage: {
             type: 'url',
             value: ModalPlay,
@@ -179,9 +189,15 @@ const WebchatModal = (props: WebchatModalProps) => {
             value: ModalPause,
           },
           //bot
-          botUnplayedTrackColor: webchat?.sliderMinimumTrackTintColor ? webchat?.sliderMinimumTrackTintColor :'gray',
-          botPlayedTrackColor: webchat?.sliderMaximumTrackTintColor ? webchat?.sliderMaximumTrackTintColor : '#007BFF',
-          botTimerTextColor: webchat?.sliderThumbTintColor ? webchat?.sliderThumbTintColor : 'black',
+          botUnplayedTrackColor: webchat?.sliderMinimumTrackTintColor
+            ? webchat?.sliderMinimumTrackTintColor
+            : 'gray',
+          botPlayedTrackColor: webchat?.sliderMaximumTrackTintColor
+            ? webchat?.sliderMaximumTrackTintColor
+            : '#007BFF',
+          botTimerTextColor: webchat?.sliderThumbTintColor
+            ? webchat?.sliderThumbTintColor
+            : 'black',
           botSliderPlayImage: {
             type: 'url',
             value: BotPlay,
@@ -224,11 +240,23 @@ const WebchatModal = (props: WebchatModalProps) => {
         },
         language: {
           en: {
-            headerText: webchat.headerText,
-            bottomInputText: webchat.bottomInputText,
-            closeModalText: webchat.cmsText,
-            closeModalYesButtonText: webchat.cmsYesButtonText,
-            closeModalNoButtonText: webchat.cmsNoButtonText,
+            headerText: 'Knovvu',
+            bottomInputText: 'Please write a message',
+            closeModalText: 'Are you sure you want to exit chat?',
+            closeModalYesButtonText: 'Yes',
+            closeModalNoButtonText: 'No',
+            filePTitle: 'Storage Permission Required',
+            filePMessage:
+              'This application needs permission to save and open files.',
+            filePNeutral: 'Later',
+            filePNegative: 'Cancel',
+            filePPositive: 'OK',
+            noAppFoundTitle: 'No App Found',
+            noAppFoundMessage:
+              'No suitable application found to open this file type. Please download an app from the Google Play Store.',
+            noAppFoundCancel: 'Cancel',
+            addFile: 'Add File',
+            addPhoto: 'Add Photo',
           },
           tr: {
             headerText: 'Knovvu',
@@ -236,6 +264,18 @@ const WebchatModal = (props: WebchatModalProps) => {
             closeModalText: 'Chatden çıkmak istediğinize emin misiniz?',
             closeModalYesButtonText: 'Evet',
             closeModalNoButtonText: 'Hayır',
+            filePTitle: 'Depolama İzni Gerekli',
+            filePMessage:
+              'Bu uygulamanın dosya kaydetmesi ve açması için izne ihtiyacı var.',
+            filePNeutral: 'Daha Sonra',
+            filePNegative: 'İptal',
+            filePPositive: 'Tamam',
+            noAppFoundTitle: 'Uygulama Bulunamadı',
+            noAppFoundMessage:
+              'Bu dosya türünü açmak için uygun bir uygulama bulunamadı. Google Play Store’dan bir uygulama yükleyin.',
+            noAppFoundCancel: 'İptal',
+            addFile: 'Dosya Ekle',
+            addPhoto: 'Fotoğraf Ekle',
           },
           ar: {
             headerText: 'Knovvu',
@@ -243,21 +283,25 @@ const WebchatModal = (props: WebchatModalProps) => {
             closeModalText: 'هل أنت متأكد أنك تريد الخروج من الدردشة؟',
             closeModalYesButtonText: 'نعم',
             closeModalNoButtonText: 'لا',
+            filePTitle: 'Depolama İzni Gerekli',
+            filePMessage:
+              'Bu uygulamanın dosya kaydetmesi ve açması için izne ihtiyacı var.',
+            filePNeutral: 'Daha Sonra',
+            filePNegative: 'İptal',
+            filePPositive: 'Tamam',
+            noAppFoundTitle: 'Uygulama Bulunamadı',
+            noAppFoundMessage:
+              'Bu dosya türünü açmak için uygun bir uygulama bulunamadı. Google Play Store’dan bir uygulama yükleyin.',
+            noAppFoundCancel: 'İptal',
+            addFile: 'أضف ملفًا',
+            addPhoto: 'أضف صورة',
           },
-          es: {
-            headerText: 'Knovvu',
-            bottomInputText: 'Por favor, escribe un mensaje',
-            closeModalText: '¿Estás seguro de que quieres salir del chat?',
-            closeModalYesButtonText: 'Sí',
-            closeModalNoButtonText: 'No',
-          },
-          
         },
         autoPlayAudio: webchat?.autoPlayAudio,
-         dateSettings:{
-           use:true,
-           format:webchat?.dateFormat ? webchat?.dateFormat :'long'
-         }
+        dateSettings: {
+          use: true,
+          format: webchat?.dateFormat ? webchat?.dateFormat : 'long',
+        },
       }}
     />
   );

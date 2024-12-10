@@ -49,7 +49,7 @@ const Navigator = (propsNavigator: NavigatorProps) => {
           <Drawer.Screen name="Home" component={Home} />
           <Drawer.Screen name="ChatGpt" component={ChatGpt} />
           <Drawer.Screen name="Avatar" component={DigitalHuman} />
-          <Drawer.Screen name="Knovvu" component={KnovvuCmp} />
+          <Drawer.Screen name="Virtual Agent" component={KnovvuCmp} />
           <Drawer.Screen name="Settings" component={Settings} />
         </Tab.Navigator>
       </NavigationContainer>
