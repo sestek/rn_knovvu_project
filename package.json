@@ -59,7 +59,7 @@
     "react-redux": "^8.0.2",
     "redux-mock-store": "^1.5.4",
     "rn-fetch-blob": "^0.12.0",
-    "rn-sestek-webchat": "^1.3.1",
+    "rn-sestek-webchat": "^1.3.2",
     "simple-markdown": "^0.7.3",
     "zustand": "^4.4.1"
   },

@@ -41,6 +41,7 @@ const WebchatModal = (props: WebchatModalProps) => {
     WebchatManager.getUniqueGuid().then((guid: string) => {
       setClientId(guid);
     });
+    console.log(setResponseData)
   }, []);
 
   useEffect(() => {
@@ -68,6 +69,9 @@ const WebchatModal = (props: WebchatModalProps) => {
     setResponseData(value);
     console.log(value);
   };
+  useEffect=(()=>{
+    console.log(responseData)
+  },[])
 
   return (
     <ChatModal
